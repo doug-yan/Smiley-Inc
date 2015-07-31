@@ -19,7 +19,7 @@ var server = app.listen(3000, function() {
  *    API     *
  **************/
 
-// Serving index to root
+// Serving index.html to root
 app.get('/', function (req, res, next) {
   res.sendFile(__dirname + '/client/html/index.html');
 })
