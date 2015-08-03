@@ -4,7 +4,17 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var sassMiddleware = require('node-sass-middleware');
 var bodyParser = require('body-parser');
+
+app.use(sassMiddleware({
+    /* Options */
+    src: path.join(__dirname, 'client/sass'),
+    dest: path.join(__dirname, 'client/css'),
+    debug: true,
+    outputStyle: 'compressed',
+    prefix:  '/css'
+}));
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client')));
