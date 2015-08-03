@@ -1,7 +1,7 @@
 {
   "name": "originateidol",
   "version": "1.0.0",
-  "description": "",
+  "description": "Karaoke webapp",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/doug-yan/Smiley-Inc.git"
   },
-  "author": "",
+  "author": "Originate Interns",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/doug-yan/Smiley-Inc/issues"
