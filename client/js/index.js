@@ -10,3 +10,8 @@ function playSong(type, title, artist) {
   instrumentalAudio.load();
   instrumentalAudio.play();
 }
+
+function search() {
+	this.searchResultsContainer.style.display = 'block';
+	event.preventDefault();
+}
