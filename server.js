@@ -4,7 +4,9 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client')));
 
 var server = app.listen(3000, function() {
@@ -22,4 +24,4 @@ var server = app.listen(3000, function() {
 // Serving index.html to root
 app.get('/', function (req, res, next) {
   res.sendFile(__dirname + '/client/html/index.html');
-})
+});
