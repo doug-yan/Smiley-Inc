@@ -12,3 +12,8 @@ build/Release
 
 # Node dependencies
 node_modules
+
+# Heroku
+Procfile
+*.env
+npm-debug.log
