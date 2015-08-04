@@ -17,6 +17,10 @@ body {
   width: 500px;
 }
 
+.btn:focus, .btn:active {
+   outline: none !important;
+}
+
 #searchButton {
   width: 100px;
 }
@@ -37,7 +41,6 @@ ul #searchResults {
   list-style-type: none;
   li {
     display: block;
-    padding: 5px;
     :hover {
       padding: 5px;
       background-color: #e3e3e3;
