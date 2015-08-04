@@ -6,7 +6,7 @@ var instrumentalAudio = document.getElementById('instrumental');
  * artist - '30_Seconds_to_Mars'
  */
 function playSong(type, title, artist) {
-  instrumentalAudio.src = '../audio/' + type + '/' + artist + '_-_' + title + '.mp3';
+  instrumentalAudio.src = '../audio/' + type + '/' + artist + '_-_' + title + '.ogg';
   instrumentalAudio.load();
   instrumentalAudio.play();
 }
