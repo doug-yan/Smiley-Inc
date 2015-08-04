@@ -6,7 +6,18 @@ var instrumentalAudio = document.getElementById('instrumental');
  * artist - '30_Seconds_to_Mars'
  */
 function playSong(type, title, artist) {
-  instrumentalAudio.src = '../audio/' + type + '/' + artist + '_-_' + title + '.mp3';
-  instrumentalAudio.load();
-  instrumentalAudio.play();
+  // instrumentalAudio.src = '../audio/' + type + '/' + artist + '_-_' + title + '.mp3';
+  // instrumentalAudio.load();
+  // instrumentalAudio.play();
+
+  $.ajax({
+    url: '/songs-by-genre',
+    type: 'GET',
+    data: JSON.stringify({'genre': 'Alternative'}),
+    success: function(results, error) {
+      console.log('success!');
+      console.log(results);
+    },
+    dataType: 'application/json'
+  });
 }
