@@ -11,11 +11,13 @@ function playSong(type, title, artist) {
   instrumentalAudio.play();
 }
 
+
 // clear previous results
 function clearSearchResults() {
   $('#searchResults').empty();
   $('#searchResultsContainer').hide();
 }
+
 
 // add search results and click handler
 function addSearchResults(results) {
@@ -32,6 +34,7 @@ function addSearchResults(results) {
   $('#searchResultsContainer').show();
   });
 }
+
 
 // send search input
 $(document).ready(function() {
