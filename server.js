@@ -56,6 +56,7 @@ app.get('/', function (req, res, next) {
 // Query Thing
 function query(req, res, query) {
   client.query(query, function(err, results) {
+    console.log(err);
     if(err)
       res.send(err);
     else
@@ -125,13 +126,13 @@ app.get('/highscores-by-userId', function(req, res) {
 
 
 // Query highscores by all songs of an artist
-app.get('/highscores-by-artist', function(req, rest) {
+app.get('/highscores-by-artist', function(req, res) {
   var artist = req.query.artist;
 
   if(!artist)
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
 
   query(req, res, "SELECT userId, title, highest FROM highscores, " +
-   "(SELECT MAX(score) AS highest FROM highscores WHERE artist = '" + artist + " GROUP BY title)' AS highest " +
+   "(SELECT MAX(score) AS highest FROM highscores WHERE artist = '" + artist + "' GROUP BY title) AS highest " +
    "WHERE highest = score AND artist = '" + artist + "';");
 });
