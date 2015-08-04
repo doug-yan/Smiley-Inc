@@ -56,7 +56,6 @@ app.get('/', function (req, res, next) {
 // Query Thing
 function query(req, res, query) {
   client.query(query, function(err, results) {
-    console.log(err);
     if(err)
       res.send(err);
     else
