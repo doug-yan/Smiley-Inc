@@ -19,3 +19,6 @@ node_modules
 # Heroku
 *.env
 npm-debug.log
+
+# Compiled CSS
+*.css
