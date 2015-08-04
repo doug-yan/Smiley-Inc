@@ -12,31 +12,47 @@ function playSong(type, title, artist) {
 }
 
 
+// clear previous results
 function clearSearchResults() {
-  //clear previous results
-  this.searchResults.innerHTML = '';
-  this.searchResultsContainer.style.display = 'none';
+  $('#searchResults').empty();
+  $('#searchResultsContainer').hide();
 }
 
 
-function search() {
-  var results = [{title:'The_Kill', artist:'30_Seconds_to_Mars', type:'instrumental'}];
-  clearSearchResults();
-
-  //create result list
-  results.forEach(function(result) {
-    var songWrapper = document.createElement('li');
-    var song = document.createElement('span');
-    song.innerText = result.title + ' - ' + result.artist + '(' + result.type + ')';
-    songWrapper.appendChild(song);
-
-    songWrapper.addEventListener('click', function() {
-      playSong(result.type, result.title, result.artist);
-      clearSearchResults();
-    });
-
-    this.searchResults.appendChild(songWrapper);
-    this.searchResultsContainer.style.display = 'block';
+// add search results and click handler
+function addSearchResults(results) {
+  results.forEach(function(song) {
+    $('<li/>').append(
+      $('<span/>', {
+        text: song.title + ' - ' + song.artist + ' (' + song.genre + ')',
+        click: function() {
+          clearSearchResults();
+          playSong('instrumental', song.title, song.artist);
+        }
+      }))
+        .appendTo('#searchResults');
+  $('#searchResultsContainer').show();
   });
-  event.preventDefault();
 }
+
+
+// send search input
+$(document).ready(function() {
+  $('#searchForm').bind('submit', function() {
+    event.preventDefault();
+    clearSearchResults();
+
+    //parse form
+    var formData = $(this).serializeArray();
+    searchInput = formData[0].value;
+    searchCategory = formData[1].value;
+
+    //send search by genre
+    if (searchCategory == 'bygenre') {
+      $.get('/songs-by-genre', {genre: searchInput})
+        .done(function(data) {
+          addSearchResults(data);
+        });
+    }
+  });
+});
