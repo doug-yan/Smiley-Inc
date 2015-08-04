@@ -31,7 +31,7 @@ function addSearchResults(results) {
         }
       }))
         .appendTo('#searchResults');
-  $('#searchResultsContainer').show();
+  $('#searchResultsContainer').css('display','inline-block');
   });
 }
 
@@ -45,14 +45,32 @@ $(document).ready(function() {
     //parse form
     var formData = $(this).serializeArray();
     searchInput = formData[0].value;
-    searchCategory = formData[1].value;
+    searchGenre = formData[1].value;
+    searchCategory = formData[2].value;
 
     //send search by genre
     if (searchCategory == 'bygenre') {
-      $.get('/songs-by-genre', {genre: searchInput})
+      $.get('/songs-by-genre', {genre: searchGenre})
         .done(function(data) {
           addSearchResults(data);
         });
     }
   });
+
+  $('#searchCategory').bind('change', function() {
+    var category = $(this).serializeArray();
+    if (category[0].value == 'bygenre') {
+      $('#searchInput').hide();
+      $('#searchGenre').show();
+    }
+    else if (category[0].value == 'byartist') {
+      $('#searchGenre').hide();
+      $('#searchInput').attr('placeholder','Search for a song to play by artist.').show();
+    }
+    else {
+      $('#searchGenre').hide();
+      $('#searchInput').attr('placeholder','Search for a song to play by song name.').show();
+    }
+  });
+
 });
