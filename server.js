@@ -55,12 +55,12 @@ app.get('/', function (req, res, next) {
 
 // Selecting songs by genre
 app.get('/songs-by-genre', function (req, res) {
-  var genre = req.body.genre;
-  console.log(req.body);
+  var genre = req.query.genre;
+
   if(!genre)
     res.send('Please enter parameters in your request to /songs-by-genre specifying genre.');
 
-  client.query('SELECT * FROM songs WHERE genre = ' + genre, function(err, results) {
+  client.query("SELECT * FROM songs WHERE genre = '" + genre + "';", function(err, results) {
     if(err)
       res.send(err);
     else

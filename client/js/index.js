@@ -13,8 +13,8 @@ function playSong(type, title, artist) {
   $.ajax({
     url: '/songs-by-genre',
     type: 'GET',
-    data: JSON.stringify({'genre': 'Alternative'}),
-    success: function(results, error) {
+    data: {'genre': 'Alternative'},
+    success: function(results) {
       console.log('success!');
       console.log(results);
     },
