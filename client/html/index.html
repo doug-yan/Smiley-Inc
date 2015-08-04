@@ -5,7 +5,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   </head>
   <title>
     Karaoke App
@@ -19,9 +19,14 @@
           Karaoke App
         </div>
 
-        <form role="form" id="searchForm" class="form-inline row" onsubmit="search();">
+        <form role="form" id="searchForm" class="form-inline row">
           <div class "form-group">
-            <input id="searchInput" class="col-xs-12 col-md-8 form-control" type="text" placeholder = "Search for a song to play.">
+            <input name="searchInput" id="searchInput" class="col-xs-12 col-md-8 form-control" type="text" placeholder = "Search for a song to play.">
+            <select id="searchCategory" name="searchCategory" class="col-xs-6 col-md-4 form-control">
+              <option value="bysong">By Song</option>
+              <option value="bygenre">By Genre</option>
+              <option value="byartist">By Artist</option>
+            </select>
             <input type="submit" class="col-xs-6 col-md-4 btn btn-default" id="searchButton" value="Search">
             <div id="searchResultsContainer">
               <ul>
@@ -36,6 +41,5 @@
   </body>
   <footer>
     <script src="../js/index.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   </footer>
 </html>
