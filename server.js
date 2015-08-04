@@ -53,7 +53,22 @@ app.get('/', function (req, res, next) {
 });
 
 
-// Selecting songs by genre
+/* Selecting songs by genre
+   SAMPLE QUERY
+
+ * $.get('/songs-by-genre', {'genre': 'Alternative'}, function(results, status) {
+ *   console.log(results);
+ * });
+
+
+ * [{
+ *     artist: "30_Seconds_to_Mars"
+ *     difficulty: 6
+ *     duration: 243
+ *     genre: "Alternative"
+ *     title: "The_Kill"
+ *   }]
+ */
 app.get('/songs-by-genre', function (req, res) {
   var genre = req.query.genre;
 
