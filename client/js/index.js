@@ -11,11 +11,13 @@ function playSong(type, title, artist) {
   instrumentalAudio.play();
 }
 
+
 function clearSearchResults() {
   //clear previous results
   this.searchResults.innerHTML = '';
   this.searchResultsContainer.style.display = 'none';
 }
+
 
 function search() {
   var results = [{title:'The_Kill', artist:'30_Seconds_to_Mars', type:'instrumental'}];

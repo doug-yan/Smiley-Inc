@@ -53,9 +53,20 @@ app.get('/', function (req, res, next) {
 });
 
 
-/* Selecting songs by genre
-   SAMPLE QUERY
+// Query Thing
+function query(req, res, query) {
+  client.query(query, function(err, results) {
+    if(err)
+      res.send(err);
+    else
+      res.send(results.rows);
+  });
+}
 
+
+/* Queryin songs by genre
+
+   SAMPLE QUERY
  * $.get('/songs-by-genre', {'genre': 'Alternative'}, function(results, status) {
  *   console.log(results);
  * });
@@ -75,10 +86,52 @@ app.get('/songs-by-genre', function (req, res) {
   if(!genre)
     res.send('Please enter parameters in your request to /songs-by-genre specifying genre.');
 
-  client.query("SELECT * FROM songs WHERE genre = '" + genre + "';", function(err, results) {
-    if(err)
-      res.send(err);
-    else
-      res.send(results.rows);
-  });
+  query(req, res, "SELECT * FROM songs WHERE genre = '" + genre + "';");
+});
+
+
+// Querying songs by artist
+app.get('/songs-by-artist', function (req, res) {
+  var artist = req.query.artist;
+
+  if(!artist)
+    res.send('Please enter parameters in your request to /songs-by-artist specifying artist.');
+
+  query(req, res, "SELECT * FROM songs WHERE artist = '" + artist + "' LIMIT 100;");
+});
+
+
+// Querying highscores by song
+app.get('/highscores-by-song', function (req, res) {
+  var title = req.query.title;
+  var artist = req.query.artist;
+
+  if(!title || !artist)
+    res.send('Please enter parameters in your request to /highscores-by-song specifying title and artist.');
+
+  query(req, res, "SELECT userId, score FROM highscores WHERE artist = '" + artist + "' AND title = '" + title + "' LIMIT 100;");
+});
+
+
+// Querying highscores by user
+app.get('/highscores-by-userId', function(req, res) {
+  var userId = req.query.userId;
+
+  if(!userId)
+    req.send('Please enter parameters in your request to /highscores-by-user specifying userId.');
+
+  query(req, res, "SELECT title, artist, score FROM highscores WHERE userId = '" + userId + "' LIMIT 100;");
+});
+
+
+// Query highscores by all songs of an artist
+app.get('/highscores-by-artist', function(req, rest) {
+  var artist = req.query.artist;
+
+  if(!artist)
+    req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
+
+  query(req, res, "SELECT userId, title, highest FROM highscores, " +
+   "(SELECT MAX(score) AS highest FROM highscores WHERE artist = '" + artist + " GROUP BY title)' AS highest " +
+   "WHERE highest = score AND artist = '" + artist + "';");
 });
