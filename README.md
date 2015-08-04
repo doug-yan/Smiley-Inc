@@ -12,5 +12,5 @@
 
   `CREATE USER ointerns WITH PASSWORD 'tacos';`
 
-  `'ALTER ROLE ointerns Superuser;`
+  `ALTER ROLE ointerns Superuser;`
  3. Run the rest of the commands in DB-Setup.sql (maybe).
