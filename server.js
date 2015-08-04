@@ -28,10 +28,57 @@ var server = app.listen(process.env.PORT || 3000, function() {
 
 
 /**************
+ *  DATABASE  *
+ **************/
+var pg = require('pg');
+var dburl = process.env.DATABASE_URL ? process.env.DATABASE_URL : 'pg://ointerns:tacos@localhost/originateidol';
+var client = null;
+
+// Establish connection
+pg.connect(dburl, function(err, connectClient) {
+  if(err)
+    console.log(err);
+
+  client = connectClient;
+});
+
+
+
+/**************
  *    API     *
  **************/
-
 // Serving index.html to root
 app.get('/', function (req, res, next) {
   res.sendFile(__dirname + '/client/html/index.html');
+});
+
+
+/* Selecting songs by genre
+   SAMPLE QUERY
+
+ * $.get('/songs-by-genre', {'genre': 'Alternative'}, function(results, status) {
+ *   console.log(results);
+ * });
+
+
+ * [{
+ *     artist: "30_Seconds_to_Mars"
+ *     difficulty: 6
+ *     duration: 243
+ *     genre: "Alternative"
+ *     title: "The_Kill"
+ *   }]
+ */
+app.get('/songs-by-genre', function (req, res) {
+  var genre = req.query.genre;
+
+  if(!genre)
+    res.send('Please enter parameters in your request to /songs-by-genre specifying genre.');
+
+  client.query("SELECT * FROM songs WHERE genre = '" + genre + "';", function(err, results) {
+    if(err)
+      res.send(err);
+    else
+      res.send(results.rows);
+  });
 });

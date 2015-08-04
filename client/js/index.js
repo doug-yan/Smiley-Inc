@@ -19,7 +19,7 @@ function clearSearchResults() {
 
 function search() {
   var results = [{title:'The_Kill', artist:'30_Seconds_to_Mars', type:'instrumental'}];
-  clearSearchResults(); 
+  clearSearchResults();
 
   //create result list
   results.forEach(function(result) {
