@@ -17,6 +17,7 @@ app.use(sassMiddleware({
 }));
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'client')));
 
 var server = app.listen(process.env.PORT || 3000, function() {
@@ -37,11 +38,10 @@ var client = null;
 // Establish connection
 pg.connect(dburl, function(err, connectClient) {
   if(err)
-    console.log(err);
+    console.warn(err);
 
   client = connectClient;
 });
-
 
 
 /**************
@@ -54,15 +54,21 @@ app.get('/', function (req, res, next) {
 
 
 // Query Thing
-function query(req, res, query) {
+function query(res, query) {
   client.query(query, function(err, results) {
     if(err)
       res.send(err);
-    else
+    else if(res)
       res.send(results.rows);
   });
 }
 
+
+function serverQuery(query, callback) {
+  client.query(query, function(err, results) {
+    callback(err, results);
+  });
+}
 
 /* Queryin songs by genre
 
@@ -86,7 +92,7 @@ app.get('/songs-by-genre', function (req, res) {
   if(!genre)
     res.send('Please enter parameters in your request to /songs-by-genre specifying genre.');
 
-  query(req, res, "SELECT * FROM songs WHERE genre = '" + genre + "';");
+  query(res, "SELECT * FROM songs WHERE genre = '" + genre + "';");
 });
 
 
@@ -97,7 +103,7 @@ app.get('/songs-by-artist', function (req, res) {
   if(!artist)
     res.send('Please enter parameters in your request to /songs-by-artist specifying artist.');
 
-  query(req, res, "SELECT * FROM songs WHERE artist = '" + artist + "' LIMIT 100;");
+  query(res, "SELECT * FROM songs WHERE artist = '" + artist + "' LIMIT 100;");
 });
 
 
@@ -109,7 +115,7 @@ app.get('/highscores-by-song', function (req, res) {
   if(!title || !artist)
     res.send('Please enter parameters in your request to /highscores-by-song specifying title and artist.');
 
-  query(req, res, "SELECT userId, score FROM highscores WHERE artist = '" + artist + "' AND title = '" + title + "' LIMIT 100;");
+  query(res, "SELECT userId, score FROM highscores WHERE artist = '" + artist + "' AND title = '" + title + "' LIMIT 100;");
 });
 
 
@@ -120,7 +126,7 @@ app.get('/highscores-by-userId', function(req, res) {
   if(!userId)
     req.send('Please enter parameters in your request to /highscores-by-user specifying userId.');
 
-  query(req, res, "SELECT title, artist, score FROM highscores WHERE userId = '" + userId + "' LIMIT 100;");
+  query(res, "SELECT title, artist, score FROM highscores WHERE userId = '" + userId + "' LIMIT 100;");
 });
 
 
@@ -131,7 +137,37 @@ app.get('/highscores-by-artist', function(req, res) {
   if(!artist)
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
 
-  query(req, res, "SELECT userId, title, highest FROM highscores, " +
+  query(res, "SELECT userId, title, highest FROM highscores, " +
    "(SELECT MAX(score) AS highest FROM highscores WHERE artist = '" + artist + "' GROUP BY title) AS highest " +
    "WHERE highest = score AND artist = '" + artist + "';");
+});
+
+
+// Checks to see if the user has a new high score for a song,
+// if so the value is updated in the database
+// Sends false if the high score is not updated
+// Sends {status: 'updated', score: '583'} if the high score is updated
+/* Example
+  $.post('/new-highscore', {userId: '1234567890', score: 583, artist: 'Taylor_Swift', title: 'Blank_Space'})
+    .done(function(data) {
+      console.log(data);
+    });
+*/
+app.post('/new-highscore', function(req, res) {
+  var userId = req.body.userId;
+  var score = req.body.score;
+  var title = req.body.title;
+  var artist = req.body.artist;
+
+  serverQuery("SELECT score FROM highscores WHERE userId = '" + userId + "' AND title = '" + title +
+   "' AND artist = '" + artist + "';", function(err, results) {
+    // New Highscore
+    if(!results.rowCount || score > results.rows[0].score) {
+      query(null, "UPDATE highscores SET score = " + score + " WHERE userId = '" + userId + "' AND title = '" +
+       title + "' AND artist = '" + artist + "';");
+      res.send({status: 'updated', score: score});
+    }
+    else
+      res.send(false);
+  });
 });
