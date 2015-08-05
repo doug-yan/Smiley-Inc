@@ -44,7 +44,6 @@ $(document).ready(function() {
 
     //parse form
     var formData = $(this).serializeArray();
-    console.log(formData);
     searchInput = formData[0].value;
     searchGenre = formData[1].value;
     searchCategory = formData[2].value;

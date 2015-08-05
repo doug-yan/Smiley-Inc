@@ -20,9 +20,7 @@ app.use(sassMiddleware({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(require('multer')({dest: './client/uploads/'}).single('recording'));
-
 app.use(express.static(path.join(__dirname, 'client')));
 
 var server = app.listen(process.env.PORT || 3000, function() {
