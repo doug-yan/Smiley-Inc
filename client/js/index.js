@@ -44,6 +44,7 @@ $(document).ready(function() {
 
     //parse form
     var formData = $(this).serializeArray();
+    console.log(formData);
     searchInput = formData[0].value;
     searchGenre = formData[1].value;
     searchCategory = formData[2].value;
@@ -73,4 +74,24 @@ $(document).ready(function() {
     }
   });
 
+  $('#recordButton').bind('click', function() {
+    record();
+  })
+
+  $('#stopRecordingButton').bind('click', function() {
+    userRecording = stopRecording();
+    var fd = new FormData();
+    fd.append('recording', userRecording, recording);
+
+    $.ajax({
+        type: 'POST',
+        url: '/user-recording',
+        data: fd,
+        processData: false,
+        contentType: false
+    }).done(function(data) {
+        console.log(data);
+    });
+  });
 });
+
