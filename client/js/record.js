@@ -11,7 +11,7 @@ var audioContext = null;
 var context = null;
 var outputString;
 
-// feature detection
+// Ask user if we can use the microphone.
 if (!navigator.getUserMedia)
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
                   navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -24,15 +24,14 @@ if (navigator.getUserMedia){
 
 function stopRecording() {
   recording = false;
-  console.log('Building wav file...');
 
-  // we flat the left and right channels down
+  // get left and right audio buffers and flatten them, then
+  // interleave the channels together
   var leftBuffer = mergeBuffers ( leftchannel, recordingLength );
   var rightBuffer = mergeBuffers ( rightchannel, recordingLength );
-  // we interleave both channels together
   var interleaved = interleave ( leftBuffer, rightBuffer );
 
-  // we create our wav file
+  // create wav file buffer
   var buffer = new ArrayBuffer(44 + interleaved.length * 2);
   var view = new DataView(buffer);
 
@@ -63,28 +62,18 @@ function stopRecording() {
       index += 2;
   }
 
-  // our final binary blob
+  // binary blob file containing audio information
+  // goes to the server for uploading
   var blob = new Blob ( [ view ], { type : 'audio/wav' } );
   return blob;
-  // let's save it locally
-  // console.log('Saving file...');
-  // var url = (window.URL || window.webkitURL).createObjectURL(blob);
-  // var link = window.document.createElement('a');
-  // link.href = url;
-  // link.download = 'output.wav';
-  // var click = document.createEvent("Event");
-  // click.initEvent("click", true, true);
-  // link.dispatchEvent(click);
 }
 
-// when key is down
 function record() {
   recording = true;
 
-  // reset buffers
+  // reset buffers for new recording
   leftchannel.length = rightchannel.length = 0;
   recordingLength = 0;
-  console.log('Recording now...');
 }
 
 function interleave(leftChannel, rightChannel) {
@@ -125,10 +114,8 @@ function success(e) {
     audioContext = window.AudioContext || window.webkitAudioContext;
     context = new audioContext();
 
-  // we query the context sample rate (varies depending on platforms)
+    // we query the context sample rate (varies depending on platforms)
     sampleRate = context.sampleRate;
-
-    console.log('succcess');
 
     // creates a gain node
     volume = context.createGain();
@@ -150,11 +137,11 @@ function success(e) {
         if (!recording) return;
         var left = e.inputBuffer.getChannelData (0);
         var right = e.inputBuffer.getChannelData (1);
-        // we clone the samples
+        // it is necessary to copy the samples as they occur
+        // otherwise they are never kept
         leftchannel.push (new Float32Array (left));
         rightchannel.push (new Float32Array (right));
         recordingLength += bufferSize;
-        console.log('recording');
     }
 
     // we connect the recorder
