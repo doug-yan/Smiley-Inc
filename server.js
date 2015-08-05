@@ -45,7 +45,8 @@ pg.connect(dburl, function(err, connectClient) {
     "PREPARE highscores_by_artist (text) AS SELECT userId, title, highest FROM highscores, " +
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1;",
-    "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;"
+    "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;",
+    "PREPARE highscore_check (text) AS SELECT score FROM highscores WHERE userId = $1 AND title = $2 AND artist = $2;"
   ];
 
   if(err)
@@ -175,8 +176,7 @@ app.post('/new-highscore', function(req, res) {
   var title = req.body.title;
   var artist = req.body.artist;
 
-  serverQuery("SELECT score FROM highscores WHERE userId = '" + userId + "' AND title = '" + title +
-   "' AND artist = '" + artist + "';", function(err, results) {
+  serverQuery("EXECUTE highscore_check ('" + userId + "', '" + title + "', '" + artist + "');", function(err, results) {
     // New Highscore
     if(!results.rowCount || score > results.rows[0].score) {
       query(null, "EXECUTE new_highscore (" + score + ", '" + userId + "', '" + title + "', '" + artist + "');");
