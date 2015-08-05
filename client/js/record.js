@@ -9,7 +9,6 @@ var audioInput = null;
 var sampleRate = null;
 var audioContext = null;
 var context = null;
-var outputString;
 
 // Ask user if we can use the microphone.
 if (!navigator.getUserMedia)
