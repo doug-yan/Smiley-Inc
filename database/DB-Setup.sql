@@ -18,12 +18,13 @@ CREATE TABLE Highscores (
   title VARCHAR(40) NOT NULL,
   artist VARCHAR(40) NOT NULL,
   score INT,
+  PRIMARY KEY (userId, title, artist),
   FOREIGN KEY (title, artist) REFERENCES Songs(title, artist),
   FOREIGN KEY (userId) REFERENCES Users(userId)
 );
 
 INSERT INTO Users VALUES
-  ('1234567890'), ('0987654321'), ('1029384756'), ('5647382910');
+  ('1234567890'), ('0987654321'), ('1029384756'), ('5647382910'), ('9999999999');
 
 INSERT INTO Songs VALUES
   ('The_Kill', '30_Seconds_to_Mars', 6, 243, 'Alternative'),
