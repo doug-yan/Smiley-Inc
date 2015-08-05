@@ -6,7 +6,7 @@ var app = express();
 var path = require('path');
 var sassMiddleware = require('node-sass-middleware');
 var bodyParser = require('body-parser');
-var PythonShell = reqiore('python-shell');
+var PythonShell = require('python-shell');
 
 app.use(sassMiddleware({
     /* Options */
