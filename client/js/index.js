@@ -88,9 +88,7 @@ $(document).ready(function() {
         data: fd,
         processData: false,
         contentType: false
-    }).done(function(data) {
-        console.log(data);
-    });
+    }).done(function(data) {});
   });
 });
 
