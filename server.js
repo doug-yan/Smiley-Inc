@@ -46,7 +46,7 @@ pg.connect(dburl, function(err, connectClient) {
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1;",
     "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;",
-    "PREPARE highscore_check (text) AS SELECT score FROM highscores WHERE userId = $1 AND title = $2 AND artist = $2;"
+    "PREPARE highscore_check (text) AS SELECT score FROM highscores WHERE userId = $1 AND title = $2 AND artist = $3;"
   ];
 
   if(err)
