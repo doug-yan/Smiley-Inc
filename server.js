@@ -35,14 +35,27 @@ var pg = require('pg');
 var dburl = process.env.DATABASE_URL ? process.env.DATABASE_URL : 'pg://ointerns:tacos@localhost/originateidol';
 var client = null;
 
-// Establish connection
+// Establish connection and prepare statements
 pg.connect(dburl, function(err, connectClient) {
+  var preparedStatements = [
+    "PREPARE songs_by_genre (text) AS SELECT * FROM songs WHERE genre = $1;",
+    "PREPARE songs_by_artist (text) AS SELECT * FROM songs WHERE artist = $1;",
+    "PREPARE highscores_by_song (text) AS SELECT userId, score FROM highscores WHERE artist = $1 AND title = $2 LIMIT 100;",
+    "PREPARE highscores_by_userId (text) AS SELECT title, artist, score FROM highscores WHERE userId = $1 LIMIT 100;",
+    "PREPARE highscores_by_artist (text) AS SELECT userId, title, highest FROM highscores, " +
+     "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
+     "WHERE highest = score AND artist = $1;",
+    "PREPARE new_highscore (text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;"
+  ];
+
   if(err)
     console.warn(err);
 
   client = connectClient;
-});
 
+  for statement in preparedStatements
+    client.query(null, statement);
+});
 
 /**************
  *    API     *
@@ -92,7 +105,7 @@ app.get('/songs-by-genre', function (req, res) {
   if(!genre)
     res.send('Please enter parameters in your request to /songs-by-genre specifying genre.');
 
-  query(res, "SELECT * FROM songs WHERE genre = '" + genre + "';");
+  query(res, "EXECUTE songs_by_genre ('" + genre + "');");
 });
 
 
@@ -103,7 +116,7 @@ app.get('/songs-by-artist', function (req, res) {
   if(!artist)
     res.send('Please enter parameters in your request to /songs-by-artist specifying artist.');
 
-  query(res, "SELECT * FROM songs WHERE artist = '" + artist + "' LIMIT 100;");
+  query(res, "EXECUTE songs_by_artist ('" + artist + "');");
 });
 
 
@@ -115,7 +128,7 @@ app.get('/highscores-by-song', function (req, res) {
   if(!title || !artist)
     res.send('Please enter parameters in your request to /highscores-by-song specifying title and artist.');
 
-  query(res, "SELECT userId, score FROM highscores WHERE artist = '" + artist + "' AND title = '" + title + "' LIMIT 100;");
+  query(res, "EXECUTE highscores_by_song ('" + artist + "', '" + title + "');");
 });
 
 
@@ -126,7 +139,7 @@ app.get('/highscores-by-userId', function(req, res) {
   if(!userId)
     req.send('Please enter parameters in your request to /highscores-by-user specifying userId.');
 
-  query(res, "SELECT title, artist, score FROM highscores WHERE userId = '" + userId + "' LIMIT 100;");
+  query(res, "EXECUTE highscores_by_userId ('" + userId + "');");
 });
 
 
@@ -137,9 +150,7 @@ app.get('/highscores-by-artist', function(req, res) {
   if(!artist)
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
 
-  query(res, "SELECT userId, title, highest FROM highscores, " +
-   "(SELECT MAX(score) AS highest FROM highscores WHERE artist = '" + artist + "' GROUP BY title) AS highest " +
-   "WHERE highest = score AND artist = '" + artist + "';");
+  query(res, "EXECUTE highscores_by_artist ('" + artist + "');");
 });
 
 
