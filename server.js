@@ -45,7 +45,7 @@ pg.connect(dburl, function(err, connectClient) {
     "PREPARE highscores_by_artist (text) AS SELECT userId, title, highest FROM highscores, " +
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1;",
-    "PREPARE new_highscore (text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;"
+    "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;"
   ];
 
   if(err)
@@ -53,9 +53,14 @@ pg.connect(dburl, function(err, connectClient) {
 
   client = connectClient;
 
-  for statement in preparedStatements
-    client.query(null, statement);
+  preparedStatements.forEach(function(statement) {
+    client.query(statement, function(err, results) {
+      if(err)
+        console.warn(err);
+    });
+  });
 });
+
 
 /**************
  *    API     *
@@ -83,7 +88,7 @@ function serverQuery(query, callback) {
   });
 }
 
-/* Queryin songs by genre
+/* Querying songs by genre
 
    SAMPLE QUERY
  * $.get('/songs-by-genre', {'genre': 'Alternative'}, function(results, status) {
@@ -174,8 +179,7 @@ app.post('/new-highscore', function(req, res) {
    "' AND artist = '" + artist + "';", function(err, results) {
     // New Highscore
     if(!results.rowCount || score > results.rows[0].score) {
-      query(null, "UPDATE highscores SET score = " + score + " WHERE userId = '" + userId + "' AND title = '" +
-       title + "' AND artist = '" + artist + "';");
+      query(null, "EXECUTE new_highscore (" + score + ", '" + userId + "', '" + title + "', '" + artist + "');");
       res.send({status: 'updated', score: score});
     }
     else
