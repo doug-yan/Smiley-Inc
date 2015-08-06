@@ -195,11 +195,14 @@ app.post('/user-recording', function(req, res) {
   var target_path = 'client/uploads/recording.wav';
 
   fs.rename(tmp_path, target_path, function(err) {
-    if (err) throw err;
+    if (err) {
+      throw err;
+    }
     fs.unlink(tmp_path, function() {
       if (err) {
         throw err;
-      } else {
+      }
+      else {
         res.send('Recording uploaded.');
       }
     })

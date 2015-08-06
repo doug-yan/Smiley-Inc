@@ -5,14 +5,17 @@ var recordingLength = 0;
 
 // Ask user if we can use the microphone.
 if (!navigator.getUserMedia)
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-                  navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
-if (navigator.getUserMedia){
-    navigator.getUserMedia({audio:true}, success, function(e) {
-    alert('Error capturing audio.');
-    });
-} else alert('getUserMedia not supported in this browser.');
+if (navigator.getUserMedia) {
+  navigator.getUserMedia({audio:true}, success, function(e) {
+    console.warn('Error capturing audio.');
+  });
+}
+else {
+  console.warn('getUserMedia not supported in this browser.');
+}
 
 function stopRecording() {
   recording = false;
@@ -50,8 +53,8 @@ function stopRecording() {
   var index = 44;
   var volume = 1;
   for (var i = 0; i < lng; i++) {
-      view.setInt16(index, interleaved[i] * (0x7FFF * volume), true);
-      index += 2;
+    view.setInt16(index, interleaved[i] * (0x7FFF * volume), true);
+    index += 2;
   }
 
   // binary blob file containing audio information
@@ -102,41 +105,40 @@ function writeUTFBytes(view, offset, string) {
 }
 
 function success(e) {
-    // creates the audio context
-    audioContext = window.AudioContext || window.webkitAudioContext;
-    context = new audioContext();
+  // creates the audio context
+  audioContext = window.AudioContext || window.webkitAudioContext;
+  context = new audioContext();
 
-    // we query the context sample rate (varies depending on platforms)
-    sampleRate = context.sampleRate;
+  // we query the context sample rate (varies depending on platforms)
+  sampleRate = context.sampleRate;
 
-    // creates a gain node
-    volume = context.createGain();
+  // creates a gain node
+  volume = context.createGain();
 
-    // creates an audio node from the microphone incoming stream
-    audioInput = context.createMediaStreamSource(e);
+  // creates an audio node from the microphone incoming stream
+  audioInput = context.createMediaStreamSource(e);
 
-    // connect the stream to the gain node
-    audioInput.connect(volume);
+  // connect the stream to the gain node
+  audioInput.connect(volume);
 
-    /* From the spec: This value controls how frequently the audioprocess event is
-    dispatched and how many sample-frames need to be processed each call.
-    Lower values for buffer size will result in a lower (better) latency.
-    Higher values will be necessary to avoid audio breakup and glitches */
-    var bufferSize = 2048;
-    recorder = context.createScriptProcessor(bufferSize, 2, 2);
+  /* From the spec: This value controls how frequently the audioprocess event is
+  dispatched and how many sample-frames need to be processed each call.
+  Lower values for buffer size will result in a lower (better) latency.
+  Higher values will be necessary to avoid audio breakup and glitches */
+  var bufferSize = 2048;
+  recorder = context.createScriptProcessor(bufferSize, 2, 2);
 
-    recorder.onaudioprocess = function(e){
-        if (!recording) return;
-        var left = e.inputBuffer.getChannelData (0);
-        var right = e.inputBuffer.getChannelData (1);
-        // it is necessary to copy the samples as they occur
-        // otherwise they are never kept
-        leftchannel.push (new Float32Array (left));
-        rightchannel.push (new Float32Array (right));
-        recordingLength += bufferSize;
-    }
-
-    // we connect the recorder
-    volume.connect (recorder);
-    recorder.connect (context.destination);
+  recorder.onaudioprocess = function(e){
+    if (!recording) return;
+    var left = e.inputBuffer.getChannelData (0);
+    var right = e.inputBuffer.getChannelData (1);
+    // it is necessary to copy the samples as they occur
+    // otherwise they are never kept
+    leftchannel.push (new Float32Array (left));
+    rightchannel.push (new Float32Array (right));
+    recordingLength += bufferSize;
+  }
+  // we connect the recorder
+  volume.connect (recorder);
+  recorder.connect (context.destination);
 }
