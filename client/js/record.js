@@ -4,7 +4,13 @@ var rightchannel = [];
 var recorder = volume = audioInput = sampleRate = audioContext = context = null;
 var recordingLength = 0;
 var recording = false;
+var ctx;
+var canvasHeight = 256;
+var canvasWidth = 512;
 
+$(document).ready(function() {
+  ctx = $("#canvas").get()[0].getContext("2d");
+})
 // Ask user if we can use the microphone.
 if (!navigator.getUserMedia)
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
@@ -132,7 +138,7 @@ function success(e) {
 
   // create some other nodes
   analyserNode = context.createAnalyser();
-  javascriptNode = context.createScriptProcessor(bufferSize, 1, 1);
+  javascriptNode = context.createScriptProcessor(bufferSize, 2, 2);
   amplitudeArray = new Uint8Array(analyserNode.frequencyBinCount);
 
   audioInput.connect(context.destination);
@@ -144,8 +150,8 @@ function success(e) {
     if (!recording) {
       return;
     }
-    var data = analyserNode.getByteTimeDomainData(amplitudeArray);
-    console.log(data);
+    analyserNode.getByteTimeDomainData(amplitudeArray);
+    drawStuff();
     var left = e.inputBuffer.getChannelData (0);
     var right = e.inputBuffer.getChannelData (1);
     // it is necessary to copy the samples as they occur
@@ -157,4 +163,18 @@ function success(e) {
   // we connect the recorder
   volume.connect (recorder);
   recorder.connect (context.destination);
+}
+
+function drawStuff() {
+  clearCanvas();
+  for (var i = 0; i < amplitudeArray.length; i++) {
+    var value = amplitudeArray[i] / 256;
+    var y = canvasHeight - (canvasHeight * value) - 1;
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(i, y, 1, 1);
+  }
+}
+
+function clearCanvas() {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }
