@@ -129,7 +129,9 @@ function success(e) {
   recorder = context.createScriptProcessor(bufferSize, 2, 2);
 
   recorder.onaudioprocess = function(e) {
-    if (!recording) return;
+    if (!recording) {
+      return;
+    }
     var left = e.inputBuffer.getChannelData (0);
     var right = e.inputBuffer.getChannelData (1);
     // it is necessary to copy the samples as they occur
