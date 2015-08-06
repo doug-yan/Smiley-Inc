@@ -128,7 +128,7 @@ function success(e) {
   var bufferSize = 2048;
   recorder = context.createScriptProcessor(bufferSize, 2, 2);
 
-  recorder.onaudioprocess = function(e){
+  recorder.onaudioprocess = function(e) {
     if (!recording) return;
     var left = e.inputBuffer.getChannelData (0);
     var right = e.inputBuffer.getChannelData (1);

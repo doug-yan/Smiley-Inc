@@ -83,11 +83,11 @@ $(document).ready(function() {
     fd.append('recording', userRecording, recording);
 
     $.ajax({
-        type: 'POST',
-        url: '/user-recording',
-        data: fd,
-        processData: false,
-        contentType: false
+      type: 'POST',
+      url: '/user-recording',
+      data: fd,
+      processData: false,
+      contentType: false
     }).done(function(data) {});
   });
 });
