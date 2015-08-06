@@ -1,5 +1,6 @@
 // variables
-var leftchannel = rightchannel = [];
+var leftchannel = [];
+var rightchannel = [];
 var recorder = volume = audioInput = sampleRate = audioContext = context = null;
 var recordingLength = 0;
 var recording = false;
