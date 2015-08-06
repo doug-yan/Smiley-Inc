@@ -2,6 +2,7 @@
 var leftchannel = rightchannel = [];
 var recorder = volume = audioInput = sampleRate = audioContext = context = null;
 var recordingLength = 0;
+var recording = false;
 
 // Ask user if we can use the microphone.
 if (!navigator.getUserMedia)
@@ -128,10 +129,22 @@ function success(e) {
   var bufferSize = 2048;
   recorder = context.createScriptProcessor(bufferSize, 2, 2);
 
+  // create some other nodes
+  analyserNode = context.createAnalyser();
+  javascriptNode = context.createScriptProcessor(bufferSize, 1, 1);
+  amplitudeArray = new Uint8Array(analyserNode.frequencyBinCount);
+
+  audioInput.connect(context.destination);
+  audioInput.connect(analyserNode);
+  analyserNode.connect(javascriptNode);
+  javascriptNode.connect(context.destination);
+
   recorder.onaudioprocess = function(e) {
     if (!recording) {
       return;
     }
+    var data = analyserNode.getByteTimeDomainData(amplitudeArray);
+    console.log(data);
     var left = e.inputBuffer.getChannelData (0);
     var right = e.inputBuffer.getChannelData (1);
     // it is necessary to copy the samples as they occur
