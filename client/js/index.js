@@ -73,4 +73,22 @@ $(document).ready(function() {
     }
   });
 
+  $('#recordButton').bind('click', function() {
+    record();
+  })
+
+  $('#stopRecordingButton').bind('click', function() {
+    userRecording = stopRecording();
+    var fd = new FormData();
+    fd.append('recording', userRecording, recording);
+
+    $.ajax({
+      type: 'POST',
+      url: '/user-recording',
+      data: fd,
+      processData: false,
+      contentType: false
+    }).done(function(data) {});
+  });
 });
+
