@@ -2,6 +2,7 @@
 var leftchannel = rightchannel = [];
 var recorder = volume = audioInput = sampleRate = audioContext = context = null;
 var recordingLength = 0;
+var recording = false;
 
 // Ask user if we can use the microphone.
 if (!navigator.getUserMedia)
