@@ -77,6 +77,7 @@ RecordingObject.prototype._writePCMSamples = function(view, interleavedChannels)
     view.setInt16(index, interleavedChannels[i] * (0x7FFF * volume), true);
     index += 2;
   }
+  return view;
 }
 
 
@@ -94,6 +95,7 @@ RecordingObject.prototype._setView = function(view, interleaveLength) {
   view.setUint16(34, 16, true);
   this._writeUTFBytes(view, 36, 'data');
   view.setUint32(40, interleaveLength * 2, true);
+  return view;
 }
 
 
@@ -107,9 +109,8 @@ RecordingObject.prototype.stopRecording = function() {
 
   var buffer = new ArrayBuffer(44 + interleavedChannels.length * 2);
   view = new DataView(buffer);
-  this._setView(view, interleavedChannels.length);
-
-  this._writePCMSamples(view, interleavedChannels);
+  view = this._setView(view, interleavedChannels.length);
+  view = this._writePCMSamples(view, interleavedChannels);
 
   var userRecording = new Blob ( [ view ], { type : 'audio/wav' } );
   return userRecording;
@@ -161,7 +162,6 @@ RecordingObject.prototype.setupAudioStream = function(e) {
   this.javascriptNode = this.context.createScriptProcessor(this.bufferSize, 2, 2);
   this.amplitudeArray = new Uint8Array(this.analyserNode.frequencyBinCount);
 
-  this.audioInput.connect(this.context.destination);
   this.audioInput.connect(this.analyserNode);
   this.analyserNode.connect(this.javascriptNode);
   this.javascriptNode.connect(this.context.destination);
