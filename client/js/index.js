@@ -1,4 +1,8 @@
 var instrumentalAudio = document.getElementById('instrumental');
+var micInit = false;
+var canvasContext = null;
+var visualizer = null;
+var userRecorder = null;
 
 /*
  * type - 'instrumental' or 'acapella'
@@ -36,8 +40,34 @@ function addSearchResults(results) {
 }
 
 
-// send search input
+function initMic() {
+  micInit = true;
+  if (!navigator.getUserMedia)
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+  if (navigator.getUserMedia) {
+    navigator.getUserMedia({audio:true}, success, function(e) {
+      console.warn('Error capturing audio.');
+    });
+  }
+  else {
+    console.warn('getUserMedia not supported in this browser.');
+  }
+}
+
+function success(e) {
+  userRecorder.setupAudioStream(e);
+}
+
+
+
 $(document).ready(function() {
+  canvasContext = $("#canvas").get()[0].getContext("2d");
+  visualizer = new Visualizer(canvasContext);
+  userRecorder = new RecordingObject();
+
+  $('#signOut').hide();
   $('#searchForm').bind('submit', function() {
     event.preventDefault();
     clearSearchResults();
@@ -74,13 +104,16 @@ $(document).ready(function() {
   });
 
   $('#recordButton').bind('click', function() {
-    record();
+    userRecorder.startRecording();
+    if (!micInit) {
+      initMic();
+    }
   })
 
   $('#stopRecordingButton').bind('click', function() {
-    userRecording = stopRecording();
+    userRecording = userRecorder.stopRecording();
     var fd = new FormData();
-    fd.append('recording', userRecording, recording);
+    fd.append('recording', userRecording);
 
     $.ajax({
       type: 'POST',
@@ -91,4 +124,3 @@ $(document).ready(function() {
     }).done(function(data) {});
   });
 });
-

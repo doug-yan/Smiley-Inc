@@ -56,3 +56,25 @@ ul #searchResults {
     }
   }
 }
+
+.upperLeft {
+  margin-left: 20px;
+  margin-top: 15px;
+}
+
+#welcome {
+  font-size: 120%;
+  display: inline;
+}
+
+#userPic {
+  border-radius: 50%;
+  width: auto;
+  height: auto;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+#signOut {
+  padding-left: 10px;
+}
