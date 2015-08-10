@@ -3,7 +3,9 @@
  ****************/
 var express = require('express');
 var app = express();
+var fs = require('fs');
 var path = require('path');
+var multer = require('multer');
 var sassMiddleware = require('node-sass-middleware');
 var bodyParser = require('body-parser');
 
@@ -18,6 +20,7 @@ app.use(sassMiddleware({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(require('multer')({dest: './client/uploads/'}).single('recording'));
 app.use(express.static(path.join(__dirname, 'client')));
 
 var server = app.listen(process.env.PORT || 3000, function() {
@@ -185,4 +188,23 @@ app.post('/new-highscore', function(req, res) {
     else
       res.send(false);
   });
+});
+
+app.post('/user-recording', function(req, res) {
+  var tmp_path = req.file.path;
+  var target_path = 'client/uploads/recording.wav';
+
+  fs.rename(tmp_path, target_path, function(err) {
+    if (err) {
+      throw err;
+    }
+    fs.unlink(tmp_path, function() {
+      if (err) {
+        throw err;
+      }
+      else {
+        res.send('Recording uploaded.');
+      }
+    })
+  })
 });

@@ -23,3 +23,6 @@ refresh_heroku_db.sh
 
 # Compiled CSS
 *.css
+
+# Uploaded WAV Files
+*.wav
