@@ -1,7 +1,8 @@
 var instrumentalAudio = document.getElementById('instrumental');
-userRecorder = new RecordingObject();
 var micInit = false;
-
+var canvasContext = null;
+var visualizer = null;
+var userRecorder = null;
 
 /*
  * type - 'instrumental' or 'acapella'
@@ -64,6 +65,7 @@ function success(e) {
 $(document).ready(function() {
   canvasContext = $("#canvas").get()[0].getContext("2d");
   visualizer = new Visualizer(canvasContext);
+  userRecorder = new RecordingObject();
 
   $('#searchForm').bind('submit', function() {
     event.preventDefault();
@@ -110,7 +112,7 @@ $(document).ready(function() {
   $('#stopRecordingButton').bind('click', function() {
     userRecording = userRecorder.stopRecording();
     var fd = new FormData();
-    fd.append('recording', userRecording, true);
+    fd.append('recording', userRecording);
 
     $.ajax({
       type: 'POST',
