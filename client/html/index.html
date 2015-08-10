@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta name="google-signin-client_id" content="98912260752-p0mg22ek56jrj6rj83vkumuengmq2ktu.apps.googleusercontent.com">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -18,7 +19,7 @@
         <div id="header">
           Karaoke App
         </div>
-
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <form role="form" id="searchForm" class="form-inline row">
           <div class "form-group">
             <input name="searchInput" id="searchInput" class="col-xs-12 col-md-8 form-control" type="text" placeholder = "Search for a song to play by song name.">
@@ -53,5 +54,6 @@
   <footer>
     <script src="../js/record.js"></script>
     <script src="../js/index.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </footer>
 </html>
