@@ -67,6 +67,7 @@ $(document).ready(function() {
   visualizer = new Visualizer(canvasContext);
   userRecorder = new RecordingObject();
 
+  $('#signOut').hide();
   $('#searchForm').bind('submit', function() {
     event.preventDefault();
     clearSearchResults();
@@ -123,4 +124,3 @@ $(document).ready(function() {
     }).done(function(data) {});
   });
 });
-
