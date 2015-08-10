@@ -1,5 +1,8 @@
 CREATE DATABASE OriginateIdol;
 
+DROP TABLE IF EXISTS Highscores;
+DROP TABLE IF EXISTS Songs;
+
 CREATE TABLE Songs (
   title VARCHAR(40),
   artist VARCHAR(40),
