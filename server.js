@@ -43,9 +43,9 @@ pg.connect(dburl, function(err, connectClient) {
   var preparedStatements = [
     "PREPARE songs_by_genre (text) AS SELECT * FROM songs WHERE genre = $1;",
     "PREPARE songs_by_artist (text) AS SELECT * FROM songs WHERE artist = $1;",
-    "PREPARE highscores_by_song (text) AS SELECT userId, score FROM highscores WHERE artist = $1 AND title = $2 LIMIT 100;",
-    "PREPARE highscores_by_userId (text) AS SELECT title, artist, score FROM highscores WHERE userId = $1 LIMIT 100;",
-    "PREPARE highscores_by_artist (text) AS SELECT userId, title, highest FROM highscores, " +
+    "PREPARE highscores_by_song (text) AS SELECT name, picture, score FROM highscores WHERE artist = $1 AND title = $2 LIMIT 100;",
+    "PREPARE highscores_by_userId (text) AS SELECT title, name, picture, artist, score FROM highscores WHERE userId = $1 LIMIT 100;",
+    "PREPARE highscores_by_artist (text) AS SELECT name, picture, title, highest FROM highscores, " +
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1;",
     "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;",
@@ -189,6 +189,7 @@ app.post('/new-highscore', function(req, res) {
       res.send(false);
   });
 });
+
 
 app.post('/user-recording', function(req, res) {
   var tmp_path = req.file.path;

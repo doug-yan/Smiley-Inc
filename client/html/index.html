@@ -13,13 +13,17 @@
   </title>
   <body>
     <audio id = 'instrumental' preload = 'none'></audio>
-
+    <div class="g-signin2 upperLeft" data-onsuccess="onSignIn"></div>
+    <div class="upperLeft">
+      <img id="userPic"></img>
+      <div id="welcome"></div>
+      <a id="signOut" href="#" onclick="signOut();">Sign Out</a>
+    </div>
     <div class="col-md-6 col-md-offset-3 menu">
       <div class="menu-container">
         <div id="header">
           Karaoke App
         </div>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <form role="form" id="searchForm" class="form-inline row">
           <div class "form-group">
             <input name="searchInput" id="searchInput" class="col-xs-12 col-md-8 form-control" type="text" placeholder = "Search for a song to play by song name.">
@@ -54,6 +58,7 @@
   <footer>
     <script src="../js/record.js"></script>
     <script src="../js/index.js"></script>
+    <script src="../js/login.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   </footer>
 </html>
