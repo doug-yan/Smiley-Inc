@@ -56,7 +56,7 @@ SilentPlayer.prototype.handleAudioStream = function(e) {
   if (!this.isPlaying) {
     return;
   }
-  this.volume.gain.value = 0.05;
+  this.volume.gain.value = -0.7;
   this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
   this.visualize(this.amplitudeArray);
 }
