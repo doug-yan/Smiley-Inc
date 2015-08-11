@@ -1,4 +1,3 @@
-var instrumentalAudio = document.getElementById('instrumental');
 var micInit = false;
 var canvasContext = null;
 var visualizer = null;
@@ -9,12 +8,6 @@ var userRecorder = null;
  * title - 'The_Kill'
  * artist - '30_Seconds_to_Mars'
  */
-function playSong(type, title, artist) {
-  instrumentalAudio.src = '../audio/' + type + '/' + artist + '_-_' + title + '.mp3';
-  instrumentalAudio.load();
-  instrumentalAudio.play();
-}
-
 
 // clear previous results
 function clearSearchResults() {
@@ -25,18 +18,35 @@ function clearSearchResults() {
 
 // add search results and click handler
 function addSearchResults(results) {
+  writeError(false, '');
   results.forEach(function(song) {
     $('<li/>').append(
       $('<span/>', {
         text: song.title + ' - ' + song.artist + ' (' + song.genre + ')',
         click: function() {
           clearSearchResults();
-          playSong('instrumental', song.title, song.artist);
+          writeError(false, '');
+          userRecorder.setSong(song.title, song.artist);
         }
       }))
         .appendTo('#searchResults');
   $('#searchResultsContainer').css('display','inline-block');
   });
+}
+
+
+function writeError(error, errorText) {
+  if (error) {
+    $('#errorContainer').empty();
+    $('<span/>', {
+      text: errorText
+    }).appendTo('#errorContainer');
+    $('#errorContainer').css('display','inline-block');
+  }
+  else {
+    $('#errorContainer').empty();
+    $('#errorContainer').css('display','none');
+  }
 }
 
 
@@ -59,7 +69,6 @@ function initMic() {
 function success(e) {
   userRecorder.setupAudioStream(e);
 }
-
 
 
 $(document).ready(function() {
@@ -104,6 +113,10 @@ $(document).ready(function() {
   });
 
   $('#recordButton').bind('click', function() {
+    if (userRecorder.song == null) {
+      writeError(true, 'You have not yet chosen a song to play with.');
+      return;
+    }
     userRecorder.startRecording();
     if (!micInit) {
       initMic();

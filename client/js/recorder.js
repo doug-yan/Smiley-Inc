@@ -13,20 +13,34 @@ function RecordingObject() {
   this.recording = false;
   this.leftChannel = [];
   this.rightChannel = [];
+  this.audio = new Audio();
+  $('#audioContainer').append(this.audio);
+
   /* From the spec: This value controls how frequently the audioprocess event is
   dispatched and how many sample-frames need to be processed each call.
   Lower values for buffer size will result in a lower (better) latency.
   Higher values will be necessary to avoid audio breakup and glitches */
   this.bufferSize = 2048;
   this.recordingLength = 0;
-  this.analyserNode = this.javascriptNode = null;
+  this.analyserNode = this.javascriptNode = this.song = null;
   this.volume = this.sampleRate = this.amplitudeArray = null;
   this.context = this.audioInput = this.audioContext = this.recorder = null;
 }
 
 
+RecordingObject.prototype.setSong = function(title, artist) {
+  this.song = {
+    title: title,
+    artist: artist
+  }
+  this.audio.src = '../audio/instrumental/' + '/' + artist + '_-_' + title + '.mp3';
+  this.audio.load();
+}
+
+
 // start collecting recording data
 RecordingObject.prototype.startRecording = function() {
+  this.audio.play();
   this.recording = true;
   this.leftChannel.length = this.rightChannel.length = 0;
   this.recordingLength = 0;
@@ -102,6 +116,7 @@ RecordingObject.prototype._setView = function(view, interleaveLength) {
 // stops collecting recording data and writes the wav file
 RecordingObject.prototype.stopRecording = function() {
   this.recording = false;
+  this.audio.pause();
 
   var leftBuffer = this._mergeBuffers(this.leftChannel, this.recordingLength);
   var rightBuffer = this._mergeBuffers(this.rightChannel, this.recordingLength);
