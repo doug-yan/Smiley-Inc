@@ -12,7 +12,7 @@
     Karaoke App
   </title>
   <body>
-    <audio id = 'instrumental' preload = 'none'></audio>
+    <div id='audioContainer'></div>
     <div class="g-signin2 upperLeft" data-onsuccess="onSignIn"></div>
     <div class="upperLeft">
       <img id="userPic"></img>
@@ -51,6 +51,7 @@
           <button class="btn btn-default" id="recordButton">Record</button>
           <button class="btn btn-default" id="stopRecordingButton">Stop</button>
         </div>
+        <div id="errorContainer"></div>
         <div id="canvasContainer">
           <canvas id="canvas" width="512" height="256" ></canvas>
         </div>
@@ -64,7 +65,7 @@
   <footer>
     <script src="../js/recorder.js"></script>
     <script src="../js/visualizer.js"></script>
-    <!-- <script src="../js/record.js"></script> -->
+    <script src="../js/karaoke.js"></script>
     <script src="../js/index.js"></script>
     <script src="../js/login.js"></script>
     <script src="../js/lyrics.js"></script>
