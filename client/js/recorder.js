@@ -1,5 +1,5 @@
 function handleAudioStream(e) {
-  userRecorder.handleAudioStream(e);
+  karaoke.userRecorder.handleAudioStream(e);
 }
 
 /*

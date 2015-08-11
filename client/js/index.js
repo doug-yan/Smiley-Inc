@@ -65,7 +65,7 @@ function initMic() {
 }
 
 function success(e) {
-  userRecorder.setupAudioStream(e);
+  karaoke.userRecorder.setupAudioStream(e);
 }
 
 
