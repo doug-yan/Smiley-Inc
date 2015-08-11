@@ -40,8 +40,9 @@ RecordingObject.prototype.setSong = function(title, artist) {
 
 // start collecting recording data
 RecordingObject.prototype.startRecording = function() {
-  this.audio.play();
   this.recording = true;
+  this.audio.play();
+
   this.leftChannel.length = this.rightChannel.length = 0;
   this.recordingLength = 0;
 }
