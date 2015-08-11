@@ -127,6 +127,7 @@ RecordingObject.prototype.handleAudioStream = function(e) {
     return;
   }
   this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
+  this.volume.gain.value = 0.1;
   this.visualize(this.amplitudeArray);
   var left = e.inputBuffer.getChannelData (0);
   var right = e.inputBuffer.getChannelData (1);

@@ -1,7 +1,7 @@
 function Visualizer(canvasContext) {
   this.context = canvasContext;
   this.canvasHeight = 256;
-  this.canvasWidth = 1000;
+  this.canvasWidth = 600;
   this.amplitudeArrayUser = null;
   this.amplitudeArrayAcapella = null;
 }
@@ -23,10 +23,10 @@ Visualizer.prototype.visualizeStuff = function() {
   this.clearCanvas();
 
   for (var i = 0; i < this.amplitudeArrayAcapella.length; i++) {
-    this.context.strokeStyle = 'rgba(30,10,233,0.5)';
+    this.context.strokeStyle = 'rgba(0,0,255,0.4)';
     this.context.beginPath();
-    this.context.moveTo(i, 275);
-    this.context.lineTo(i, 275 - this.amplitudeArrayAcapella[i]);
+    this.context.moveTo(i, 256);
+    this.context.lineTo(i, 256 - this.amplitudeArrayAcapella[i] + 2);
     this.context.closePath();
     this.context.stroke();
     // var value = this.amplitudeArrayAcapella[i] / 256;
@@ -35,10 +35,10 @@ Visualizer.prototype.visualizeStuff = function() {
     // this.context.fillRect(i, y, 1, 1);
   }
   for (var i = 0; i < this.amplitudeArrayUser.length; i++) {
-    this.context.strokeStyle = 'rgba(30,10,0,0.5)';
+    this.context.strokeStyle = 'rgba(255,0,0,0.3)';
     this.context.beginPath();
-    this.context.moveTo(i, 355);
-    this.context.lineTo(i, 355 - this.amplitudeArrayUser[i]);
+    this.context.moveTo(i, 256);
+    this.context.lineTo(i, 256 - this.amplitudeArrayUser[i]);
     this.context.closePath();
     this.context.stroke();
     // var value = this.amplitudeArrayUser[i] / 256;
