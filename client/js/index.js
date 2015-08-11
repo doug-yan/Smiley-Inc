@@ -16,14 +16,14 @@ function clearSearchResults() {
 
 // add search results and click handler
 function addSearchResults(results) {
-  writeError(false, '');
+  noSongError(false);
   results.forEach(function(song) {
     $('<li/>').append(
       $('<span/>', {
         text: song.title + ' - ' + song.artist + ' (' + song.genre + ')',
         click: function() {
           clearSearchResults();
-          writeError(false, '');
+          noSongError(false);
           karaoke.setSong(song.title, song.artist);
         }
       }))
@@ -33,11 +33,11 @@ function addSearchResults(results) {
 }
 
 
-function writeError(error, errorText) {
+function noSongError(error) {
   if (error) {
     $('#errorContainer').empty();
     $('<span/>', {
-      text: errorText
+      text: 'You have not yet chosen a song to sing.'
     }).appendTo('#errorContainer');
     $('#errorContainer').css('display','inline-block');
   }
@@ -110,7 +110,7 @@ $(document).ready(function() {
 
   $('#recordButton').bind('click', function() {
     if (karaoke.song === null) {
-      writeError(true, 'You have not yet chosen a song to sing.');
+      noSongError(true);
       return;
     }
     if (!micInit) {
