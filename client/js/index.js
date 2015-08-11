@@ -66,7 +66,7 @@ $(document).ready(function() {
   canvasContext = $("#canvas").get()[0].getContext("2d");
   visualizer = new Visualizer(canvasContext);
   userRecorder = new RecordingObject();
-
+  scroll("30_Seconds_to_Mars_-_The_Kill");
   $('#signOut').hide();
   $('#searchForm').bind('submit', function() {
     event.preventDefault();

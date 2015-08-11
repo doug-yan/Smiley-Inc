@@ -78,3 +78,20 @@ ul #searchResults {
 #signOut {
   padding-left: 10px;
 }
+
+#lyricsContainer {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+marquee {
+  behavior: scroll;
+  direction: right;
+  margin-left: auto;
+}
+
+.highlighted {
+  // color: yellow;
+  color: #FFD700;
+}
