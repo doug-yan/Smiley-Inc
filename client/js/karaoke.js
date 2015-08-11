@@ -13,7 +13,7 @@ KaraokeApp.prototype.setSong = function(title, artist) {
     title: title,
     artist: artist
   }
-  this.audio.src = '../audio/instrumental/' + '/' + artist + '_-_' + title + '.mp3';
+  this.audio.src = '../audio/instrumental/' + artist + '_-_' + title + '.mp3';
   this.audio.load();
 }
 
