@@ -10,8 +10,8 @@ function SilentPlayer(audioSource) {
   this.audio.controls = false;
   $('#audioContainer').append(this.audio);
 
-  this.visualizer = null;
   this.isPlaying = false;
+  this.volume = this.audioInput = this.analyserNode = this.amplitudeArray = null;
 }
 
 
@@ -22,38 +22,33 @@ SilentPlayer.prototype.visualize = function(amplitudeArray) {
 
 SilentPlayer.prototype.startAudioStream = function() {
   // creates the audio context
-  this.audioContext = window.AudioContext || window.webkitAudioContext;
-  this.context = new this.audioContext();
+  var audioContext = window.AudioContext || window.webkitAudioContext;
+  var context = new audioContext();
 
   // creates a gain node
-  this.volume = this.context.createGain();
+  this.volume = context.createGain();
 
-
-  // creates an audio node from the microphone incoming stream
-  this.audioInput = this.context.createMediaElementSource(this.audio);
+  // creates an audio node from the audio
+  this.audioInput = context.createMediaElementSource(this.audio);
 
   // connect the stream to the gain node
   this.audioInput.connect(this.volume);
+  this.volume.connect(context.destination);
+  this.audioInput.connect(context.destination);
+
 
   // create script processor with correct buffer size and 2 inputs
-  this.recorder = this.context.createScriptProcessor(2048, 2, 2);
-  this.volume.gain.value = 2;
-  // create some other nodes and connect them
-  this.analyserNode = this.context.createAnalyser();
-  this.javascriptNode = this.context.createScriptProcessor(this.bufferSize, 2, 2);
+  var recorder = context.createScriptProcessor(2048, 2, 2);
+  this.analyserNode = context.createAnalyser();
+  this.audioInput.connect(this.analyserNode);
   this.amplitudeArray = new Uint8Array(this.analyserNode.frequencyBinCount);
   this.analyserNode.getByteFrequencyData(this.amplitudeArray);
 
-  this.audioInput.connect(this.analyserNode);
-  this.analyserNode.connect(this.javascriptNode);
-  this.javascriptNode.connect(this.context.destination);
-
   // handle audio stream
-  this.recorder.onaudioprocess = handleAudioStreamSP;
+  recorder.onaudioprocess = handleAudioStreamSP;
 
   // connect recorder to the context
-  this.volume.connect(this.recorder);
-  this.recorder.connect(this.context.destination);
+  recorder.connect(context.destination);
 }
 
 
@@ -61,6 +56,7 @@ SilentPlayer.prototype.handleAudioStream = function(e) {
   if (!this.isPlaying) {
     return;
   }
+  this.volume.gain.value = 0.05;
   this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
   this.visualize(this.amplitudeArray);
 }
