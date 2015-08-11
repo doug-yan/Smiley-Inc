@@ -1,7 +1,5 @@
 var micInit = false;
-var canvasContext = null;
-var visualizer = null;
-var userRecorder = null;
+var karaoke = null;
 
 /*
  * type - 'instrumental' or 'acapella'
@@ -26,7 +24,7 @@ function addSearchResults(results) {
         click: function() {
           clearSearchResults();
           writeError(false, '');
-          userRecorder.setSong(song.title, song.artist);
+          karaoke.setSong(song.title, song.artist);
         }
       }))
         .appendTo('#searchResults');
@@ -72,9 +70,7 @@ function success(e) {
 
 
 $(document).ready(function() {
-  canvasContext = $("#canvas").get()[0].getContext("2d");
-  visualizer = new Visualizer(canvasContext);
-  userRecorder = new RecordingObject();
+  karaoke = new KaraokeApp();
 
   $('#signOut').hide();
   $('#searchForm').bind('submit', function() {
@@ -113,18 +109,18 @@ $(document).ready(function() {
   });
 
   $('#recordButton').bind('click', function() {
-    if (userRecorder.song == null) {
+    if (karaoke.song == null) {
       writeError(true, 'You have not yet chosen a song to play with.');
       return;
     }
-    userRecorder.startRecording();
     if (!micInit) {
       initMic();
     }
+    karaoke.start();
   })
 
   $('#stopRecordingButton').bind('click', function() {
-    userRecording = userRecorder.stopRecording();
+    userRecording = karaoke.finish();
     var fd = new FormData();
     fd.append('recording', userRecording);
 
