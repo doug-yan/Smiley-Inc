@@ -14,6 +14,12 @@ function SilentPlayer(audioSource) {
   this.isPlaying = false;
 }
 
+
+SilentPlayer.prototype.visualize = function(amplitudeArray) {
+  this.callback(this.amplitudeArray);
+}
+
+
 SilentPlayer.prototype.startAudioStream = function() {
   // creates the audio context
   this.audioContext = window.AudioContext || window.webkitAudioContext;
@@ -56,7 +62,7 @@ SilentPlayer.prototype.handleAudioStream = function(e) {
     return;
   }
   this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
-  this.visualizer.initialize(this.amplitudeArray);
+  this.visualize(this.amplitudeArray);
 }
 
 
