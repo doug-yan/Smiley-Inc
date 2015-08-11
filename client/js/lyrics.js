@@ -12,6 +12,8 @@ function displayLyrics(idx) {
 
     $('#lyricsContainer').append('<marquee>');
     $('marquee').html(lyrics[idx].words);
+    $('marquee').attr('scrollamount', 8);
+    $('marquee').attr('loop', 1);
 
     if(lyrics[++idx])
       displayLyrics(idx);
