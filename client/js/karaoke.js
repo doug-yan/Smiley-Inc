@@ -1,6 +1,6 @@
 function KaraokeApp() {
-  this.visualizerCanvas=  $("#canvas").get()[0].getContext("2d");
-  this.visualizer = new Visualizer(this.visualizerCanvas);
+  var visualizerCanvas=  $("#canvas").get()[0].getContext("2d");
+  this.visualizer = new Visualizer(visualizerCanvas);
   this.userRecorder = new RecordingObject();
   this.acapellaPlayer = null;
   this.song = null;
