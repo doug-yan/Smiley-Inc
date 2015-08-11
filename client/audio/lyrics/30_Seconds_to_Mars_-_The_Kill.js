@@ -1,51 +1,51 @@
 var lyrics = [
   {
     'words': "What if I wanted to break",
-    'delay': 4
+    'delay': 8.87
   },
   {
     'words': "Laugh it all off in your face",
-    'delay': 4
+    'delay': 3.20
   },
   {
     'words': "What would you do? (Oh, oh)",
-    'delay': 4
+    'delay': 4.22
   },
   {
     'words': "What if I fell to the floor",
-    'delay': 8
+    'delay': 8.12
   },
   {
     'words': "Couldn't take this anymore",
-    'delay': 4
+    'delay': 4.05
   },
   {
     'words': "What would you do, do, do?",
-    'delay': 4
+    'delay': 4.62
   },
   {
     'words': "Come break me down",
-    'delay': 4
+    'delay': 5.33
   },
   {
     'words': "Bury me, bury me",
-    'delay': 4
+    'delay': 5.33
   },
   {
     'words': "I am finished with you",
-    'delay': 4
+    'delay': 2.68
   },
   {
     'words': "What if I wanted to fight",
-    'delay': 4
+    'delay': 9.68
   },
   {
     'words': "Beg for the rest of my life",
-    'delay': 4
+    'delay': 3.85
   },
   {
     'words': "What would you do?",
-    'delay': 4
+    'delay': 4.76
   },
   {
     'words': "You say you wanted more",
