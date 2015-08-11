@@ -1,198 +1,198 @@
 var lyrics = [
   {
-    'words': "What&nbspif&nbspI&nbspwanted&nbspto&nbspbreak",
+    'words': "What if I wanted to break",
     'delay': 4
   },
   {
-    'words': "Laugh&nbspit&nbspall&nbspoff&nbspin&nbspyour&nbspface",
+    'words': "Laugh it all off in your face",
     'delay': 4
   },
   {
-    'words': "What&nbspwould&nbspyou&nbspdo?&nbsp(Oh,&nbspoh)",
+    'words': "What would you do? (Oh, oh)",
     'delay': 4
   },
   {
-    'words': "What&nbspif&nbspI&nbspfell&nbspto&nbspthe&nbspfloor",
+    'words': "What if I fell to the floor",
     'delay': 8
   },
   {
-    'words': "Couldn't&nbsptake&nbspall&nbspthis&nbspanymore",
+    'words': "Couldn't take this anymore",
     'delay': 4
   },
   {
-    'words': "What&nbspwould&nbspyou&nbspdo,&nbspdo,&nbspdo?",
+    'words': "What would you do, do, do?",
     'delay': 4
   },
   {
-    'words': "Come&nbspbreak&nbspme&nbspdown",
+    'words': "Come break me down",
     'delay': 4
   },
   {
-    'words': "Bury&nbspme,&nbspbury&nbspme",
+    'words': "Bury me, bury me",
     'delay': 4
   },
   {
-    'words': "I&nbspam&nbspfinished&nbspwith&nbspyou",
+    'words': "I am finished with you",
     'delay': 4
   },
   {
-    'words': "What&nbspif&nbspI&nbspwanted&nbspto&nbspfight",
+    'words': "What if I wanted to fight",
     'delay': 4
   },
   {
-    'words': "Beg&nbspfor&nbspthe&nbsprest&nbspof&nbspmy&nbsplife",
+    'words': "Beg for the rest of my life",
     'delay': 4
   },
   {
-    'words': "What&nbspwould&nbspyou&nbspdo?",
+    'words': "What would you do?",
     'delay': 4
   },
   {
-    'words': "You&nbspsay&nbspyou&nbspwanted&nbspmore",
+    'words': "You say you wanted more",
     'delay': 4
   },
   {
-    'words': "What&nbspare&nbspyou&nbspwaiting&nbspfor?",
+    'words': "What are you waiting for?",
     'delay': 4
   },
   {
-    'words': "I'm&nbspnot&nbsprunning&nbspfrom&nbspyou&nbsp(from&nbspyou)",
+    'words': "I'm not running from you (from you)",
     'delay': 4
   },
   {
-    'words': "Come&nbspbreak&nbspme&nbspdown",
+    'words': "Come break me down",
     'delay': 4
   },
   {
-    'words': "Bury&nbspme,&nbspbury&nbspme",
+    'words': "Bury me, bury me",
     'delay': 4
   },
   {
-    'words': "I&nbspam&nbspfinished&nbspwith&nbspyou",
+    'words': "I am finished with you",
     'delay': 4
   },
   {
-    'words': "Look&nbspin&nbspmy&nbspeyes",
+    'words': "Look in my eyes",
     'delay': 4
   },
   {
-    'words': "You're&nbspkilling&nbspme,&nbspkilling&nbspme",
+    'words': "You're killing me, killing me",
     'delay': 4
   },
   {
-    'words': "All&nbspI&nbspwanted&nbspwas&nbspyou",
+    'words': "All I wanted was you",
     'delay': 4
   },
   {
-    'words': "I&nbsptried&nbspto&nbspbe&nbspsomeone&nbspelse",
+    'words': "I tried to be someone else",
     'delay': 4
   },
   {
-    'words': "But&nbspnothing&nbspseemed&nbspto&nbspchange",
+    'words': "But nothing seemed to change",
     'delay': 4
   },
   {
-    'words': "I&nbspknow&nbspnow,&nbspthis&nbspis&nbspwho&nbspI&nbspreally&nbspam&nbspinside.",
+    'words': "I know now, this is who I really am inside.",
     'delay': 4
   },
   {
-    'words': "Finally&nbspfound&nbspmyself",
+    'words': "Finally found myself",
     'delay': 4
   },
   {
-    'words': "Fighting&nbspfor&nbspa&nbspchance.",
+    'words': "Fighting for a chance.",
     'delay': 4
   },
   {
-    'words': "I&nbspknow&nbspnow,&nbspthis&nbspis&nbspwho&nbspI&nbspreally&nbspam.",
+    'words': "I know now, this is who I really am.",
     'delay': 4
   },
   {
-    'words': "Ah,&nbspah",
+    'words': "Ah, ah",
     'delay': 4
   },
   {
-    'words': "Oh,&nbspoh",
+    'words': "Oh, oh",
     'delay': 4
   },
   {
-    'words': "Ah,&nbspah",
+    'words': "Ah, ah",
     'delay': 4
   },
   {
-    'words': "Come&nbspbreak&nbspme&nbspdown",
+    'words': "Come break me down",
     'delay': 4
   },
   {
-    'words': "Bury&nbspme,&nbspbury&nbspme",
+    'words': "Bury me, bury me",
     'delay': 4
   },
   {
-    'words': "I&nbspam&nbspfinished&nbspwith&nbspyou,&nbspyou,&nbspyou.",
+    'words': "I am finished with you, you, you.",
     'delay': 4
   },
   {
-    'words': "Look&nbspin&nbspmy&nbspeyes",
+    'words': "Look in my eyes",
     'delay': 4
   },
   {
-    'words': "You're&nbspkilling&nbspme,&nbspkilling&nbspme",
+    'words': "You're killing me, killing me",
     'delay': 4
   },
   {
-    'words': "All&nbspI&nbspwanted&nbspwas&nbspyou",
+    'words': "All I wanted was you",
     'delay': 4
   },
   {
-    'words': "Come&nbspbreak&nbspme&nbspdown&nbsp(bury&nbspme,&nbspbury&nbspme)",
+    'words': "Come break me down (bury me, bury me)",
     'delay': 4
   },
   {
-    'words': "Break&nbspme&nbspdown&nbsp(bury&nbspme,&nbspbury&nbspme)",
+    'words': "Break me down (bury me, bury me)",
     'delay': 4
   },
   {
-    'words': "Break&nbspme&nbspdown&nbsp(bury&nbspme,&nbspbury&nbspme)",
+    'words': "Break me down (bury me, bury me)",
     'delay': 4
   },
   {
-    'words': "(You&nbspsay&nbspyou&nbspwanted&nbspmore)",
+    'words': "(You say you wanted more)",
     'delay': 4
   },
   {
-    'words': "What&nbspif&nbspI&nbspwanted&nbspto&nbspbreak...?",
+    'words': "What if I wanted to break...?",
     'delay': 4
   },
   {
-    'words': "(What&nbspare&nbspyou&nbspwaiting&nbspfor?)",
+    'words': "(What are you waiting for?)",
     'delay': 4
   },
   {
-    'words': "Bury&nbspme,&nbspbury&nbspme",
+    'words': "Bury me, bury me",
     'delay': 4
   },
   {
-    'words': "(I'm&nbspnot&nbsprunning&nbspfrom&nbspyou)",
+    'words': "(I'm not running from you)",
     'delay': 4
   },
   {
-    'words': "What&nbspif&nbspI",
+    'words': "What if I",
     'delay': 4
   },
   {
-    'words': "What&nbspif&nbspI",
+    'words': "What if I",
     'delay': 4
   },
   {
-    'words': "What&nbspif&nbspI",
+    'words': "What if I",
     'delay': 4
   },
   {
-    'words': "What&nbspif&nbspI",
+    'words': "What if I",
     'delay': 4
   },
   {
-    'words': "Bury&nbspme,&nbspbury&nbspme",
+    'words': "Bury me, bury me",
     'delay': 4,
     'removalDelay': 6
   }

@@ -4,23 +4,6 @@ function scroll(lyricsPath) {
   displayLyrics(0);
 }
 
-function highlight(idx, spaces) {
-  var pauseDuration = 1000;
-
-  setTimeout(function() {
-    var all = $('marquee').html();
-    var word = all.substr(0, all.indexOf('&nbsp'));
-    var rest = all.substr(all.indexOf('&nbsp') + 6);
-
-    if(all.substr('&nbsp') !== -1)
-      $('marquee').html("<span class='highlighted'>" + word + ' </span>' + rest);
-
-
-    if(idx++ < spaces)
-      highlight(idx, spaces);
-  }, pauseDuration);
-}
-
 function displayLyrics(idx) {
   setTimeout(function() {
     // Resetting position of marquee by element death
