@@ -1,5 +1,5 @@
 function handleAudioStream(e) {
-  userRecorder.handleAudioStream(e);
+  karaoke.userRecorder.handleAudioStream(e);
 }
 
 /*
@@ -124,7 +124,7 @@ RecordingObject.prototype.handleAudioStream = function(e) {
     return;
   }
   this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
-  visualizer.initialize(this.amplitudeArray);
+  this.visualizer.initialize(this.amplitudeArray);
   var left = e.inputBuffer.getChannelData (0);
   var right = e.inputBuffer.getChannelData (1);
 
