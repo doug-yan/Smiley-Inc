@@ -43,7 +43,7 @@ function writeError(error, errorText) {
   }
   else {
     $('#errorContainer').empty();
-    $('#errorContainer').css('display','none');
+    $('#errorContainer').hide();
   }
 }
 
@@ -109,8 +109,8 @@ $(document).ready(function() {
   });
 
   $('#recordButton').bind('click', function() {
-    if (karaoke.song == null) {
-      writeError(true, 'You have not yet chosen a song to play with.');
+    if (karaoke.song === null) {
+      writeError(true, 'You have not yet chosen a song to sing.');
       return;
     }
     if (!micInit) {
