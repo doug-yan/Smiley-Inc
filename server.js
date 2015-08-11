@@ -110,7 +110,6 @@ function serverQuery(query, callback) {
  */
 app.get('/songs-by-genre', function (req, res) {
   var genre = req.query.genre;
-
   if(!genre)
     res.send('Please enter parameters in your request to /songs-by-genre specifying genre.');
 

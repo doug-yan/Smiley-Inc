@@ -97,7 +97,7 @@ var lyrics = [
   },
   {
     'words': "Go your own way",
-    'delay': 3.98
+    'delay': 3.98,
     'removalDelay': 6
   }
 ];
