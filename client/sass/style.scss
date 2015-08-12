@@ -11,6 +11,7 @@ body {
   margin-left: 0px;
   margin-right: 0px;
   width: 520px;
+  margin-bottom: 5px;
 }
 
 #searchCategory {
@@ -34,10 +35,24 @@ body {
   width: 100px;
 }
 
+#chosenSongContainer {
+  width: 520px;
+  margin-top:5px;
+  text-align: center;
+  background-color: #fff;
+  height: auto;
+  display: none;
+  padding-left: 0px;
+}
+
 #searchResultsContainer {
   text-align: center;
   display: none;
-  width: 720px;
+  width: 520px;
+  padding-top: 5px;
+  margin-top: 0px;
+  height: auto;
+  padding-bottom: 0px;
   padding-left: 0px;
 }
 
@@ -49,10 +64,11 @@ ul {
 ul #searchResults {
   list-style-type: none;
   li {
+    padding: 5px;
     display: block;
     :hover {
-      padding: 5px;
-      background-color: #e3e3e3;
+      cursor: pointer;
+      color: #fff;
     }
   }
 }
