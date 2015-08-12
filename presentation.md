@@ -9,6 +9,7 @@
   - Time constraint, since we scrapped original idea and started this one late.
   - Grading algorithm. Difficult to come up with a sufficiently sophisticated algorithm that gives useful results.
   - Finding proper tracks to use for music. To use a song, we need the instrumental and an acapella track, which is difficult to find.
+  - Tony's force pushes to master
 
  3. Features to show off
   - Song selection
