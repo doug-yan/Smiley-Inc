@@ -73,6 +73,12 @@ $(document).ready(function() {
   karaoke = new KaraokeApp();
 
   $('#signOut').hide();
+  $('.leaderboard').hide();
+
+  $('#viewToggle').bind('click', function() {
+    displayLeaderboard();
+  });
+
   $('#searchForm').bind('submit', function() {
     event.preventDefault();
     clearSearchResults();
