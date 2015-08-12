@@ -1,27 +1,27 @@
 var PIXEL_RATIO = (function () {
-    var ctx = document.createElement("canvas").getContext("2d"),
-        dpr = window.devicePixelRatio || 1,
-        bsr = ctx.webkitBackingStorePixelRatio ||
-              ctx.mozBackingStorePixelRatio ||
-              ctx.msBackingStorePixelRatio ||
-              ctx.oBackingStorePixelRatio ||
-              ctx.backingStorePixelRatio || 1;
+  var ctx = document.createElement("canvas").getContext("2d"),
+    dpr = window.devicePixelRatio || 1,
+    bsr = ctx.webkitBackingStorePixelRatio ||
+      ctx.mozBackingStorePixelRatio ||
+      ctx.msBackingStorePixelRatio ||
+      ctx.oBackingStorePixelRatio ||
+      ctx.backingStorePixelRatio || 1;
 
-    return dpr / bsr;
+  return dpr / bsr;
 })();
 
 
 createHiDPICanvas = function(w, h, ratio) {
-    if (!ratio) { ratio = PIXEL_RATIO; }
-    var canvas = document.createElement('canvas');
-    canvas.id = 'canvas';
-    canvas.width = w * ratio;
-    canvas.height = h * ratio;
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
-    canvas.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0);
-    $('#canvasContainer').append(canvas);
-    return $("#canvas").get()[0].getContext("2d");
+  if (!ratio) { ratio = PIXEL_RATIO; }
+  var canvas = document.createElement('canvas');
+  canvas.id = 'canvas';
+  canvas.width = w * ratio;
+  canvas.height = h * ratio;
+  canvas.style.width = w + "px";
+  canvas.style.height = h + "px";
+  canvas.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0);
+  $('#canvasContainer').append(canvas);
+  return $("#canvas").get()[0].getContext("2d");
 }
 
 
