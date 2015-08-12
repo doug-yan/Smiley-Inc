@@ -7,7 +7,7 @@ function displayLeaderboard() {
     displayKaraoke();
   });
 
-  populateLeaderboard('/highscores-by-score');
+  populateLeaderboard('/highscores-by-score', null);
 }
 
 
@@ -22,10 +22,10 @@ function displayKaraoke() {
 }
 
 
-function populateLeaderboard(metric) {
+function populateLeaderboard(endpoint, data) {
   clearLeaderboard();
 
-  $.get(metric)
+  $.get(endpoint, data)
     .done(function(data) {
       populateHelper(data);
     });
@@ -61,5 +61,59 @@ function populateHelper(data) {
 
 function clearLeaderboard() {
   $('#leaderboardHeaders').empty();
-  $('#leaderboardBody').html('');
+  $('#leaderboardBody').empty();
+}
+
+
+function leaderboardSelect() {
+  var newVal;
+
+  switch($('#leaderboardCategory').val()) {
+    case '/highscores-by-user':
+      if(userId) {
+        $('#leaderboardFilter').attr('value', userId);
+        return;
+      }
+
+      newVal = 'Please sign in first';
+      break;
+    case '/highscores-by-song':
+      newVal = 'Taylor Swift - Shake it Off';
+      break;
+    case '/highscores-by-artist':
+      newVal = 'Taylor Swift';
+      break;
+    default:
+      newVal = 'No input needed';
+  }
+
+  $('#leaderboardFilter').attr('placeholder', newVal);
+}
+
+
+function filterSelection(endpoint) {
+  switch(endpoint) {
+    case '/highscores-by-user':
+      return 'userId';
+    case '/highscores-by-song':
+      return 'song';
+    case '/highscores-by-artist':
+      return 'artist';
+    default:
+      return null;
+  }
+}
+
+
+// song = 'Taylor Swift - Shake it Off'
+function filterBySong(song) {
+  var artist = song.substr(0, song.indexOf('-') - 1);
+  var title = song.substr(song.indexOf('-') + 2);
+
+  return {'title': title.replace(/ /g, '_'), 'artist': artist.replace(/ /g, '_')};
+}
+
+
+function idCheck(filter) {
+  return (filter === 'userId' && userId) || filter !== 'userId';
 }

@@ -98,6 +98,28 @@ $(document).ready(function() {
     }
   });
 
+  $('#leaderboardForm').bind('submit', function() {
+    event.preventDefault();
+
+    //parse form
+    var formData = $(this).serializeArray();
+    var input = formData[0].value;
+    var endpoint = formData[1].value;
+    var data = {};
+    var filter = filterSelection(endpoint);
+
+    // Build object
+    data[filter] = input.replace(/ /g, '_');
+
+    if(filter === 'song')
+      data = filterBySong(input);
+
+    if(idCheck(filter)) {
+      clearLeaderboard();
+      populateLeaderboard(endpoint, data);
+    }
+  });
+
   $('#searchCategory').bind('change', function() {
     var category = $(this).serializeArray();
     if (category[0].value == 'bygenre') {

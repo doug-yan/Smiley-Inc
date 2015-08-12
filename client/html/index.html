@@ -22,9 +22,21 @@
     <div class="col-md-6 col-md-offset-3 menu">
       <button class="btn btn-default" id="viewToggle">Leaderboards</button>
       <div class="menu-container leaderboard">
-        <div id="leaderboardHeader">
+        <div class="header" id="leaderboardHeader">
           Leaderboards
         </div>
+        <form role="form" id="leaderboardForm" class="form-inline row">
+          <div class "form-group">
+            <input name="leaderboardFilter" id="leaderboardFilter" class="col-xs-12 col-md-8 form-control" type="text" placeholder="No input needed">
+            <select name="leaderboardCategory" onchange="leaderboardSelect();" id="leaderboardCategory" class="col-xs-6 col-md-4 form-control">
+              <option value="/highscores-by-score">By Score</option>
+              <option value="/highscores-by-user">My Highscores</option>
+              <option value="/highscores-by-song">By Song</option>
+              <option value="/highscores-by-artist">By Artist</option>
+            </select>
+            <input type="submit" class="col-xs-6 col-md-4 btn btn-default" id="reorganizeButton" value="Reorganize">
+          </div>
+        </form>
         <br>
         <table class="table-striped table">
           <thead class="leaderboardHeader">
@@ -34,7 +46,7 @@
         </table>
       </div>
       <div class="menu-container sing">
-        <div id="header">
+        <div class="header" id="header">
           Karaoke App
         </div>
         <form role="form" id="searchForm" class="form-inline row">
