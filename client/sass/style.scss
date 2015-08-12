@@ -46,15 +46,6 @@ ul {
   margin: 0;
 }
 
-#canvasContainer {
-  text-align: center;
-}
-
-#canvas {
-  padding-top:50px;
-  display: inline-block;
-}
-
 ul #searchResults {
   list-style-type: none;
   li {
@@ -64,6 +55,15 @@ ul #searchResults {
       background-color: #e3e3e3;
     }
   }
+}
+
+#canvasContainer {
+  text-align: center;
+}
+
+#canvas {
+  padding-top:50px;
+  display: inline-block;
 }
 
 .upperLeft {
@@ -77,9 +77,6 @@ ul #searchResults {
 }
 
 #userPic {
-  border-radius: 50%;
-  width: auto;
-  height: auto;
   max-width: 50px;
   max-height: 50px;
 }
@@ -100,7 +97,18 @@ marquee {
   margin-left: auto;
 }
 
-.highlighted {
-  // color: yellow;
-  color: #FFD700;
+.userPic {
+  max-width: 25px;
+  max-height: 25px;
+  margin-right: 5px;
+}
+
+.picture {
+  border-radius: 50%;
+  width: auto;
+  height: auto;
+}
+
+td {
+  text-align: left;
 }

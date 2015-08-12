@@ -49,7 +49,8 @@ pg.connect(dburl, function(err, connectClient) {
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1;",
     "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;",
-    "PREPARE highscore_check (text) AS SELECT score FROM highscores WHERE userId = $1 AND title = $2 AND artist = $3;"
+    "PREPARE highscore_check (text) AS SELECT score FROM highscores WHERE userId = $1 AND title = $2 AND artist = $3;",
+    "PREPARE highscores_by_score AS SELECT name, picture, title, artist, score FROM highscores ORDER BY score desc LIMIT 100;"
   ];
 
   if(err)
@@ -159,6 +160,12 @@ app.get('/highscores-by-artist', function(req, res) {
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
 
   query(res, "EXECUTE highscores_by_artist ('" + artist + "');");
+});
+
+
+// Query highscores by score
+app.get('/highscores-by-score', function(req, res) {
+  query(res, "EXECUTE highscores_by_score;");
 });
 
 
