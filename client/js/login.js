@@ -14,6 +14,9 @@ function onSignIn(googleUser) {
 }
 
 function signOut() {
+  userId = null;
+  username = null;
+
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     userId = username = undefined;
