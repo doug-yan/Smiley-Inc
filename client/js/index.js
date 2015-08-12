@@ -124,7 +124,7 @@ $(document).ready(function() {
     if(filter === 'song')
       data = filterBySong(input);
 
-    if(idCheck(filter) && !isNaN(input)) {
+    if(idCheck(filter, input)) {
       clearLeaderboard();
       populateLeaderboard(endpoint, data);
     }
