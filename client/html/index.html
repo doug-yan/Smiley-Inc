@@ -20,7 +20,13 @@
       <a id="signOut" href="#" onclick="signOut();">Sign Out</a>
     </div>
     <div class="col-md-6 col-md-offset-3 menu">
-      <div class="menu-container">
+      <button class="btn btn-default" id="viewToggle">Leaderboards</button>
+      <div class="menu-container leaderboard">
+        <div id="leaderboardHeader">
+          Leaderboards
+        </div>
+      </div>
+      <div class="menu-container sing">
         <div id="header">
           Karaoke App
         </div>
@@ -69,6 +75,7 @@
     <script src="../js/karaoke.js"></script>
     <script src="../js/index.js"></script>
     <script src="../js/login.js"></script>
+    <script src="../js/leaderboard.js"></script>
     <script src="../js/lyrics.js"></script>
     <script id="lyricsFile"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
