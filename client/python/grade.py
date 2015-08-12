@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 
-import librosa
+# import librosa
 import sys
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-import analyse
-import pyaudio
-import midi
+# import analyse
+# import pyaudio
+# import midi
 import aubio
-from aubio import source
-from demo_waveform_plot import get_waveform_plot, set_xlabels_sample2time
+from aubio import source, onset
 
 def array_from_text_file(filename, dtype = 'float'):
   import os.path
@@ -34,15 +33,30 @@ def read_pitch(source, tolerance = 0.8, win_s = 4096, hop_s = 512, samplerate = 
   pitches = []
   confidences = []
 
-  total_frame = 0
+  total_frames = 0
   while True:
-    samples, read = s()
+    samples, read = source()
     pitch = pitch_o(samples)[0]
     confidence = pitch_o.get_confidence()
     pitches += [pitch]
     total_frames += read
     if read < hop_s: break
   return pitches, confidences
+
+# I don't know why window and hop sizes are different here -- does it matter?
+def get_onsets(source, win_s=512, hop_s=256, samplerate=44100):
+  o = onset("default", win_s, hop_s, samplerate)
+  onsets = []
+
+  total_frames = 0
+  while True:
+    samples, read = source()
+    if o(samples):
+      print "%f" % o.get_last_s()
+      onsets.append(o.get_last())
+    total_frames += read
+    if read < hop_s: break
+  return onsets
 
 def main():
   if len(sys.argv) < 3:
@@ -55,10 +69,13 @@ def main():
   karaoke_name = sys.argv[2] # Gotta figure out how this is stored
 
   s_reference = load_file(reference_name)
-  s_karaoke = load_file(karaoke_name)
+  # s_karaoke = load_file(karaoke_name)
 
   ref_pitches, ref_confidences = read_pitch(s_reference)
-  karaoke_pitches, karaoke_confidences = read_pitch(s_karaoke)
+  # karaoke_pitches, karaoke_confidences = read_pitch(s_karaoke)
+
+  ref_onsets = get_onsets(s_reference)
+  # karaoke_onsets = get_onsets(s_karaoke)
 
 
 
@@ -105,38 +122,38 @@ def main():
 
 
 
-  reference_song = sys.argv[1]
-  reference_song = '../audio/acapella/' + reference_song
-
-  karaoke_performance = sys.argv[2] #Need to figure out how this will be stored
-
-  y_reference, sr_reference = librosa.load(reference_song, duration = 20)
-  pitches, magnitudes = librosa.piptrack(y_reference, sr_reference)
-
-  onset_frames = librosa.onset.onset_detect(y=y_reference, sr=sr_reference)
-  onset_times = librosa.frames_to_time(onset_frames, sr=sr_reference)
-
-  print(onset_times)
-  print(onset_frames)
-
-  new_notes = []
-
-  prev_frame = onset_frames[0]
-  for frame in onset_frames[1:]:
-    window = y_reference[prev_frame:frame]
-    pitches, magnitudes = librosa.piptrack(window, sr_reference, fmin=50, fmax=900)
-    if max(magnitudes) == 0:
-      continue
-    greatest_magnitude = magnitudes == max(magnitudes)
-    print max(magnitudes)
-    print pitches[greatest_magnitude]
-    new_notes.append(librosa.hz_to_note(pitches[greatest_magnitude]))
-
-  print new_notes
-
-  notes = []
-
-  return 0
+  # reference_song = sys.argv[1]
+  # reference_song = '../audio/acapella/' + reference_song
+  #
+  # karaoke_performance = sys.argv[2] #Need to figure out how this will be stored
+  #
+  # y_reference, sr_reference = librosa.load(reference_song, duration = 20)
+  # pitches, magnitudes = librosa.piptrack(y_reference, sr_reference)
+  #
+  # onset_frames = librosa.onset.onset_detect(y=y_reference, sr=sr_reference)
+  # onset_times = librosa.frames_to_time(onset_frames, sr=sr_reference)
+  #
+  # print(onset_times)
+  # print(onset_frames)
+  #
+  # new_notes = []
+  #
+  # prev_frame = onset_frames[0]
+  # for frame in onset_frames[1:]:
+  #   window = y_reference[prev_frame:frame]
+  #   pitches, magnitudes = librosa.piptrack(window, sr_reference, fmin=50, fmax=900)
+  #   if max(magnitudes) == 0:
+  #     continue
+  #   greatest_magnitude = magnitudes == max(magnitudes)
+  #   print max(magnitudes)
+  #   print pitches[greatest_magnitude]
+  #   new_notes.append(librosa.hz_to_note(pitches[greatest_magnitude]))
+  #
+  # print new_notes
+  #
+  # notes = []
+  #
+  # return 0
 
   # for index, pitch in enumerate(filter(lambda x: max(x) > 0, pitches.transpose())):
   #   b = magnitudes.transpose()[index] == max(magnitudes.transpose()[index])
