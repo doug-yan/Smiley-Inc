@@ -46,6 +46,15 @@ ul {
   margin: 0;
 }
 
+#canvasContainer {
+  text-align: center;
+}
+
+#canvas {
+  padding-top:50px;
+  display: inline-block;
+}
+
 ul #searchResults {
   list-style-type: none;
   li {
