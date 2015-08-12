@@ -155,7 +155,6 @@ app.get('/highscores-by-userId', function(req, res) {
 // Query highscores by all songs of an artist
 app.get('/highscores-by-artist', function(req, res) {
   var artist = req.query.artist;
-
   if(!artist)
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
 

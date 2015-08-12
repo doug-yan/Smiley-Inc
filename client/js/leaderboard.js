@@ -116,6 +116,6 @@ function filterBySong(song) {
 }
 
 
-function idCheck(filter) {
-  return (filter === 'userId' && userId) || filter !== 'userId';
+function idCheck(filter, value) {
+  return (filter === 'userId' && userId && !isNaN(value)) || filter !== 'userId';
 }
