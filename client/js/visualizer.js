@@ -56,8 +56,8 @@ Visualizer.prototype.visualizeStuff = function() {
   for (var i = 0; i < this.freqArrayAcapella.length; i++) {
     this.context.strokeStyle = 'rgba(0,0,255,0.3)';
     this.context.beginPath();
-    this.context.moveTo(i, 400);
-    this.context.lineTo(i, 400 - (this.freqArrayAcapella[i]*2));
+    this.context.moveTo(i+170, 400);
+    this.context.lineTo(i+170, 400 - (this.freqArrayAcapella[i]*2));
     this.context.closePath();
     this.context.stroke();
   }
@@ -78,8 +78,8 @@ Visualizer.prototype.visualizeStuff = function() {
   for (var i = 0; i < this.freqArrayUser.length; i++) {
     this.context.strokeStyle = 'rgba(255,0,0,0.3)';
     this.context.beginPath();
-    this.context.moveTo(i, 400);
-    this.context.lineTo(i, 400 - (this.freqArrayUser[i]*2));
+    this.context.moveTo(i+170, 400);
+    this.context.lineTo(i+170, 400 - (this.freqArrayUser[i]*2));
     this.context.closePath();
     this.context.stroke();
   }
