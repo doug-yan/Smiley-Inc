@@ -24,3 +24,16 @@
   - Program lyrics to show up on cue instead of doing it automatically (this would be an entirely other project on its own)
   - Refine grading algorithm(?)
   - Make it social, challenge friends, etc.
+
+#### General flow of presentation
+
+ 1. Introductions
+ 2. Talk about motivation for project
+ 3. Talk about challenges
+ 4. Talk about technologies used (javascript, sass, postgre)
+ 5. Talk about how visualizer shows user input
+ 6. Pick a song for Doreen to sing
+ 7. Have her sing
+ 8. Show grading
+ 9. Show her on leaderboard with some prepopulated data
+ 10. Talk about next steps
