@@ -1,5 +1,5 @@
 function handleAudioStream(e) {
-  userRecorder.handleAudioStream(e);
+  karaoke.userRecorder.handleAudioStream(e);
 }
 
 /*
@@ -98,6 +98,9 @@ RecordingObject.prototype._setView = function(view, interleaveLength) {
   return view;
 }
 
+RecordingObject.prototype.visualize = function(amplitudeArray) {
+  this.callback(this.amplitudeArray);
+}
 
 // stops collecting recording data and writes the wav file
 RecordingObject.prototype.stopRecording = function() {
@@ -124,7 +127,7 @@ RecordingObject.prototype.handleAudioStream = function(e) {
     return;
   }
   this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
-  visualizer.initialize(this.amplitudeArray);
+  this.visualize(this.amplitudeArray);
   var left = e.inputBuffer.getChannelData (0);
   var right = e.inputBuffer.getChannelData (1);
 

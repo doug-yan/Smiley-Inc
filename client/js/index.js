@@ -1,20 +1,11 @@
-var instrumentalAudio = document.getElementById('instrumental');
 var micInit = false;
-var canvasContext = null;
-var visualizer = null;
-var userRecorder = null;
+var karaoke = null;
 
 /*
  * type - 'instrumental' or 'acapella'
  * title - 'The_Kill'
  * artist - '30_Seconds_to_Mars'
  */
-function playSong(type, title, artist) {
-  instrumentalAudio.src = '../audio/' + type + '/' + artist + '_-_' + title + '.mp3';
-  instrumentalAudio.load();
-  instrumentalAudio.play();
-}
-
 
 // clear previous results
 function clearSearchResults() {
@@ -25,18 +16,35 @@ function clearSearchResults() {
 
 // add search results and click handler
 function addSearchResults(results) {
+  noSongError(false);
   results.forEach(function(song) {
     $('<li/>').append(
       $('<span/>', {
         text: song.title + ' - ' + song.artist + ' (' + song.genre + ')',
         click: function() {
           clearSearchResults();
-          playSong('instrumental', song.title, song.artist);
+          noSongError(false);
+          karaoke.setSong(song.title, song.artist);
         }
       }))
         .appendTo('#searchResults');
   $('#searchResultsContainer').css('display','inline-block');
   });
+}
+
+
+function noSongError(error) {
+  if (error) {
+    $('#errorContainer').empty();
+    $('<span/>', {
+      text: 'You have not yet chosen a song to sing.'
+    }).appendTo('#errorContainer');
+    $('#errorContainer').css('display','inline-block');
+  }
+  else {
+    $('#errorContainer').empty();
+    $('#errorContainer').hide();
+  }
 }
 
 
@@ -57,15 +65,12 @@ function initMic() {
 }
 
 function success(e) {
-  userRecorder.setupAudioStream(e);
+  karaoke.userRecorder.setupAudioStream(e);
 }
 
 
-
 $(document).ready(function() {
-  canvasContext = $("#canvas").get()[0].getContext("2d");
-  visualizer = new Visualizer(canvasContext);
-  userRecorder = new RecordingObject();
+  karaoke = new KaraokeApp();
 
   $('#signOut').hide();
   $('#searchForm').bind('submit', function() {
@@ -104,14 +109,18 @@ $(document).ready(function() {
   });
 
   $('#recordButton').bind('click', function() {
-    userRecorder.startRecording();
+    if (karaoke.song === null) {
+      noSongError(true);
+      return;
+    }
     if (!micInit) {
       initMic();
     }
+    karaoke.start();
   })
 
   $('#stopRecordingButton').bind('click', function() {
-    userRecording = userRecorder.stopRecording();
+    userRecording = karaoke.finish();
     var fd = new FormData();
     fd.append('recording', userRecording);
 
