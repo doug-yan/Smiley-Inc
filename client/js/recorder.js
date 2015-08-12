@@ -129,7 +129,6 @@ RecordingObject.prototype.handleAudioStream = function(e) {
   this.analyserNode.getByteTimeDomainData(this.timeArray);
   this.analyserNode.getByteFrequencyData(this.freqArray);
 
-  this.volume.gain.value = 0.1;
   this.visualize(this.timeArray, this.freqArray);
   var left = e.inputBuffer.getChannelData (0);
   var right = e.inputBuffer.getChannelData (1);
