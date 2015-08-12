@@ -82,7 +82,6 @@ function success(e) {
 
 $(document).ready(function() {
   karaoke = new KaraokeApp();
-  console.log('hi');
   $('#signOut').hide();
   $('.leaderboard').hide();
 
@@ -125,7 +124,7 @@ $(document).ready(function() {
     if(filter === 'song')
       data = filterBySong(input);
 
-    if(idCheck(filter)) {
+    if(idCheck(filter) && !isNaN(input)) {
       clearLeaderboard();
       populateLeaderboard(endpoint, data);
     }

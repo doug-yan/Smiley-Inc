@@ -71,6 +71,8 @@ function leaderboardSelect() {
   switch($('#leaderboardCategory').val()) {
     case '/highscores-by-user':
       if(userId) {
+        $('#leaderboardForm').trigger('reset');
+        $('#myHighscores').attr('selected', 'selected');
         $('#leaderboardFilter').attr('value', userId);
         return;
       }
