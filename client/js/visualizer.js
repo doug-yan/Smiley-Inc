@@ -54,7 +54,7 @@ Visualizer.prototype.visualizeStuff = function() {
   this.clearCanvas();
 
   for (var i = 0; i < this.freqArrayAcapella.length; i++) {
-    this.context.strokeStyle = 'rgba(0,0,255,0.3)';
+    this.context.strokeStyle = 'rgba(255,0,0,0.4)';
     this.context.beginPath();
     this.context.moveTo(i+170, 400);
     this.context.lineTo(i+170, 400 - (this.freqArrayAcapella[i]*2));
@@ -71,12 +71,12 @@ Visualizer.prototype.visualizeStuff = function() {
     // this.context.stroke();
     var value = this.timeArrayAcapella[i] / 400;
     var y = this.canvasHeight - (this.canvasHeight * value) - 1;
-    this.context.fillStyle = 'rgba(0,0,255,0.4)';
+    this.context.fillStyle = 'rgba(255,0,255,0.3)';
     this.context.fillRect(i, y-200, 3, 3);
   }
 
   for (var i = 0; i < this.freqArrayUser.length; i++) {
-    this.context.strokeStyle = 'rgba(255,0,0,0.3)';
+    this.context.strokeStyle = 'rgba(255,215,0,0.4)';
     this.context.beginPath();
     this.context.moveTo(i+170, 400);
     this.context.lineTo(i+170, 400 - (this.freqArrayUser[i]*2));
@@ -93,7 +93,7 @@ Visualizer.prototype.visualizeStuff = function() {
     // this.context.stroke();
     var value = this.timeArrayUser[i] / 400;
     var y = this.canvasHeight - (this.canvasHeight * value) - 1;
-    this.context.fillStyle = 'rgba(255,0,0,0.4)';
+    this.context.fillStyle = 'rgba(255,0,0,0.3)';
     this.context.fillRect(i, y-200, 3, 3);
   }
 }
