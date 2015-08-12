@@ -11,6 +11,7 @@ form {
   margin-left: 0px;
   margin-right: 0px;
   width: 520px;
+  margin-bottom: 5px;
 }
 
 #searchCategory {
@@ -34,11 +35,23 @@ form {
   width: 100px;
 }
 
+#chosenSongContainer {
+  width: 520px;
+  margin-top:5px;
+  text-align: center;
+  background-color: #fff;
+  height: auto;
+  display: none;
+  padding-left: 0px;
+}
+
 #searchResultsContainer {
   text-align: center;
   display: none;
-  width: 720px;
-  padding-left: 0px;
+  width: 520px;
+  padding-top: 5px;
+  margin-top: 0px;
+  height: auto;
 }
 
 ul {
@@ -49,12 +62,22 @@ ul {
 ul #searchResults {
   list-style-type: none;
   li {
+    padding: 5px;
     display: block;
     :hover {
-      padding: 5px;
-      background-color: #e3e3e3;
+      cursor: pointer;
+      color: #fff;
     }
   }
+}
+
+#canvasContainer {
+  text-align: center;
+}
+
+#canvas {
+  padding-top:50px;
+  display: inline-block;
 }
 
 .upperLeft {

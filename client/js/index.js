@@ -14,16 +14,27 @@ function clearSearchResults() {
 }
 
 
+function addChosenSong(title, artist) {
+  $('#chosenSongContainer').empty();
+  $('<span/>', {text: 'You have chosen to sing: ' + title + ' - ' + artist})
+    .appendTo('#chosenSongContainer');
+  $('#chosenSongContainer').css('display', 'inline-block');
+}
+
+
 // add search results and click handler
 function addSearchResults(results) {
   noSongError(false);
   results.forEach(function(song) {
+    var title = song.title.replace(/_/g, ' ');
+    var artist = song.artist.replace(/_/g, ' ');
     $('<li/>').append(
       $('<span/>', {
-        text: song.title + ' - ' + song.artist + ' (' + song.genre + ')',
+        text: title + ' - ' + artist + ' (' + song.genre + ')',
         click: function() {
           clearSearchResults();
           noSongError(false);
+          addChosenSong(title, artist);
           karaoke.setSong(song.title, song.artist);
         }
       }))
@@ -71,7 +82,7 @@ function success(e) {
 
 $(document).ready(function() {
   karaoke = new KaraokeApp();
-
+  console.log('hi');
   $('#signOut').hide();
   $('.leaderboard').hide();
 
