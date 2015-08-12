@@ -6,7 +6,7 @@ body {
   text-align: center;
 }
 
-#searchForm {
+form {
   display:inline-block;
   margin-left: 0px;
   margin-right: 0px;
@@ -148,4 +148,8 @@ marquee {
 
 td {
   text-align: left;
+}
+
+.header {
+  padding: 10px;
 }

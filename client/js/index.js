@@ -82,7 +82,6 @@ function initMic(done) {
 
 $(document).ready(function() {
   karaoke = new KaraokeApp();
-
   $('#signOut').hide();
   $('.leaderboard').hide();
 
@@ -106,6 +105,28 @@ $(document).ready(function() {
         .done(function(data) {
           addSearchResults(data);
         });
+    }
+  });
+
+  $('#leaderboardForm').bind('submit', function() {
+    event.preventDefault();
+
+    //parse form
+    var formData = $(this).serializeArray();
+    var input = formData[0].value;
+    var endpoint = formData[1].value;
+    var data = {};
+    var filter = filterSelection(endpoint);
+
+    // Build object
+    data[filter] = input.replace(/ /g, '_');
+
+    if(filter === 'song')
+      data = filterBySong(input);
+
+    if(idCheck(filter) && !isNaN(input)) {
+      clearLeaderboard();
+      populateLeaderboard(endpoint, data);
     }
   });
 
