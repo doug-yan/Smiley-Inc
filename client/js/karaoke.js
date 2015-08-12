@@ -1,5 +1,6 @@
 function KaraokeApp() {
-  this.visualizer = new Visualizer();
+  var visualizerCanvas=  $("#canvas").get()[0].getContext("2d");
+  this.visualizer = new Visualizer(visualizerCanvas);
   this.userRecorder = new RecordingObject();
   this.acapellaPlayer = null;
   this.song = null;
@@ -9,13 +10,13 @@ function KaraokeApp() {
 }
 
 
-KaraokeApp.prototype.visualizeUser = function(timeArray, freqArray) {
-  this.visualizer.initializeUser(timeArray, freqArray);
+KaraokeApp.prototype.visualizeUser = function(amplitudeArray) {
+  this.visualizer.initializeUser(amplitudeArray);
 }
 
 
-KaraokeApp.prototype.visualizeAcapella = function(timeArray, freqArray) {
-  this.visualizer.initializeAcapella(timeArray, freqArray);
+KaraokeApp.prototype.visualizeAcapella = function(amplitudeArray) {
+  this.visualizer.initializeAcapella(amplitudeArray);
 }
 
 

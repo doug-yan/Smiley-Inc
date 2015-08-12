@@ -11,12 +11,12 @@ function SilentPlayer(audioSource) {
   $('#audioContainer').append(this.audio);
 
   this.isPlaying = false;
-  this.volume = this.audioInput = this.analyserNode = this.timeArray = this.freqArray = null;
+  this.volume = this.audioInput = this.analyserNode = this.amplitudeArray = null;
 }
 
 
-SilentPlayer.prototype.visualize = function(timeArray, freqArray) {
-  this.callback(timeArray, freqArray);
+SilentPlayer.prototype.visualize = function(amplitudeArray) {
+  this.callback(this.amplitudeArray);
 }
 
 
@@ -41,8 +41,8 @@ SilentPlayer.prototype.startAudioStream = function() {
   var recorder = context.createScriptProcessor(2048, 2, 2);
   this.analyserNode = context.createAnalyser();
   this.audioInput.connect(this.analyserNode);
-  this.timeArray = new Uint8Array(this.analyserNode.frequencyBinCount);
-  this.freqArray = new Uint8Array(this.analyserNode.frequencyBinCount);
+  this.amplitudeArray = new Uint8Array(this.analyserNode.frequencyBinCount);
+  this.analyserNode.getByteFrequencyData(this.amplitudeArray);
 
   // handle audio stream
   recorder.onaudioprocess = handleAudioStreamSP;
@@ -57,9 +57,8 @@ SilentPlayer.prototype.handleAudioStream = function(e) {
     return;
   }
   this.volume.gain.value = -0.7;
-  this.analyserNode.getByteTimeDomainData(this.timeArray);
-  this.analyserNode.getByteFrequencyData(this.freqArray);
-  this.visualize(this.timeArray, this.freqArray);
+  this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
+  this.visualize(this.amplitudeArray);
 }
 
 
