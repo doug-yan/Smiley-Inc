@@ -20,7 +20,7 @@ function RecordingObject() {
   this.bufferSize = 2048;
   this.recordingLength = 0;
   this.analyserNode = this.javascriptNode = null;
-  this.volume = this.sampleRate = this.amplitudeArray = null;
+  this.volume = this.sampleRate = this.timeArray = this.freqArray = null;
   this.context = this.audioInput = this.audioContext = this.recorder = null;
 }
 
@@ -98,8 +98,8 @@ RecordingObject.prototype._setView = function(view, interleaveLength) {
   return view;
 }
 
-RecordingObject.prototype.visualize = function(amplitudeArray) {
-  this.callback(this.amplitudeArray);
+RecordingObject.prototype.visualize = function(timeArray, freqArray) {
+  this.callback(timeArray, freqArray);
 }
 
 // stops collecting recording data and writes the wav file
@@ -126,9 +126,11 @@ RecordingObject.prototype.handleAudioStream = function(e) {
   if (!this.recording) {
     return;
   }
-  this.analyserNode.getByteTimeDomainData(this.amplitudeArray);
+  this.analyserNode.getByteTimeDomainData(this.timeArray);
+  this.analyserNode.getByteFrequencyData(this.freqArray);
+
   this.volume.gain.value = 0.1;
-  this.visualize(this.amplitudeArray);
+  this.visualize(this.timeArray, this.freqArray);
   var left = e.inputBuffer.getChannelData (0);
   var right = e.inputBuffer.getChannelData (1);
 
@@ -164,7 +166,8 @@ RecordingObject.prototype.setupAudioStream = function(e) {
   // create some other nodes and connect them
   this.analyserNode = this.context.createAnalyser();
   this.javascriptNode = this.context.createScriptProcessor(this.bufferSize, 2, 2);
-  this.amplitudeArray = new Uint8Array(this.analyserNode.frequencyBinCount);
+  this.timeArray = new Uint8Array(this.analyserNode.frequencyBinCount);
+  this.freqArray = new Uint8Array(this.analyserNode.frequencyBinCount);
 
   this.audioInput.connect(this.analyserNode);
   this.analyserNode.connect(this.javascriptNode);
