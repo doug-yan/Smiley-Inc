@@ -16,7 +16,7 @@ function clearSearchResults() {
 
 function addChosenSong(title, artist) {
   $('#chosenSongContainer').empty();
-  $('<span/>', {text: 'You have chose to sing: ' + title + ' - ' + artist})
+  $('<span/>', {text: 'You have chosen to sing: ' + title + ' - ' + artist})
     .appendTo('#chosenSongContainer');
   $('#chosenSongContainer').css('display', 'inline-block');
 }
