@@ -77,9 +77,6 @@ ul #searchResults {
 }
 
 #userPic {
-  border-radius: 50%;
-  width: auto;
-  height: auto;
   max-width: 50px;
   max-height: 50px;
 }
@@ -101,20 +98,20 @@ marquee {
 }
 
 .highlighted {
-  // color: yellow;
   color: #FFD700;
 }
 
-
 .userPic {
+  max-width: 25px;
+  max-height: 25px;
+  margin-right: 5px;
+}
+
+.picture {
   border-radius: 50%;
   width: auto;
   height: auto;
-  max-width: 25px;
-  max-height: 25px;
-  padding-right: 5px;
 }
-
 
 td {
   text-align: left;

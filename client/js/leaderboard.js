@@ -33,9 +33,6 @@ function populateLeaderboard(metric) {
 
 
 function populateHelper(data) {
-  // if(data.name && data.picture) {
-  //   $('#leaderboardHeaders').append('<th>' + data.name + '<img class=\"userPic\" src=\"' + data.picture
-  // }
   for(key in data[0]) {
     if(key !== 'picture')
       $('#leaderboardHeaders').append('<th>' + key[0].toUpperCase() + key.slice(1) + '</th>');
@@ -47,7 +44,7 @@ function populateHelper(data) {
     for(key in entry) {
       switch(key) {
         case 'name':
-          tuple += '<td><img class=\"userPic\" src=\"' + entry.picture + '\"</img>' + entry.name + '</td>';
+          tuple += '<td><img class=\"userPic picture\" src=\"' + entry.picture + '\"</img>' + entry.name + '</td>';
           break;
         case 'picture':
           break;
