@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # import pyaudio
 # import midi
 import aubio
-from aubio import source, onset
+from aubio import source, onset, freqtomidi
 
 def array_from_text_file(filename, dtype = 'float'):
   import os.path
@@ -24,7 +24,7 @@ def load_file(filename, samplerate = 44100, hop_s = 512):
 
 # win_s is fft size
 # tolerance is liable to change
-def read_pitch(source, tolerance = 0.8, win_s = 4096, hop_s = 512, samplerate = 44100):
+def read_pitch(song, tolerance = 0.8, win_s = 4096, hop_s = 512, samplerate = 44100):
   # For some reason 'from aubio import pitch' won't work???
   pitch_o = aubio.pitch("yin", win_s, hop_s, samplerate)
   pitch_o.set_unit("midi")
@@ -34,93 +34,82 @@ def read_pitch(source, tolerance = 0.8, win_s = 4096, hop_s = 512, samplerate = 
   confidences = []
 
   total_frames = 0
+
   while True:
-    samples, read = source()
+    samples, read = song()
     pitch = pitch_o(samples)[0]
     confidence = pitch_o.get_confidence()
     pitches += [pitch]
+    confidences += [confidence]
     total_frames += read
     if read < hop_s: break
-  return pitches, confidences
 
-# I don't know why window and hop sizes are different here -- does it matter?
-def get_onsets(source, win_s=512, hop_s=256, samplerate=44100):
+  print len(pitches)
+  # Mask pitches that we don't have high enough confidence in
+  cleaned_pitches = pitches
+  cleaned_pitches = np.ma.masked_where(confidences < tolerance, np.array(cleaned_pitches))
+  print cleaned_pitches.shape
+  return cleaned_pitches, np.array(confidences)
+
+# Example has window and hop sizes different here -- does it matter?
+def get_onsets(song, win_s=4096, hop_s=512, samplerate=44100):
   o = onset("default", win_s, hop_s, samplerate)
+  print o.get_threshold()
   onsets = []
 
   total_frames = 0
   while True:
-    samples, read = source()
+    samples, read = song()
     if o(samples):
-      print "%f" % o.get_last_s()
-      onsets.append(o.get_last())
+      # print "%f" % o.get_last_s()
+      onsets.append(o.get_last_s())
     total_frames += read
     if read < hop_s: break
-  return onsets
+  return np.array(onsets)
+
+
+def get_pitches_with_onsets(song, win_s=4096, hop_s=512, samplerate=44100, tolerance=0.8):
+  pitch_o = aubio.pitch("yin", win_s, hop_s, samplerate)
+  pitch_o.set_unit("midi")
+  pitch_o.set_tolerance(tolerance)
+  o = onset("default", win_s, hop_s, samplerate)
+
+  notes = []
+
+  cur_note = -1
+  while True:
+    samples, read = song()
+    pitch = pitch_o(samples)[0]
+    if pitch < 1 and read == hop_s:
+      continue
+    confidence = pitch_o.get_confidence()
+    if o(samples):
+      notes.append((o.get_last_s(), [(pitch, freqtomidi(pitch), confidence)]))
+      cur_note += 1
+    else:
+      if len(notes) == 0: continue
+      notes[cur_note][1].append((pitch, freqtomidi(pitch), confidence))
+    if read < hop_s: break
+  return notes
 
 def main():
-  if len(sys.argv) < 3:
-    print "Incorrect number of command line arguments"
-    return 1
+  # if len(sys.argv) < 3:
+  #   print "Incorrect number of command line arguments"
+  #   return 1
 
-  reference_name = sys.argv[1]
+  reference_name = '30_Seconds_To_Mars_-_The_Kill.mp3'
+  # reference_name = sys.argv[1]
   reference_name = '../audio/acapella/' + reference_name
 
-  karaoke_name = sys.argv[2] # Gotta figure out how this is stored
+  # karaoke_name = sys.argv[2] # Gotta figure out how this is stored
 
   s_reference = load_file(reference_name)
   # s_karaoke = load_file(karaoke_name)
 
-  ref_pitches, ref_confidences = read_pitch(s_reference)
-  # karaoke_pitches, karaoke_confidences = read_pitch(s_karaoke)
+  ref_notes = get_pitches_with_onsets(s_reference)
+  # karaoke_notes = get_pitches_with_onsets(s_karaoke)
 
-  ref_onsets = get_onsets(s_reference)
-  # karaoke_onsets = get_onsets(s_karaoke)
-
-
-
-  # skip = 1
-  #
-  # pitches = np.array(pitches[skip:])
-  # confidences = np.array(confidences[skip:])
-  # times = [t * hop_s for t in range(len(pitches))]
-  #
-  # fig = plt.figure()
-  #
-  # ax1 = fig.add_subplot(311)
-  # ax1 = get_waveform_plot(filename, samplerate = samplerate, block_size = hop_s, ax = ax1)
-  # plt.setp(ax1.get_xticklabels(), visible = False)
-  # ax1.set_xlabel('')
-  #
-  # ax2 = fig.add_subplot(312, sharex = ax1)
-  # ground_truth = os.path.splittext(filename)[0] + '.f0.Corrected'
-  # if os.path.isfile(ground_truth):
-  #   ground_truth = array_from_text_file(ground_truth)
-  #   true_freqs = ground_truth[:, 2]
-  #   true_freqs = np.ma.masked_where(true_freqs < 2, true_freqs)
-  #   true_times = float(samplerate) * ground_truth[:, 0]
-  #   ax2.plot(true_times, true_freqs, 'r')
-  #   ax2.axis( ymin = 0.9 * true_freqs.min(), ymax = 1.1 * true_freqs.max() )
-  #
-  # ax2.plot(times, pitches, '.g')
-  # cleaned_pitches = pitches
-  # cleaned_pitches = np.ma.masked_where(confidences < tolerance, cleaned_pitches)
-  # ax2.plot(times, cleaned_pitches, '.-')
-  #
-  # plt.setp(ax2.get_xticklabels(), visible=False)
-  # ax2.set_ylabel('f0 (midi)')
-  #
-  # ax3 = fig.add_subplot(313, sharex = ax1)
-  # ax3.plot(times, confidences)
-  # ax3.plot(times, [tolerance] * len(confidences))
-  # ax3.axis( xmin =times[0], xmax = times[-1])
-  # ax3.set_ylabel('confidence')
-  # set_xlabels_sample2time(ax3, times[-1], samplerate)
-  # plt.show()
-  #
-  # return 0
-
-
+  print ref_notes[1]
 
   # reference_song = sys.argv[1]
   # reference_song = '../audio/acapella/' + reference_song
