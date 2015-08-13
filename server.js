@@ -10,7 +10,7 @@ var sassMiddleware = require('node-sass-middleware');
 var bodyParser = require('body-parser');
 var pythonShell = require('python-shell');
 
-pythonShell.defaultOptions = { scriptPath: '../python' };
+pythonShell.defaultOptions = { scriptPath: './client/python' };
 
 app.use(sassMiddleware({
     /* Options */
@@ -214,19 +214,15 @@ app.post('/new-highscore', function(req, res) {
 
 
 app.get('/song-notes', function(req, res) {
-  if (req.song === null) {
+  if (req.query.song === null) {
     res.send({notes: []});
   }
-  pythonShell.run('grade.py', { args: [req.song] }, function (err, results) {
+  pythonShell.run('grade.py', { args: [req.query.song] }, function (err, results) {
+    if (err)
+      console.warn(err.stack);
+
     res.send({notes: results});
   });
-});
-
-
-app.post('/grade', function(req, res) {
-  pythonShell.run('grade.py', { args: [req.reference, req.karaoke] }, function (err, results) {
-    res.send({grade: results});
-  })
 });
 
 
@@ -243,10 +239,9 @@ app.post('/user-recording', function(req, res) {
         throw err;
       }
       else {
-        pythonShell.run('grade.py', { args: [req.reference, '../audio/karaoke/recording.wav']}, function (err, results) {
-          res.send({grade: results})
+        pythonShell.run('grade.py', { args: [req.body.reference, './client/audio/karaoke/recording.wav']}, function (err, results) {
+          res.send({grade: results});
         });
-        res.send('Recording uploaded.');
       }
     })
   })

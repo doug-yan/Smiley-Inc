@@ -97,10 +97,17 @@ function initMic(done) {
 
 
 function showScore(score) {
+  var explainText = ''
+  if (score[0] !== 'Y') {
+    explainText = 'The average number of MIDI notes you were off by is:'
+  }
   $('#scoreHolder').empty();
   $('<span/>', {
     text: score
   }).appendTo('#scoreHolder');
+  $('<span/>', {
+    text: explainText
+  }).appendTo('#explanation');
   $('#sing').hide();
   $('#score').show();
 }
@@ -130,7 +137,6 @@ $(document).ready(function() {
 
     //send search by genre
     if (searchCategory === 'bygenre') {
-      console.log('seraching');
       $.get('/songs-by-genre', {genre: searchGenre})
         .done(function(data) {
           addSearchResults(data);
@@ -240,10 +246,30 @@ $(document).ready(function() {
 
   // Enable this code and disable the below for a stop button
   // also enable stop button in index.html
-  $('#stopRecordingButton').bind('click', function() {
+  // $('#stopRecordingButton').bind('click', function() {
+  //   userRecording = karaoke.finish();
+  //   var fd = new FormData();
+  //   fd.append('recording', userRecording);
+  //   fd.append('reference', karaoke.getSong());
+  //
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: '/user-recording',
+  //     data: fd,
+  //     processData: false,
+  //     contentType: false
+  //   }).done(function(data) {
+  //     showScore(data.grade);
+  //     karaoke.score = data.grade;
+  //     appRunning = false;
+  //   });
+  // });
+
+  $('#instrumental').bind('ended', function() {
     userRecording = karaoke.finish();
     var fd = new FormData();
     fd.append('recording', userRecording);
+    fd.append('reference', karaoke.getSong());
 
     $.ajax({
       type: 'POST',
@@ -252,29 +278,11 @@ $(document).ready(function() {
       processData: false,
       contentType: false
     }).done(function(data) {
-      showScore(4);
-      karaoke.score = 4;
+      showScore(data.grade);
+      karaoke.score = data.grade;
       appRunning = false;
     });
   });
-
-  // $('#instrumental').bind('ended', function() {
-  //   userRecording = karaoke.finish();
-  //   var fd = new FormData();
-  //   fd.append('recording', userRecording);
-
-  //   $.ajax({
-  //     type: 'POST',
-  //     url: '/user-recording',
-  //     data: fd,
-  //     processData: false,
-  //     contentType: false
-  //   }).done(function(data) {
-  //     showScore(4);
-  //     karaoke.score = 4;
-  //     appRunning = false;
-  //   });
-  // });
 
 });
 
