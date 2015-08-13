@@ -14,28 +14,20 @@ form {
   margin-bottom: 5px;
 }
 
-.offset {
-  margin-top: -20px;
-}
-
 .leaderboardAdjust {
-  margin-top: 45px;  
+  margin-top: 45px;
 }
 
-#header {
+.header {
+  margin-top: 15px;
   color: #fff;
   font-size: 55px;
   text-transform: uppercase;
-  padding: 10px;
-  padding-bottom: 30px;
+  padding: 0px !important;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
 }
 
-#leaderboardHeader {
-  @extend #header;
-  padding-bottom: 0px;
-}
 
 #leaderboardHeaders {
   th {
