@@ -33,18 +33,20 @@ function populateLeaderboard(endpoint, data) {
 
 
 function populateHelper(data) {
+  $('#leaderboardHeaders').append('<th>name</th>');
+
   for(key in data[0]) {
-    if(key !== 'picture')
+    if(key !== 'picture' && key !== 'name')
       $('#leaderboardHeaders').append('<th>' + key + '</th>');
   }
 
   data.forEach(function(entry) {
     var tuple = '<tr>';
 
+    tuple += '<td><img class=\"userPic picture\" src=\"' + entry.picture + '\"</img>' + entry.name + '</td>';
     for(key in entry) {
       switch(key) {
         case 'name':
-          tuple += '<td><img class=\"userPic picture\" src=\"' + entry.picture + '\"</img>' + entry.name + '</td>';
           break;
         case 'picture':
           break;

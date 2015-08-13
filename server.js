@@ -45,7 +45,7 @@ pg.connect(dburl, function(err, connectClient) {
     "PREPARE songs_by_artist (text) AS SELECT * FROM songs WHERE artist = $1;",
     "PREPARE highscores_by_song (text) AS SELECT name, picture, score FROM highscores WHERE artist = $1 AND title = $2 ORDER BY score desc LIMIT 100;",
     "PREPARE highscores_by_userId (text) AS SELECT title, name, picture, artist, score FROM highscores WHERE userId = $1 ORDER BY score desc LIMIT 100;",
-    "PREPARE highscores_by_artist (text) AS SELECT name, picture, title, highest FROM highscores, " +
+    "PREPARE highscores_by_artist (text) AS SELECT name, picture, title, score FROM highscores, " +
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1 ORDER BY highest DESC;",
     "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;",
@@ -155,7 +155,7 @@ app.get('/highscores-by-userId', function(req, res) {
 // Query highscores by all songs of an artist
 app.get('/highscores-by-artist', function(req, res) {
   var artist = req.query.artist;
-  
+
   if(!artist)
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
   else
