@@ -33,14 +33,14 @@ def get_notes_with_onsets(song, win_s = 512, hop_s = 256, samplerate = 44100, to
 
 
 def regularize_times(reference, karaoke):
-  first_time = eval(reference[0][1])
+  first_time = reference[0][1]
   for note_row in reference:
-    note_row[1] = eval(note_row[1]) - first_time
-    note_row[2] = eval(note_row[2]) - first_time
-  first_time = eval(karaoke[0][1])
+    note_row[1] = note_row[1] - first_time
+    note_row[2] = note_row[2] - first_time
+  first_time = karaoke[0][1]
   for note_row in karaoke:
-    note_row[1] = eval(note_row[1]) - first_time
-    note_row[2] = eval(note_row[2]) - first_time
+    note_row[1] = note_row[1] - first_time
+    note_row[2] = note_row[2] - first_time
   return reference, karaoke
 
 
@@ -76,40 +76,45 @@ def grade(reference, karaoke):
 
   error_count = 0
   error_amount = 0
+  error_cutoff = 22 # 2 midi octaves
+
   reference, karaoke = notes_to_ints(reference, karaoke)
+  reference, karaoke = regularize_times(reference, karaoke)
 
   karaoke_index = 0
   for i in range(len(reference) - 1):
-    while karaoke_index < len(karaoke) and \
-          (abs(karaoke[karaoke_index][1] - reference[i][1]) <= \
-          abs(karaoke[karaoke_index][1] - reference[i+1][1]) or \
-          abs(karaoke[karaoke_index][0] - reference[i][0]) <= \
-          abs(karaoke[karaoke_index][0] - reference[i+1][0])):
-      error_amount += abs(karaoke[karaoke_index][0] - reference[i][0])
-      karaoke_index += 1
+    cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
+    cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
+    while karaoke_index < len(karaoke) and cur_time_diff <= 1 and \
+          (cur_time_diff <= abs(karaoke[karaoke_index][1] - reference[i+1][1]) or \
+          cur_error <= abs(karaoke[karaoke_index][0] - reference[i+1][0])):
 
-  print error_amount / karaoke_index
+      if cur_error < error_cutoff:
+        error_amount += cur_error
+
+      karaoke_index += 1
+      cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
+      cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
+
+  return error_amount / karaoke_index
 
 
 def main():
-
-  # if len(sys.argv) < 3:
-  #   print "Incorrect number of command line arguments"
-  #   return 1
-
-  reference_name = 'Titanium_-_Sia.mp3'
-  # reference_name = sys.argv[1]
+  # reference_name = 'Titanium_-_Sia.mp3'
+  reference_name = sys.argv[1]
   reference_name = '../audio/acapella/' + reference_name
 
-  karaoke_name = '../audio/karaoke/Karaoke_Titanium_-_Sia.m4a'
-  # karaoke_name = sys.argv[2] # Gotta figure out how this is stored
+  if len(sys.argv) == 2:
+    print get_notes(reference_name)
+    return 0
+
+  # karaoke_name = '../audio/karaoke/Karaoke_Titanium_-_Sia.m4a'
+  karaoke_name = sys.argv[2] # Gotta figure out how this is stored
 
   ref_notes = get_notes(reference_name)
-  karaoke_notes = get_notes(karaoke_name
+  karaoke_notes = get_notes(karaoke_name)
 
   print grade(ref_notes, karaoke_notes)
-
->>>>>>> c7bd220801886504668ba2d65bb8e9eb4d7b4548
 
 if __name__ == '__main__':
   status = main()
