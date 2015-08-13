@@ -39,19 +39,21 @@ function Visualizer() {
 Visualizer.prototype.initializeUser = function(timeArray, freqArray) {
   this.freqArrayUser = freqArray;
   this.timeArrayUser = timeArray
-  this.visualizeStuff();
 }
 
 
 Visualizer.prototype.initializeAcapella = function(timeArray, freqArray) {
   this.freqArrayAcapella = freqArray;
   this.timeArrayAcapella = timeArray;
+  this.visualizeStuff();
 }
 
 
 Visualizer.prototype.visualizeStuff = function() {
   this.context.lineWidth = 2;
   this.clearCanvas();
+  if (!this.timeArrayAcapella || !this.freqArrayAcapella ||
+    !this.timeArrayUser || !this.freqArrayUser) return;
 
   for (var i = 0; i < this.freqArrayAcapella.length; i++) {
     this.context.strokeStyle = 'rgba(255,0,0,0.4)';

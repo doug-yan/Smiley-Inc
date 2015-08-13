@@ -14,16 +14,27 @@ function clearSearchResults() {
 }
 
 
+function addChosenSong(title, artist) {
+  $('#chosenSongContainer').empty();
+  $('<span/>', {text: 'You have chosen to sing: ' + title + ' - ' + artist})
+    .appendTo('#chosenSongContainer');
+  $('#chosenSongContainer').css('display', 'inline-block');
+}
+
+
 // add search results and click handler
 function addSearchResults(results) {
   noSongError(false);
   results.forEach(function(song) {
+    var title = song.title.replace(/_/g, ' ');
+    var artist = song.artist.replace(/_/g, ' ');
     $('<li/>').append(
       $('<span/>', {
-        text: song.title + ' - ' + song.artist + ' (' + song.genre + ')',
+        text: title + ' - ' + artist + ' (' + song.genre + ')',
         click: function() {
           clearSearchResults();
           noSongError(false);
+          addChosenSong(title, artist);
           karaoke.setSong(song.title, song.artist);
         }
       }))
@@ -48,31 +59,38 @@ function noSongError(error) {
 }
 
 
-function initMic() {
-  micInit = true;
+function initMic(done) {
   if (!navigator.getUserMedia)
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
   if (navigator.getUserMedia) {
-    navigator.getUserMedia({audio:true}, success, function(e) {
-      console.warn('Error capturing audio.');
-    });
+    navigator.getUserMedia(
+      {audio:true},
+      function(e) {
+        micInit = true;
+        karaoke.userRecorder.setupAudioStream(e);
+        done();
+      },
+      function(e) {
+        console.warn('Error capturing audio.');
+      }
+    );
   }
   else {
     console.warn('getUserMedia not supported in this browser.');
   }
 }
 
-function success(e) {
-  karaoke.userRecorder.setupAudioStream(e);
-}
-
-
 $(document).ready(function() {
   karaoke = new KaraokeApp();
-
   $('#signOut').hide();
+  $('.leaderboard').hide();
+
+  $('#viewToggle').bind('click', function() {
+    displayLeaderboard();
+  });
+
   $('#searchForm').bind('submit', function() {
     event.preventDefault();
     clearSearchResults();
@@ -90,6 +108,26 @@ $(document).ready(function() {
           addSearchResults(data);
         });
     }
+  });
+
+  $('#leaderboardForm').bind('submit', function() {
+    event.preventDefault();
+
+    //parse form
+    var formData = $(this).serializeArray();
+    var input = formData[0].value;
+    var endpoint = formData[1].value;
+    var data = {};
+    var filter = filterSelection(endpoint);
+
+    // Build object
+    data[filter] = input.replace(/ /g, '_');
+
+    if(filter === 'song' && input)
+      data = filterBySong(input);
+
+    if(idCheck(filter, input))
+      populateLeaderboard(endpoint, data);
   });
 
   $('#searchCategory').bind('change', function() {
@@ -113,10 +151,12 @@ $(document).ready(function() {
       noSongError(true);
       return;
     }
-    if (!micInit) {
-      initMic();
+    if (micInit) {
+      karaoke.start();
     }
-    karaoke.start();
+    else {
+      initMic(function done() { karaoke.start(); });
+    }
   })
 
   $('#stopRecordingButton').bind('click', function() {

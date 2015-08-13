@@ -15,14 +15,39 @@
     <div id='audioContainer'></div>
     <div class="g-signin2 upperLeft" data-onsuccess="onSignIn"></div>
     <div class="upperLeft">
-      <img id="userPic"></img>
+      <img id="userPic" class="picture"></img>
       <div id="welcome"></div>
       <a id="signOut" href="#" onclick="signOut();">Sign Out</a>
     </div>
     <div class="col-md-6 col-md-offset-3 menu">
-      <div class="menu-container">
-        <div id="header">
-          Karaoke App
+      <button class="btn btn-default" id="viewToggle">Leaderboards</button>
+      <div class="menu-container leaderboard">
+        <div class="header" id="leaderboardHeader">
+          Leaderboards
+        </div>
+        <form role="form" id="leaderboardForm" class="form-inline row">
+          <div class "form-group">
+            <input name="leaderboardFilter" id="leaderboardFilter" class="col-xs-12 col-md-8 form-control" type="text" placeholder="No input needed">
+            <select name="leaderboardCategory" onchange="leaderboardSelect();" id="leaderboardCategory" class="col-xs-6 col-md-4 form-control">
+              <option value="/highscores-by-score">By Score</option>
+              <option id="myHighscores" value="/highscores-by-user">My Highscores</option>
+              <option value="/highscores-by-song">By Song</option>
+              <option value="/highscores-by-artist">By Artist</option>
+            </select>
+            <input type="submit" class="col-xs-6 col-md-4 btn btn-default" id="reorganizeButton" value="Reorganize">
+          </div>
+        </form>
+        <br>
+        <table class="table-striped table">
+          <thead class="leaderboardHeader">
+            <tr id="leaderboardHeaders"></tr>
+          </thead>
+          <tbody id="leaderboardBody"></tbody>
+        </table>
+      </div>
+      <div class="menu-container sing">
+        <div class="header" id="header">
+          OScore
         </div>
         <form role="form" id="searchForm" class="form-inline row">
           <div class "form-group">
@@ -41,23 +66,23 @@
             </select>
             <input type="submit" class="col-xs-6 col-md-4 btn btn-default" id="searchButton" value="Search">
           </div>
+          <div id="searchResultsContainer" class="form-control">
+            <ul>
+              <div id="searchResults"></div>
+            </ul>
+          </div>
+          <div id="chosenSongContainer" class="form-control"></div>
         </form>
-        <div id="searchResultsContainer">
-          <ul>
-            <div id="searchResults"></div>
-          </ul>
-        </div>
         <div id="buttonContainer">
-          <button class="btn btn-default" id="recordButton">Record</button>
+          <button class="btn btn-default" id="recordButton">Start Singing</button>
           <button class="btn btn-default" id="stopRecordingButton">Stop</button>
         </div>
         <div id="errorContainer"></div>
+        <div id="canvasContainer" class="row"></div>
+        <div id="lyricsContainer">
+          <!-- Marquee is created here -->
+        </div>
       </div>
-    </div>
-    <div id="canvasContainer" class="row">
-    </div>
-    <div id="lyricsContainer">
-      <!-- Marquee is created here -->
     </div>
   </body>
   <footer>
@@ -67,6 +92,7 @@
     <script src="../js/karaoke.js"></script>
     <script src="../js/index.js"></script>
     <script src="../js/login.js"></script>
+    <script src="../js/leaderboard.js"></script>
     <script src="../js/lyrics.js"></script>
     <script id="lyricsFile"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>

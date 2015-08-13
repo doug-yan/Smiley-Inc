@@ -1,16 +1,46 @@
 body {
-  background-color: #fff;
+  background-color: #F2F0EB !important;
 }
 
 .menu-container {
   text-align: center;
 }
 
-#searchForm {
+form {
   display:inline-block;
   margin-left: 0px;
   margin-right: 0px;
   width: 520px;
+  margin-bottom: 5px;
+}
+
+#header {
+  color: #fff;
+  font-size: 55px;
+  text-transform: uppercase;
+  padding: 10px;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
+}
+
+#leaderboardHeader {
+  @extend #header;
+  padding-bottom: 0px;
+}
+
+#leaderboardHeaders {
+  th {
+    text-transform: uppercase;
+  }
+}
+
+#lyricsContainer {
+  font-size: 34px;
+  color: #FFD724;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
 }
 
 #searchCategory {
@@ -34,16 +64,41 @@ body {
   width: 100px;
 }
 
+#chosenSongContainer {
+  width: 520px;
+  margin-top:5px;
+  text-align: center;
+  background-color: #fff;
+  height: auto;
+  display: none;
+  padding-left: 0px;
+}
+
 #searchResultsContainer {
   text-align: center;
   display: none;
-  width: 720px;
-  padding-left: 0px;
+  width: 520px;
+  padding-top: 5px;
+  margin-top: 0px;
+  height: auto;
+  padding-bottom: 0px;
 }
 
 ul {
   padding: 0;
   margin: 0;
+}
+
+ul #searchResults {
+  list-style-type: none;
+  li {
+    padding: 3px;
+    display: block;
+    :hover {
+      cursor: pointer;
+      color: #fff;
+    }
+  }
 }
 
 #canvasContainer {
@@ -53,17 +108,6 @@ ul {
 #canvas {
   padding-top:50px;
   display: inline-block;
-}
-
-ul #searchResults {
-  list-style-type: none;
-  li {
-    display: block;
-    :hover {
-      padding: 5px;
-      background-color: #e3e3e3;
-    }
-  }
 }
 
 .upperLeft {
@@ -77,9 +121,6 @@ ul #searchResults {
 }
 
 #userPic {
-  border-radius: 50%;
-  width: auto;
-  height: auto;
   max-width: 50px;
   max-height: 50px;
 }
@@ -100,7 +141,22 @@ marquee {
   margin-left: auto;
 }
 
-.highlighted {
-  // color: yellow;
-  color: #FFD700;
+.userPic {
+  max-width: 25px;
+  max-height: 25px;
+  margin-right: 5px;
+}
+
+.picture {
+  border-radius: 50%;
+  width: auto;
+  height: auto;
+}
+
+td {
+  text-align: left;
+}
+
+.header {
+  padding: 10px;
 }
