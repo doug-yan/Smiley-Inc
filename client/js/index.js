@@ -230,7 +230,7 @@ $(document).ready(function() {
       artist: karaoke.song.artist,
       title: karaoke.song.title,
     }).done(function(data) {
-      console.log(data);
+
     });
   });
 
