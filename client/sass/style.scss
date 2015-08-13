@@ -36,6 +36,13 @@ form {
   }
 }
 
+#lyricsContainer {
+  font-size: 34px;
+  color: #FFD724;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
+}
+
 #searchCategory {
   width: 120px;
 }
