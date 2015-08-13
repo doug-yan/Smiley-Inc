@@ -70,10 +70,12 @@ function initMic(done) {
       function(e) {
         micInit = true;
         karaoke.userRecorder.setupAudioStream(e);
-        done();},
+        done();
+      },
       function(e) {
         console.warn('Error capturing audio.');
-    });
+      }
+    );
   }
   else {
     console.warn('getUserMedia not supported in this browser.');
@@ -153,7 +155,7 @@ $(document).ready(function() {
       karaoke.start();
     }
     else {
-      initMic(function done() {karaoke.start();});
+      initMic(function done() { karaoke.start(); });
     }
   })
 
