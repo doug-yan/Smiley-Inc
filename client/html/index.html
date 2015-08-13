@@ -13,16 +13,18 @@
   </title>
   <body>
     <div id='audioContainer'></div>
-    <div class="g-signin2 upperLeft" data-onsuccess="onSignIn"></div>
-    <div class="upperLeft">
+    <div class="upperRight">
+      <div id="googleWrapper">
+        <div class="g-signin2 upperRight" data-onsuccess="onSignIn"></div>
+      </div>
+      <button class="btn btn-default" id="viewToggle">Leaderboards</button>
+      <button class="btn btn-default" id="signOut" href="#" onclick="signOut();">Sign Out</button>
       <img id="userPic" class="picture"></img>
       <div id="welcome"></div>
-      <a id="signOut" href="#" onclick="signOut();">Sign Out</a>
     </div>
     <div class="col-md-6 col-md-offset-3 menu">
-      <button class="btn btn-default" id="viewToggle">Leaderboards</button>
       <div class="menu-container leaderboard">
-        <div class="header" id="leaderboardHeader">
+        <div class="header leaderboardAdjust">
           Leaderboards
         </div>
         <form role="form" id="leaderboardForm" class="form-inline row">
@@ -45,8 +47,9 @@
           <tbody id="leaderboardBody"></tbody>
         </table>
       </div>
+
       <div class="menu-container sing">
-        <div class="header" id="header">
+        <div class="header offset" id="header">
           OScore
         </div>
         <form role="form" id="searchForm" class="form-inline row">
@@ -79,9 +82,7 @@
         </div>
         <div id="errorContainer"></div>
         <div id="canvasContainer" class="row"></div>
-        <div id="lyricsContainer">
-          <!-- Marquee is created here -->
-        </div>
+        <div id="lyricsContainer"></div>
       </div>
     </div>
   </body>

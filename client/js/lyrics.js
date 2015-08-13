@@ -6,24 +6,20 @@ function scroll(lyricsPath) {
 
 function displayLyrics(idx) {
   setTimeout(function() {
-    // Resetting position of marquee by element death
-    if($('marquee'))
-      $('marquee').remove();
-
-    $('#lyricsContainer').append('<marquee>');
-    $('marquee').html(lyrics[idx].words);
-    $('marquee').attr('scrollamount', 8);
-    $('marquee').attr('loop', 1);
+    $('#lyricsContainer').empty();
+    $('#lyricsContainer').html(lyrics[idx].words);
+    $('#lyricsContainer').fadeOut({duration: 0});
+    $('#lyricsContainer').fadeIn();
 
     if(lyrics[++idx])
       displayLyrics(idx);
     else
-      delayedRemoval($('marquee'), lyrics[idx - 1].removalDelay);
-  }, lyrics[idx].delay * 1000);
+      delayedRemoval(lyrics[idx - 1].removalDelay);
+  }, (lyrics[idx].delay - .08) * 1000);
 }
 
-function delayedRemoval(element, delay) {
+function delayedRemoval(delay) {
   setTimeout(function() {
-    element.remove();
+    $('#lyricsContainer').fadeOut({duration: 1000});
   }, delay * 1000);
 }
