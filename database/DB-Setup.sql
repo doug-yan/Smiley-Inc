@@ -28,7 +28,8 @@ INSERT INTO Songs VALUES
   ('Lose_Yourself', 'Eminem', 8, 317, 'Hip-hop'),
   ('Blank_Space', 'Taylor_Swift', 5, 231, 'Pop'),
   ('Shake_it_Off', 'Taylor_Swift', 4, 241, 'Pop'),
-  ('Go_Your_Own_Way', 'Fleetwood_Mac', 3, 239, 'Rock');
+  ('Go_Your_Own_Way', 'Fleetwood_Mac', 3, 239, 'Rock'),
+  ('Titanium', 'Sia', 6, 92, 'Pop');
 
 INSERT INTO Highscores VALUES
   ('227463955755766435220', 'Test User1', 'http://s2.postimg.org/mlc6ck4x5/originate_Interns.png', 'The_Kill', '30_Seconds_to_Mars', 839),
