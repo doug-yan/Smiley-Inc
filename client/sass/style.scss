@@ -1,5 +1,5 @@
 body {
-  background-color: #fff;
+  background-color: #F2F0EB !important;
 }
 
 .menu-container {
@@ -12,6 +12,35 @@ form {
   margin-right: 0px;
   width: 520px;
   margin-bottom: 5px;
+}
+
+#header {
+  color: #fff;
+  font-size: 55px;
+  text-transform: uppercase;
+  padding: 10px;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
+}
+
+#leaderboardHeader {
+  @extend #header;
+  padding-bottom: 0px;
+}
+
+#leaderboardHeaders {
+  th {
+    text-transform: uppercase;
+  }
+}
+
+#lyricsContainer {
+  font-size: 34px;
+  color: #FFD724;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
 }
 
 #searchCategory {
@@ -52,6 +81,7 @@ form {
   padding-top: 5px;
   margin-top: 0px;
   height: auto;
+  padding-bottom: 0px;
 }
 
 ul {
@@ -62,7 +92,7 @@ ul {
 ul #searchResults {
   list-style-type: none;
   li {
-    padding: 5px;
+    padding: 3px;
     display: block;
     :hover {
       cursor: pointer;
