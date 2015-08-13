@@ -69,7 +69,7 @@ function leaderboardSelect() {
   var newVal;
 
   switch($('#leaderboardCategory').val()) {
-    case '/highscores-by-user':
+    case '/highscores-by-userId':
       if(userId) {
         $('#leaderboardForm').trigger('reset');
         $('#myHighscores').attr('selected', 'selected');
@@ -95,7 +95,7 @@ function leaderboardSelect() {
 
 function filterSelection(endpoint) {
   switch(endpoint) {
-    case '/highscores-by-user':
+    case '/highscores-by-userId':
       return 'userId';
     case '/highscores-by-song':
       return 'song';

@@ -38,4 +38,8 @@ INSERT INTO Highscores VALUES
   ('227463955755766435220', 'Test User1', 'http://s2.postimg.org/mlc6ck4x5/originate_Interns.png', 'Lose_Yourself', 'Eminem', 359),
   ('227463955755766435220', 'Test User1', 'http://s2.postimg.org/mlc6ck4x5/originate_Interns.png', 'Shake_it_Off', 'Taylor_Swift', 839),
   ('098765432112345679934', 'Test User2', 'http://s2.postimg.org/mlc6ck4x5/originate_Interns.png', 'Blank_Space', 'Taylor_Swift', 525),
+  ('108860017285912231762', 'Tim Mendez', 'https://lh4.googleusercontent.com/-cIPKxUoSPYg/AAAAAAAAAAI/AAAAAAAAABk/tYVs2VPEnQM/s96-c/photo.jpg', 'Blank_Space', 'Taylor_Swift', 734),
+  ('108860017285912231762', 'Tim Mendez', 'https://lh4.googleusercontent.com/-cIPKxUoSPYg/AAAAAAAAAAI/AAAAAAAAABk/tYVs2VPEnQM/s96-c/photo.jpg', 'The_Kill', '30_Seconds_to_Mars', 323),
+  ('108860017285912231762', 'Tim Mendez', 'https://lh4.googleusercontent.com/-cIPKxUoSPYg/AAAAAAAAAAI/AAAAAAAAABk/tYVs2VPEnQM/s96-c/photo.jpg', 'Lose_Yourself', 'Eminem', 467),
+  ('108860017285912231762', 'Tim Mendez', 'https://lh4.googleusercontent.com/-cIPKxUoSPYg/AAAAAAAAAAI/AAAAAAAAABk/tYVs2VPEnQM/s96-c/photo.jpg', 'Go_Your_Own_Way', 'Fleetwood_Mac', 183),
   ('098765432112345679934', 'Test User2', 'http://s2.postimg.org/mlc6ck4x5/originate_Interns.png', 'Lose_Yourself', 'Eminem', 745);
