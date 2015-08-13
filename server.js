@@ -193,9 +193,9 @@ app.get('/song-notes', function(req, res) {
 
 
 app.post('/grade', function(req, res) {
-  pythonShell.run('grade.py', { args: [req.reference, req.karaoke], function (err, results) {
+  pythonShell.run('grade.py', { args: [req.reference, req.karaoke] }, function (err, results) {
     res.send({grade: results});
-  }})
+  });
 });
 
 

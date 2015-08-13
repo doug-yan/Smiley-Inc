@@ -23,7 +23,8 @@
     "multer": "^1.0.1",
     "node-sass": "^3.2.0",
     "node-sass-middleware": "^0.9.0",
-    "pg": "4.x"
+    "pg": "4.x",
+    "python-shell": "^0.1.0"
   },
   "engines": {
     "node": "0.12.7",
