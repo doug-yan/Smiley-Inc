@@ -112,7 +112,6 @@ function filterBySong(song) {
   var artist = song.substr(0, song.indexOf('-') - 1);
   var title = song.substr(song.indexOf('-') + 2);
 
-  console.log(song);
   return {'title': title.replace(/ /g, '_'), 'artist': artist.replace(/ /g, '_')};
 }
 
