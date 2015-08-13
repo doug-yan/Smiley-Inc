@@ -1,5 +1,16 @@
 var micInit = false;
 var karaoke = null;
+var appRunning = false;
+
+
+function resetApp() {
+  $('#canvasContainer').empty();
+  $('#chosenSongContainer').hide();
+  karaoke = null;
+  micInit = false;
+  karaoke = new KaraokeApp();
+}
+
 
 /*
  * type - 'instrumental' or 'acapella'
@@ -15,6 +26,7 @@ function clearSearchResults() {
 
 
 function addChosenSong(title, artist) {
+  $('#chosenSongContainer').show();
   $('#chosenSongContainer').empty();
   $('<span/>', {text: 'You have chosen to sing: ' + title + ' - ' + artist})
     .appendTo('#chosenSongContainer');
@@ -82,14 +94,28 @@ function initMic(done) {
   }
 }
 
+
+function showScore(score) {
+  $('#scoreHolder').empty();
+  $('<span/>', {
+    text: score
+  }).appendTo('#scoreHolder');
+  $('#sing').hide();
+  $('#score').show();
+}
+
+
 $(document).ready(function() {
   karaoke = new KaraokeApp();
   $('#signOut').hide();
-  $('.leaderboard').hide();
+  $('#leaderboard').hide();
+  $('#score').hide();
+
 
   $('#viewToggle').bind('click', function() {
     displayLeaderboard();
   });
+
 
   $('#searchForm').bind('submit', function() {
     event.preventDefault();
@@ -130,6 +156,14 @@ $(document).ready(function() {
     }
   });
 
+
+  $('#retryButton').bind('click', function() {
+    resetApp();
+    $('#score').hide();
+    $('#sing').show();
+  });
+
+
   $('#leaderboardForm').bind('submit', function() {
     event.preventDefault();
 
@@ -150,6 +184,7 @@ $(document).ready(function() {
       populateLeaderboard(endpoint, data);
   });
 
+
   $('#searchCategory').bind('change', function() {
     var category = $(this).serializeArray();
     if (category[0].value == 'bygenre') {
@@ -166,6 +201,7 @@ $(document).ready(function() {
     }
   });
 
+
   $('#recordButton').bind('click', function() {
     if (karaoke.song === null) {
       noSongError(true);
@@ -173,11 +209,33 @@ $(document).ready(function() {
     }
     if (micInit) {
       karaoke.start();
+      appRunning = true;
     }
     else {
-      initMic(function done() { karaoke.start(); });
+      initMic(function done() {
+        karaoke.start();
+        appRunning = true;
+      });
     }
-  })
+  });
+
+
+  $('#submitScoreButton').bind('click', function() {
+    if (!karaoke.userId) {
+      return;
+    }
+    $.post('/new-highscore', {
+      userId: karaoke.userId,
+      score: karaoke.score,
+      artist: karaoke.song.artist,
+      title: karaoke.song.title,
+    }).done(function(data) {
+      console.log(data);
+    });
+  });
+
+  // Enable this code and disable the below for a stop button
+  // also enable stop button in index.html
 
   $('#stopRecordingButton').bind('click', function() {
     userRecording = karaoke.finish();
@@ -190,9 +248,33 @@ $(document).ready(function() {
       data: fd,
       processData: false,
       contentType: false
-    }).done(function(data) {});
+    }).done(function(data) {
+      showScore(4);
+      karaoke.score = 4;
+      appRunning = false;
+    });
   });
+
+  // $('#instrumental').bind('ended', function() {
+  //   userRecording = karaoke.finish();
+  //   var fd = new FormData();
+  //   fd.append('recording', userRecording);
+
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: '/user-recording',
+  //     data: fd,
+  //     processData: false,
+  //     contentType: false
+  //   }).done(function(data) {
+  //     showScore(4);
+  //     karaoke.score = 4;
+  //     appRunning = false;
+  //   });
+  // });
+
 });
+
 
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {

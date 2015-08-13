@@ -3,7 +3,6 @@
   <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <meta name="google-signin-client_id" content="98912260752-p0mg22ek56jrj6rj83vkumuengmq2ktu.apps.googleusercontent.com">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -12,7 +11,9 @@
     Karaoke App
   </title>
   <body>
-    <div id='audioContainer'></div>
+    <div id='audioContainer'>
+      <audio id='instrumental'></audio>
+    </div>
     <div class="upperRight">
       <div id="googleWrapper">
         <div class="g-signin2 upperRight" data-onsuccess="onSignIn"></div>
@@ -23,7 +24,19 @@
       <div id="welcome"></div>
     </div>
     <div class="col-md-6 col-md-offset-3 menu">
-      <div class="menu-container leaderboard">
+      <div class="menu-container" id="score">
+        <div class="header leaderboardAdjust">
+          Score
+        </div>
+        <div id="scoreHolder">
+        </div>
+        <div class="buttonContainer">
+          <button class="btn btn-default" id="submitScoreButton">Submit Score</button>
+          <button class="btn btn-default" id="retryButton">Retry Song</button>
+        </div>
+      </div>
+
+      <div class="menu-container" id="leaderboard">
         <div class="header leaderboardAdjust">
           Leaderboards
         </div>
@@ -48,9 +61,9 @@
         </table>
       </div>
 
-      <div class="menu-container sing">
+      <div class="menu-container" id = "sing">
         <div class="header offset" id="header">
-          OScore
+          Karaoke
         </div>
         <form role="form" id="searchForm" class="form-inline row">
           <div class "form-group">
@@ -76,7 +89,7 @@
           </div>
           <div id="chosenSongContainer" class="form-control"></div>
         </form>
-        <div id="buttonContainer">
+        <div class="buttonContainer">
           <button class="btn btn-default" id="recordButton">Start Singing</button>
           <button class="btn btn-default" id="stopRecordingButton">Stop</button>
         </div>

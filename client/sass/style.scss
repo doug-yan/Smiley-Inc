@@ -18,6 +18,17 @@ form {
   margin-top: 45px;
 }
 
+#scoreHolder {
+  margin-top:15px;
+  margin-bottom: 15px;
+  font-size: 40px;
+  color: #DD94FF;
+  text-align:center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
+  display: inline-block;
+}
+
 .header {
   margin-top: 15px;
   color: #fff;
@@ -95,9 +106,9 @@ ul #searchResults {
 }
 
 #canvasContainer {
-  margin-top: 100px;
+  margin-top: 60px;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 #canvas {

@@ -26,6 +26,7 @@ createHiDPICanvas = function(w, h, ratio) {
 
 
 function Visualizer() {
+  this.visualizing = false;
   this.canvasHeight = 400;
   this.canvasWidth = 1000;
   this.context = createHiDPICanvas(this.canvasWidth, this.canvasHeight);
@@ -38,6 +39,7 @@ function Visualizer() {
 
 Visualizer.prototype.initializeUser = function(timeArray, freqArray) {
   this.freqArrayUser = freqArray;
+  this.visualizing = true;
   this.timeArrayUser = timeArray
 }
 
@@ -50,6 +52,9 @@ Visualizer.prototype.initializeAcapella = function(timeArray, freqArray) {
 
 
 Visualizer.prototype.visualizeStuff = function() {
+  if (!this.visualizing) {
+    return;
+  }
   this.context.lineWidth = 2;
   this.clearCanvas();
   if (!this.timeArrayAcapella || !this.freqArrayAcapella ||
@@ -59,8 +64,8 @@ Visualizer.prototype.visualizeStuff = function() {
     this.context.strokeStyle = 'rgba(255,0,0,0.4)';
 
     this.context.beginPath();
-    this.context.moveTo(i+135, 400);
-    this.context.lineTo(i+135, 400 - (this.freqArrayAcapella[i]*2));
+    this.context.moveTo(i+130, 400);
+    this.context.lineTo(i+130, 400 - (this.freqArrayAcapella[i]*2));
     this.context.closePath();
     this.context.stroke();
   }
@@ -81,8 +86,8 @@ Visualizer.prototype.visualizeStuff = function() {
   for (var i = 0; i < this.freqArrayUser.length; i++) {
     this.context.strokeStyle = 'rgba(255,215,0,0.4)';
     this.context.beginPath();
-    this.context.moveTo(i+135, 400);
-    this.context.lineTo(i+135, 400 - (this.freqArrayUser[i]*2));
+    this.context.moveTo(i+130, 400);
+    this.context.lineTo(i+130, 400 - (this.freqArrayUser[i]*2));
     this.context.closePath();
     this.context.stroke();
   }

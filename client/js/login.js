@@ -10,7 +10,9 @@ function onSignIn(googleUser) {
   $('#signOut').show();
 
   userId = profile.getId();
+  karaoke.userId = userId;
   username = profile.getName();
+
 }
 
 function signOut() {
