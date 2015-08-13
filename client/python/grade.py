@@ -79,7 +79,7 @@ def grade(reference, karaoke):
       cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
       cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
 
-  if super_error_count > karaoke_index / 2:
+  if super_error_count > karaoke_index / 4:
     return 'You failed! 💩💩💩'
   return error_amount / karaoke_index
 
@@ -87,7 +87,7 @@ def grade(reference, karaoke):
 def main():
   # reference_name = '30_Seconds_to_Mars_-_The_Kill.mp3'
   reference_name = sys.argv[1]
-  reference_name = '../audio/acapella/' + reference_name
+  reference_name = './client/audio/acapella/' + reference_name
 
   if len(sys.argv) == 2:
     print get_notes(reference_name)
