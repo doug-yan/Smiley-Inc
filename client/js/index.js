@@ -25,6 +25,7 @@ function addChosenSong(title, artist) {
 // add search results and click handler
 function addSearchResults(results) {
   noSongError(false);
+  console.log(results);
   results.forEach(function(song) {
     var title = song.title.replace(/_/g, ' ');
     var artist = song.artist.replace(/_/g, ' ');
@@ -103,6 +104,7 @@ $(document).ready(function() {
 
     //send search by genre
     if (searchCategory === 'bygenre') {
+      console.log('seraching');
       $.get('/songs-by-genre', {genre: searchGenre})
         .done(function(data) {
           addSearchResults(data);
@@ -171,12 +173,16 @@ $(document).ready(function() {
       noSongError(true);
       return;
     }
-    if (micInit) {
-      karaoke.start();
-    }
-    else {
-      initMic(function done() { karaoke.start(); });
-    }
+    $.get('/song-notes', {song: karaoke.getSong()})
+      .done(function(data) {
+        console.log(data);
+        if (micInit) {
+          karaoke.start();
+        }
+        else {
+          initMic(function done() { karaoke.start(); });
+        }
+      });
   })
 
   $('#stopRecordingButton').bind('click', function() {
@@ -190,7 +196,9 @@ $(document).ready(function() {
       data: fd,
       processData: false,
       contentType: false
-    }).done(function(data) {});
+    }).done(function(data) {
+      console.log(data);
+    });
   });
 });
 

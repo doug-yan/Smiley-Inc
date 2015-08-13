@@ -31,6 +31,14 @@ KaraokeApp.prototype.setSong = function(title, artist) {
 }
 
 
+KaraokeApp.prototype.getSong = function() {
+  if (this.song === null) {
+    return null
+  }
+  return '../audio/acapella/' + this.song.artist + '_-_' + this.song.title + '.mp3';
+}
+
+
 KaraokeApp.prototype.start = function() {
   this.userRecorder.callback = this.visualizeUser.bind(this);
   this.acapellaPlayer.callback = this.visualizeAcapella.bind(this);

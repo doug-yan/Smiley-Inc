@@ -185,20 +185,6 @@ app.get('/highscores-by-score', function(req, res) {
 });
 
 
-app.get('/song-notes', function(req, res) {
-  pythonShell.run('grade.py', { args: [req.song] }, function (err, results) {
-    res.send({notes: results});
-  });
-});
-
-
-app.post('/grade', function(req, res) {
-  pythonShell.run('grade.py', { args: [req.reference, req.karaoke] }, function (err, results) {
-    res.send({grade: results});
-  });
-});
-
-
 // Checks to see if the user has a new high score for a song,
 // if so the value is updated in the database
 // Sends false if the high score is not updated
@@ -227,9 +213,26 @@ app.post('/new-highscore', function(req, res) {
 });
 
 
+app.get('/song-notes', function(req, res) {
+  if (req.song === null) {
+    res.send({notes: []});
+  }
+  pythonShell.run('grade.py', { args: [req.song] }, function (err, results) {
+    res.send({notes: results});
+  });
+});
+
+
+app.post('/grade', function(req, res) {
+  pythonShell.run('grade.py', { args: [req.reference, req.karaoke] }, function (err, results) {
+    res.send({grade: results});
+  })
+});
+
+
 app.post('/user-recording', function(req, res) {
   var tmp_path = req.file.path;
-  var target_path = 'client/uploads/recording.wav';
+  var target_path = 'client/audio/karaoke/recording.wav';
 
   fs.rename(tmp_path, target_path, function(err) {
     if (err) {
@@ -240,6 +243,9 @@ app.post('/user-recording', function(req, res) {
         throw err;
       }
       else {
+        pythonShell.run('grade.py', { args: [req.reference, '../audio/karaoke/recording.wav']}, function (err, results) {
+          res.send({grade: results})
+        });
         res.send('Recording uploaded.');
       }
     })
