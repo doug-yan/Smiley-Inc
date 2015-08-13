@@ -96,9 +96,9 @@ function initMic(done) {
 
 
 function showScore(score) {
-  var explainText = ''
+  var explainText = '';
   if (score[0] !== 'Y') {
-    explainText = 'The average number of MIDI notes you were off by is:'
+    explainText = 'The average number of MIDI notes you were off by is:';
   }
   $('#scoreHolder').empty();
   $('<span/>', {
