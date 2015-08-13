@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import sys
 import os
@@ -74,14 +75,15 @@ def grade(reference, karaoke):
   #   row = [row[0][0], row[1][0], str(row[0][1]), str(row[1][1]), str(row[0][2]), str(row[1][2])]
   #   print " ".join(note for note in row)
 
-  error_count = 0
+  super_error_count = 0
   error_amount = 0
-  error_cutoff = 22 # 2 midi octaves
+  error_cutoff = 11 # 2 midi octaves
 
   reference, karaoke = notes_to_ints(reference, karaoke)
   reference, karaoke = regularize_times(reference, karaoke)
 
   karaoke_index = 0
+
   for i in range(len(reference) - 1):
     cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
     cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
@@ -91,25 +93,29 @@ def grade(reference, karaoke):
 
       if cur_error < error_cutoff:
         error_amount += cur_error
+      else:
+        super_error_count += 1
 
       karaoke_index += 1
       cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
       cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
 
+  if super_error_count > karaoke_index / 2:
+    return 'You failed! 💩💩💩'
   return error_amount / karaoke_index
 
 
 def main():
-  # reference_name = 'Titanium_-_Sia.mp3'
-  reference_name = sys.argv[1]
+  reference_name = '30_Seconds_to_Mars_-_The_Kill.mp3'
+  # reference_name = sys.argv[1]
   reference_name = '../audio/acapella/' + reference_name
 
   if len(sys.argv) == 2:
     print get_notes(reference_name)
     return 0
 
-  # karaoke_name = '../audio/karaoke/Karaoke_Titanium_-_Sia.m4a'
-  karaoke_name = sys.argv[2] # Gotta figure out how this is stored
+  karaoke_name = '../audio/karaoke/Karaoke_Titanium_-_Sia.m4a'
+  # karaoke_name = sys.argv[2] # Gotta figure out how this is stored
 
   ref_notes = get_notes(reference_name)
   karaoke_notes = get_notes(karaoke_name)
