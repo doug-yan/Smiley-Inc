@@ -46,6 +46,7 @@ pg.connect(dburl, function(err, connectClient) {
   var preparedStatements = [
     "PREPARE songs_by_genre (text) AS SELECT * FROM songs WHERE genre = $1;",
     "PREPARE songs_by_artist (text) AS SELECT * FROM songs WHERE artist = $1;",
+    "PREPARE songs_by_song (text) AS SELECT * FROM songs WHERE title = $1 AND artist = $2;",
     "PREPARE highscores_by_song (text) AS SELECT name, picture, score FROM highscores WHERE artist = $1 AND title = $2 ORDER BY score desc LIMIT 100;",
     "PREPARE highscores_by_userId (text) AS SELECT title, name, picture, artist, score FROM highscores WHERE userId = $1 ORDER BY score desc LIMIT 100;",
     "PREPARE highscores_by_artist (text) AS SELECT name, picture, title, highest FROM highscores, " +
@@ -129,6 +130,18 @@ app.get('/songs-by-artist', function (req, res) {
     res.send('Please enter parameters in your request to /songs-by-artist specifying artist.');
   else
     query(res, "EXECUTE songs_by_artist ('" + artist + "');");
+});
+
+
+// Querying songs by song
+app.get('/songs-by-song', function (req, res) {
+  var title = req.query.title;
+  var artist = req.query.artist;
+
+  if(!title || !artist)
+    res.send('Please enter parameters in your request to /songs-by-artist specifying artist.');
+  else
+    query(res, "EXECUTE songs_by_song ('" + title + "', '" + artist + "');");
 });
 
 
