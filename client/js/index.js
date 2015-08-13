@@ -59,30 +59,31 @@ function noSongError(error) {
 }
 
 
-function initMic() {
-  micInit = true;
+function initMic(done) {
   if (!navigator.getUserMedia)
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
   if (navigator.getUserMedia) {
-    navigator.getUserMedia({audio:true}, success, function(e) {
-      console.warn('Error capturing audio.');
-    });
+    navigator.getUserMedia(
+      {audio:true},
+      function(e) {
+        micInit = true;
+        karaoke.userRecorder.setupAudioStream(e);
+        done();
+      },
+      function(e) {
+        console.warn('Error capturing audio.');
+      }
+    );
   }
   else {
     console.warn('getUserMedia not supported in this browser.');
   }
 }
 
-function success(e) {
-  karaoke.userRecorder.setupAudioStream(e);
-}
-
-
 $(document).ready(function() {
   karaoke = new KaraokeApp();
-
   $('#signOut').hide();
   $('.leaderboard').hide();
 
@@ -109,6 +110,26 @@ $(document).ready(function() {
     }
   });
 
+  $('#leaderboardForm').bind('submit', function() {
+    event.preventDefault();
+
+    //parse form
+    var formData = $(this).serializeArray();
+    var input = formData[0].value;
+    var endpoint = formData[1].value;
+    var data = {};
+    var filter = filterSelection(endpoint);
+
+    // Build object
+    data[filter] = input.replace(/ /g, '_');
+
+    if(filter === 'song' && input)
+      data = filterBySong(input);
+
+    if(idCheck(filter, input))
+      populateLeaderboard(endpoint, data);
+  });
+
   $('#searchCategory').bind('change', function() {
     var category = $(this).serializeArray();
     if (category[0].value == 'bygenre') {
@@ -130,10 +151,12 @@ $(document).ready(function() {
       noSongError(true);
       return;
     }
-    if (!micInit) {
-      initMic();
+    if (micInit) {
+      karaoke.start();
     }
-    karaoke.start();
+    else {
+      initMic(function done() { karaoke.start(); });
+    }
   })
 
   $('#stopRecordingButton').bind('click', function() {
