@@ -80,12 +80,15 @@ function leaderboardSelect() {
       newVal = 'Please sign in first';
       break;
     case '/highscores-by-song':
+      $('#leaderboardFilter').attr('value', '');
       newVal = 'Taylor Swift - Shake it Off';
       break;
     case '/highscores-by-artist':
+      $('#leaderboardFilter').attr('value', '');
       newVal = 'Taylor Swift';
       break;
     default:
+      $('#leaderboardFilter').attr('value', '');
       newVal = 'No input needed';
   }
 
