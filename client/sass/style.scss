@@ -14,27 +14,20 @@ form {
   margin-bottom: 5px;
 }
 
-#header {
+.leaderboardAdjust {
+  margin-top: 45px;
+}
+
+.header {
+  margin-top: 15px;
   color: #fff;
   font-size: 55px;
   text-transform: uppercase;
-  padding: 10px;
-  padding-top: 50px;
-  padding-bottom: 30px;
+  padding: 0px !important;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
 }
 
-#leaderboardHeader {
-  @extend #header;
-  padding-bottom: 0px;
-}
-
-#leaderboardHeaders {
-  th {
-    text-transform: uppercase;
-  }
-}
 
 #lyricsContainer {
   font-size: 34px;
@@ -106,18 +99,21 @@ ul #searchResults {
 }
 
 #canvas {
-  padding-top:50px;
+  padding-top: 50px;
   display: inline-block;
 }
 
-.upperLeft {
+.upperRight {
   margin-left: 20px;
   margin-top: 15px;
+  display: inline-block;
+  float: right;
 }
 
 #welcome {
   font-size: 120%;
   display: inline;
+  margin-right: 20px;
 }
 
 #userPic {
@@ -129,16 +125,15 @@ ul #searchResults {
   padding-left: 10px;
 }
 
+#googleWrapper {
+  display: inline-block;
+  height: 37px;
+}
+
 #lyricsContainer {
   width: 500px;
   margin-left: auto;
   margin-right: auto;
-}
-
-marquee {
-  behavior: scroll;
-  direction: right;
-  margin-left: auto;
 }
 
 .userPic {
@@ -159,4 +154,12 @@ td {
 
 .header {
   padding: 10px;
+}
+
+th {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 2px 2px 0 #4A4857, -.5px -.5px 0 #4A4857, .5px -.5px 0 #4A4857, -.5px .5px 0 #4A4857, .5px .5px 0 #4A4857;
+  color:white;
+  text-transform: uppercase;
+  font-size: 120%;
 }

@@ -33,18 +33,20 @@ function populateLeaderboard(endpoint, data) {
 
 
 function populateHelper(data) {
+  $('#leaderboardHeaders').append('<th>name</th>');
+
   for(key in data[0]) {
-    if(key !== 'picture')
-      $('#leaderboardHeaders').append('<th>' + key[0].toUpperCase() + key.slice(1) + '</th>');
+    if(key !== 'picture' && key !== 'name')
+      $('#leaderboardHeaders').append('<th>' + key + '</th>');
   }
 
   data.forEach(function(entry) {
     var tuple = '<tr>';
 
+    tuple += '<td><img class=\"userPic picture\" src=\"' + entry.picture + '\"</img>' + entry.name + '</td>';
     for(key in entry) {
       switch(key) {
         case 'name':
-          tuple += '<td><img class=\"userPic picture\" src=\"' + entry.picture + '\"</img>' + entry.name + '</td>';
           break;
         case 'picture':
           break;
@@ -69,7 +71,7 @@ function leaderboardSelect() {
   var newVal;
 
   switch($('#leaderboardCategory').val()) {
-    case '/highscores-by-user':
+    case '/highscores-by-userId':
       if(userId) {
         $('#leaderboardForm').trigger('reset');
         $('#myHighscores').attr('selected', 'selected');
@@ -80,12 +82,15 @@ function leaderboardSelect() {
       newVal = 'Please sign in first';
       break;
     case '/highscores-by-song':
+      $('#leaderboardFilter').attr('value', '');
       newVal = 'Taylor Swift - Shake it Off';
       break;
     case '/highscores-by-artist':
+      $('#leaderboardFilter').attr('value', '');
       newVal = 'Taylor Swift';
       break;
     default:
+      $('#leaderboardFilter').attr('value', '');
       newVal = 'No input needed';
   }
 
@@ -95,7 +100,7 @@ function leaderboardSelect() {
 
 function filterSelection(endpoint) {
   switch(endpoint) {
-    case '/highscores-by-user':
+    case '/highscores-by-userId':
       return 'userId';
     case '/highscores-by-song':
       return 'song';
