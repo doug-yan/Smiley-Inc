@@ -187,7 +187,6 @@ app.get('/highscores-by-score', function(req, res) {
 
 app.get('/song-notes', function(req, res) {
   pythonShell.run('grade.py', { args: [req.song] }, function (err, results) {
-    console.log(results);
     res.send({notes: results});
   });
 });
@@ -195,7 +194,6 @@ app.get('/song-notes', function(req, res) {
 
 app.post('/grade', function(req, res) {
   pythonShell.run('grade.py', { args: [req.reference, req.karaoke], function (err, results) {
-    console.log(results);
     res.send({grade: results});
   }})
 });
