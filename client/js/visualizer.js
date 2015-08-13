@@ -52,8 +52,8 @@ Visualizer.prototype.initializeAcapella = function(timeArray, freqArray) {
 Visualizer.prototype.visualizeStuff = function() {
   this.context.lineWidth = 2;
   this.clearCanvas();
-  if (this.timeArrayAcapella === null || this.freqArrayAcapella === null ||
-    this.timeArrayUser === null || this.freqArrayUser === null) return;
+  if (!this.timeArrayAcapella || !this.freqArrayAcapella ||
+    !this.timeArrayUser || !this.freqArrayUser) return;
 
   for (var i = 0; i < this.freqArrayAcapella.length; i++) {
     this.context.strokeStyle = 'rgba(255,0,0,0.4)';
