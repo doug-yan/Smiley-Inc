@@ -8,6 +8,9 @@ var path = require('path');
 var multer = require('multer');
 var sassMiddleware = require('node-sass-middleware');
 var bodyParser = require('body-parser');
+var pythonShell = require('python-shell');
+
+pythonShell.defaultOptions = { scriptPath: '../python' };
 
 app.use(sassMiddleware({
     /* Options */
@@ -155,7 +158,7 @@ app.get('/highscores-by-userId', function(req, res) {
 // Query highscores by all songs of an artist
 app.get('/highscores-by-artist', function(req, res) {
   var artist = req.query.artist;
-  
+
   if(!artist)
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
   else
@@ -166,6 +169,22 @@ app.get('/highscores-by-artist', function(req, res) {
 // Query highscores by score
 app.get('/highscores-by-score', function(req, res) {
   query(res, "EXECUTE highscores_by_score;");
+});
+
+
+app.get('/song-notes', function(req, res) {
+  pythonShell.run('grade.py', { args: [req.song] }, function (err, results) {
+    console.log(results);
+    res.send({notes: results});
+  });
+});
+
+
+app.post('/grade', function(req, res) {
+  pythonShell.run('grade.py', { args: [req.reference, req.karaoke], function (err, results) {
+    console.log(results);
+    res.send({grade: results});
+  }})
 });
 
 
