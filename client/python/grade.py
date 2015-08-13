@@ -40,16 +40,21 @@ def get_notes(filename):
 
 '''
   Grading scheme 1: cumulative error
-    Go through both lists of notes, counting number of incorrect notes
-    If their lengths aren't the same, extra notes are counted wrong
-    No attention is paid to timing, nor magnitude of difference
+    Go through both lists of notes
+    To determine how notes are lined up:
+      The time difference is less than one second
+      AND
+        Time difference between current reference note and karaoke note is less than
+          time difference between next reference note and karaoke note
+        OR
+        Note error between current reference note and karaoke note is less than
+          time difference between next reference note and karaoke note
+    Error isn't counted when difference is greater than an octave
+      HOWEVER, such comparisons are counted, and if more than half of all comparisons have more
+        than that error, total failure is returned
+    Returns average error over all compared notes
 '''
 def grade(reference, karaoke):
-  # reference, karaoke = regularize_times(reference, karaoke)
-  # for row in zip(reference[0:50], karaoke[0:50]):
-  #   row = [row[0][0], row[1][0], str(row[0][1]), str(row[1][1]), str(row[0][2]), str(row[1][2])]
-  #   print " ".join(note for note in row)
-
   super_error_count = 0
   error_amount = 0
   error_cutoff = 11 # 2 midi octaves
