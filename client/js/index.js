@@ -121,13 +121,11 @@ $(document).ready(function() {
     // Build object
     data[filter] = input.replace(/ /g, '_');
 
-    if(filter === 'song')
+    if(filter === 'song' && input)
       data = filterBySong(input);
 
-    if(idCheck(filter, input)) {
-      clearLeaderboard();
+    if(idCheck(filter, input))
       populateLeaderboard(endpoint, data);
-    }
   });
 
   $('#searchCategory').bind('change', function() {
