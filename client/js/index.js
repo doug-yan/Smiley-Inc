@@ -24,23 +24,28 @@ function addChosenSong(title, artist) {
 
 // add search results and click handler
 function addSearchResults(results) {
-  noSongError(false);
-  results.forEach(function(song) {
-    var title = song.title.replace(/_/g, ' ');
-    var artist = song.artist.replace(/_/g, ' ');
-    $('<li/>').append(
-      $('<span/>', {
-        text: title + ' - ' + artist + ' (' + song.genre + ')',
-        click: function() {
-          clearSearchResults();
-          noSongError(false);
-          addChosenSong(title, artist);
-          karaoke.setSong(song.title, song.artist);
-        }
-      }))
-        .appendTo('#searchResults');
-  $('#searchResultsContainer').css('display','inline-block');
-  });
+  if(results) {
+    noSongError(false);
+    results.forEach(function(song) {
+      var title = song.title.replace(/_/g, ' ');
+      var artist = song.artist.replace(/_/g, ' ');
+      $('<li/>').append(
+        $('<span/>', {
+          text: title + ' - ' + artist + ' (' + song.genre + ')',
+          click: function() {
+            clearSearchResults();
+            noSongError(false);
+            addChosenSong(title, artist);
+            karaoke.setSong(song.title, song.artist);
+          }
+        }))
+          .appendTo('#searchResults');
+    $('#searchResultsContainer').css('display','inline-block');
+    });
+  }
+  else {
+    
+  }
 }
 
 
@@ -158,11 +163,11 @@ $(document).ready(function() {
     }
     else if (category[0].value == 'byartist') {
       $('#searchGenre').hide();
-      $('#searchInput').attr('placeholder','Search for a song to play by artist.').show();
+      $('#searchInput').attr('placeholder','Taylor Swift').show();
     }
     else {
       $('#searchGenre').hide();
-      $('#searchInput').attr('placeholder','Search for a song to play by song name.').show();
+      $('#searchInput').attr('placeholder','Taylor Swift - Shake it Off').show();
     }
   });
 
