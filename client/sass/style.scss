@@ -14,12 +14,19 @@ form {
   margin-bottom: 5px;
 }
 
+.offset {
+  margin-top: -20px;
+}
+
+.leaderboardAdjust {
+  margin-top: 45px;  
+}
+
 #header {
   color: #fff;
   font-size: 55px;
   text-transform: uppercase;
   padding: 10px;
-  padding-top: 20px;
   padding-bottom: 30px;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
@@ -106,7 +113,7 @@ ul #searchResults {
 }
 
 #canvas {
-  padding-top:50px;
+  padding-top: 50px;
   display: inline-block;
 }
 
