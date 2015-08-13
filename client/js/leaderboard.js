@@ -1,6 +1,7 @@
 function displayLeaderboard() {
-  $('.sing').hide();
-  $('.leaderboard').show();
+  $('#sing').hide();
+  $('#score').hide();
+  $('#leaderboard').show();
   $('#viewToggle').html('Sing');
   $('#viewToggle').unbind('click');
   $('#viewToggle').bind('click', function() {
@@ -12,8 +13,11 @@ function displayLeaderboard() {
 
 
 function displayKaraoke() {
-  $('.sing').show();
-  $('.leaderboard').hide();
+  $('#sing').show();
+  if (appRunning == false) {
+    resetApp();
+  }
+  $('#leaderboard').hide();
   $('#viewToggle').html('Leaderboards');
   $('#viewToggle').unbind('click');
   $('#viewToggle').bind('click', function() {

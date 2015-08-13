@@ -1,12 +1,13 @@
 // play acapella in the background for the visualizer
 // the user doesn't hear it
 function handleAudioStreamSP(e) {
-  karaoke.acapellaPlayer.handleAudioStream(e);
+  if (appRunning) {
+    karaoke.acapellaPlayer.handleAudioStream(e);
+  }
 }
 
 function SilentPlayer(audioSource) {
   this.audio = new Audio();
-  this.audio.src = audioSource;
   this.audio.controls = false;
   $('#audioContainer').append(this.audio);
 
@@ -14,6 +15,9 @@ function SilentPlayer(audioSource) {
   this.volume = this.audioInput = this.analyserNode = this.timeArray = this.freqArray = null;
 }
 
+SilentPlayer.prototype.setSong = function(source) {
+  this.audio.src = source;
+}
 
 SilentPlayer.prototype.visualize = function(timeArray, freqArray) {
   this.callback(timeArray, freqArray);

@@ -1,11 +1,12 @@
 function KaraokeApp() {
+  this.userID = null;
+  this.score = null;
   this.visualizer = new Visualizer();
   this.userRecorder = new RecordingObject();
-  this.acapellaPlayer = null;
+  this.acapellaPlayer = new SilentPlayer();
   this.song = null;
   this.lyrics = null;
-  this.audio = new Audio();
-  $('#audioContainer').append(this.audio);
+  this.audio = document.getElementById('instrumental');
 }
 
 
@@ -26,7 +27,7 @@ KaraokeApp.prototype.setSong = function(title, artist) {
   }
   this.lyrics = artist + '_-_' + title;
   this.audio.src = '../audio/instrumental/' + artist + '_-_' + title + '.mp3';
-  this.acapellaPlayer = new SilentPlayer('../audio/acapella/' + artist + '_-_' + title + '.mp3');
+  this.acapellaPlayer.setSong('../audio/acapella/' + artist + '_-_' + title + '.mp3');
   this.audio.load();
 }
 
@@ -52,6 +53,7 @@ KaraokeApp.prototype.start = function() {
 
 KaraokeApp.prototype.finish = function() {
   this.audio.pause();
+  this.visualizer.visualizing = false;
   this.acapellaPlayer.toggleAcapella();
   return this.userRecorder.stopRecording();
 }
