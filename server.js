@@ -113,8 +113,8 @@ app.get('/songs-by-genre', function (req, res) {
   var genre = req.query.genre;
   if(!genre)
     res.send('Please enter parameters in your request to /songs-by-genre specifying genre.');
-
-  query(res, "EXECUTE songs_by_genre ('" + genre + "');");
+  else
+    query(res, "EXECUTE songs_by_genre ('" + genre + "');");
 });
 
 
@@ -124,8 +124,8 @@ app.get('/songs-by-artist', function (req, res) {
 
   if(!artist)
     res.send('Please enter parameters in your request to /songs-by-artist specifying artist.');
-
-  query(res, "EXECUTE songs_by_artist ('" + artist + "');");
+  else
+    query(res, "EXECUTE songs_by_artist ('" + artist + "');");
 });
 
 
@@ -136,8 +136,8 @@ app.get('/highscores-by-song', function (req, res) {
 
   if(!title || !artist)
     res.send('Please enter parameters in your request to /highscores-by-song specifying title and artist.');
-
-  query(res, "EXECUTE highscores_by_song ('" + artist + "', '" + title + "');");
+  else
+    query(res, "EXECUTE highscores_by_song ('" + artist + "', '" + title + "');");
 });
 
 
@@ -147,18 +147,19 @@ app.get('/highscores-by-userId', function(req, res) {
 
   if(!userId)
     req.send('Please enter parameters in your request to /highscores-by-user specifying userId.');
-
-  query(res, "EXECUTE highscores_by_userId ('" + userId + "');");
+  else
+    query(res, "EXECUTE highscores_by_userId ('" + userId + "');");
 });
 
 
 // Query highscores by all songs of an artist
 app.get('/highscores-by-artist', function(req, res) {
   var artist = req.query.artist;
+  
   if(!artist)
     req.send('Please enter parameters in your request to /highscores-by-artist specifying artist.');
-
-  query(res, "EXECUTE highscores_by_artist ('" + artist + "');");
+  else
+    query(res, "EXECUTE highscores_by_artist ('" + artist + "');");
 });
 
 
