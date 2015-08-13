@@ -8,6 +8,9 @@ var path = require('path');
 var multer = require('multer');
 var sassMiddleware = require('node-sass-middleware');
 var bodyParser = require('body-parser');
+var pythonShell = require('python-shell');
+
+pythonShell.defaultOptions = { scriptPath: '../python' };
 
 app.use(sassMiddleware({
     /* Options */
@@ -46,7 +49,7 @@ pg.connect(dburl, function(err, connectClient) {
     "PREPARE songs_by_song (text) AS SELECT * FROM songs WHERE title = $1 AND artist = $2;",
     "PREPARE highscores_by_song (text) AS SELECT name, picture, score FROM highscores WHERE artist = $1 AND title = $2 ORDER BY score desc LIMIT 100;",
     "PREPARE highscores_by_userId (text) AS SELECT title, name, picture, artist, score FROM highscores WHERE userId = $1 ORDER BY score desc LIMIT 100;",
-    "PREPARE highscores_by_artist (text) AS SELECT name, picture, title, highest FROM highscores, " +
+    "PREPARE highscores_by_artist (text) AS SELECT name, picture, title, score FROM highscores, " +
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1 ORDER BY highest DESC;",
     "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;",
@@ -179,6 +182,20 @@ app.get('/highscores-by-artist', function(req, res) {
 // Query highscores by score
 app.get('/highscores-by-score', function(req, res) {
   query(res, "EXECUTE highscores_by_score;");
+});
+
+
+app.get('/song-notes', function(req, res) {
+  pythonShell.run('grade.py', { args: [req.song] }, function (err, results) {
+    res.send({notes: results});
+  });
+});
+
+
+app.post('/grade', function(req, res) {
+  pythonShell.run('grade.py', { args: [req.reference, req.karaoke], function (err, results) {
+    res.send({grade: results});
+  }})
 });
 
 

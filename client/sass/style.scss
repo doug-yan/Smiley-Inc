@@ -29,12 +29,6 @@ form {
 }
 
 
-#leaderboardHeaders {
-  th {
-    text-transform: uppercase;
-  }
-}
-
 #lyricsContainer {
   font-size: 34px;
   color: #FFD724;
@@ -161,4 +155,12 @@ td {
 
 .header {
   padding: 10px;
+}
+
+th {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  text-shadow: 2px 2px 0 #4A4857, -.5px -.5px 0 #4A4857, .5px -.5px 0 #4A4857, -.5px .5px 0 #4A4857, .5px .5px 0 #4A4857;
+  color:white;
+  text-transform: uppercase;
+  font-size: 120%;
 }
