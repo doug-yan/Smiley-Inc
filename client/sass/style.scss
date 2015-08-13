@@ -19,7 +19,7 @@ form {
   font-size: 55px;
   text-transform: uppercase;
   padding: 10px;
-  padding-top: 50px;
+  padding-top: 20px;
   padding-bottom: 30px;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   text-shadow: 3px 3px 0 #4A4857, -1px -1px 0 #4A4857, 1px -1px 0 #4A4857, -1px 1px 0 #4A4857, 1px 1px 0 #4A4857;
@@ -110,14 +110,17 @@ ul #searchResults {
   display: inline-block;
 }
 
-.upperLeft {
+.upperRight {
   margin-left: 20px;
   margin-top: 15px;
+  display: inline-block;
+  float: right;
 }
 
 #welcome {
   font-size: 120%;
   display: inline;
+  margin-right: 20px;
 }
 
 #userPic {
@@ -129,16 +132,15 @@ ul #searchResults {
   padding-left: 10px;
 }
 
+#googleWrapper {
+  display: inline-block;
+  height: 37px;
+}
+
 #lyricsContainer {
   width: 500px;
   margin-left: auto;
   margin-right: auto;
-}
-
-marquee {
-  behavior: scroll;
-  direction: right;
-  margin-left: auto;
 }
 
 .userPic {
