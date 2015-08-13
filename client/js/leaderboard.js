@@ -35,7 +35,7 @@ function populateLeaderboard(endpoint, data) {
 function populateHelper(data) {
   for(key in data[0]) {
     if(key !== 'picture')
-      $('#leaderboardHeaders').append('<th>' + key[0].toUpperCase() + key.slice(1) + '</th>');
+      $('#leaderboardHeaders').append('<th>' + key + '</th>');
   }
 
   data.forEach(function(entry) {
