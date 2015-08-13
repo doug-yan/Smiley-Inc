@@ -102,8 +102,28 @@ $(document).ready(function() {
     searchCategory = formData[2].value;
 
     //send search by genre
-    if (searchCategory == 'bygenre') {
+    if (searchCategory === 'bygenre') {
       $.get('/songs-by-genre', {genre: searchGenre})
+        .done(function(data) {
+          addSearchResults(data);
+        });
+    }
+
+    //send search by artist
+    if (searchCategory === 'byartist') {
+      searchInput = toTitleCase(searchInput).replace(/ /g, '_');
+      $.get('/songs-by-artist', {artist: searchInput})
+        .done(function(data) {
+          addSearchResults(data);
+        });
+    }
+
+    //send search by song
+    if (searchCategory === 'bysong') {
+      song = toTitleCase(searchInput).replace(/ /g, '_');
+      var artist = song.substr(0, song.indexOf('-') - 1);
+      var title = song.substr(song.indexOf('-') + 2);
+      $.get('/songs-by-song', {artist: artist, title: title})
         .done(function(data) {
           addSearchResults(data);
         });
@@ -173,3 +193,9 @@ $(document).ready(function() {
     }).done(function(data) {});
   });
 });
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
