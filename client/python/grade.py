@@ -8,31 +8,6 @@ import subprocess
 import aubio
 from aubio import source, onset, freqtomidi
 
-def get_notes_with_onsets(song, win_s = 512, hop_s = 256, samplerate = 44100, tolerance = 0.8):
-  pitch_o = aubio.pitch("yin", win_s, hop_s, samplerate)
-  pitch_o.set_unit("midi")
-  pitch_o.set_tolerance(tolerance)
-  o = onset("default", win_s, hop_s, samplerate)
-
-  notes = []
-
-  while True:
-    samples, read = song()
-    pitch = pitch_o(samples)[0]
-    if pitch < 1 and read == hop_s: # Removes silence -- should we keep it instead?
-      continue
-    confidence = pitch_o.get_confidence()
-    if confidence < tolerance and read == hop_s: # Aren't sure enough about reading this note
-      continue
-    if o(samples): # Reached a new note
-      notes.append((o.get_last(), [(pitch, confidence)]))
-    else:
-      if len(notes) == 0: continue
-      notes[-1][1].append((pitch, confidence))
-    if read < hop_s: break
-  return notes
-
-
 def regularize_times(reference, karaoke):
   first_time = reference[0][1]
   for note_row in reference:
@@ -50,7 +25,7 @@ def notes_to_ints(reference, karaoke):
     reference[i] = [eval(num) for num in reference[i]]
   for i in range(len(karaoke)):
     karaoke[i] = [eval(num) for num in karaoke[i]]
-  return reference, karaoke
+  return regularize_times(reference, karaoke)
 
 
 '''
@@ -80,7 +55,6 @@ def grade(reference, karaoke):
   error_cutoff = 11 # 2 midi octaves
 
   reference, karaoke = notes_to_ints(reference, karaoke)
-  reference, karaoke = regularize_times(reference, karaoke)
 
   karaoke_index = 0
 
@@ -106,16 +80,16 @@ def grade(reference, karaoke):
 
 
 def main():
-  reference_name = '30_Seconds_to_Mars_-_The_Kill.mp3'
-  # reference_name = sys.argv[1]
+  # reference_name = '30_Seconds_to_Mars_-_The_Kill.mp3'
+  reference_name = sys.argv[1]
   reference_name = '../audio/acapella/' + reference_name
 
   if len(sys.argv) == 2:
     print get_notes(reference_name)
     return 0
 
-  karaoke_name = '../audio/karaoke/Karaoke_Titanium_-_Sia.m4a'
-  # karaoke_name = sys.argv[2] # Gotta figure out how this is stored
+  # karaoke_name = '../audio/karaoke/Karaoke_Titanium_-_Sia.m4a'
+  karaoke_name = sys.argv[2] # Gotta figure out how this is stored
 
   ref_notes = get_notes(reference_name)
   karaoke_notes = get_notes(karaoke_name)
