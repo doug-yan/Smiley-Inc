@@ -107,8 +107,6 @@ function showScore(score) {
   $('<span/>', {
     text: explainText
   }).appendTo('#explanation');
-  $('#sing').hide();
-  $('#score').show();
 }
 
 
@@ -267,6 +265,12 @@ $(document).ready(function() {
   // });
 
   $('#instrumental').bind('ended', function() {
+    $('#scoreHolder').empty()
+    $('<span/>', {
+      text: 'Grading, please wait...'
+    }).appendTo('#scoreHolder');
+    $('#sing').hide();
+    $('#score').show();
     userRecording = karaoke.finish();
     var fd = new FormData();
     fd.append('recording', userRecording);
