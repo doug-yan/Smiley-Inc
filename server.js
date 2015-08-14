@@ -52,6 +52,7 @@ pg.connect(dburl, function(err, connectClient) {
     "PREPARE highscores_by_artist (text) AS SELECT name, picture, title, score FROM highscores, " +
      "(SELECT MAX(score) AS highest FROM highscores WHERE artist = $1 GROUP BY title) AS highest " +
      "WHERE highest = score AND artist = $1 ORDER BY highest DESC;",
+    "PREPARE insert_highscore (integer, text) AS INSERT INTO highscores VALUES ($2, $3, $4, $5, $6, $1);",
     "PREPARE new_highscore (integer, text) AS UPDATE highscores SET score = $1 WHERE userId = $2 AND title = $3 AND artist = $4;",
     "PREPARE highscore_check (text) AS SELECT score FROM highscores WHERE userId = $1 AND title = $2 AND artist = $3;",
     "PREPARE highscores_by_score AS SELECT name, picture, title, artist, score FROM highscores ORDER BY score desc LIMIT 100;"
@@ -83,10 +84,12 @@ app.get('/', function (req, res, next) {
 // Query Thing
 function query(res, query) {
   client.query(query, function(err, results) {
-    if(err)
-      res.send(err);
-    else if(res)
-      res.send(results.rows);
+    if(res) {
+      if(err)
+        res.send(err);
+      else if(res)
+        res.send(results.rows);
+    }
   });
 }
 
@@ -197,6 +200,8 @@ app.get('/highscores-by-score', function(req, res) {
 */
 app.post('/new-highscore', function(req, res) {
   var userId = req.body.userId;
+  var userPic = req.body.userPic;
+  var name = req.body.userName;
   var score = req.body.score;
   var title = req.body.title;
   var artist = req.body.artist;
@@ -204,6 +209,7 @@ app.post('/new-highscore', function(req, res) {
   serverQuery("EXECUTE highscore_check ('" + userId + "', '" + title + "', '" + artist + "');", function(err, results) {
     // New Highscore
     if(!results.rowCount || score > results.rows[0].score) {
+      query(null, "EXECUTE insert_highscore (" + score + ", '" + userId + "', '" + name + "', '" + userPic + "', '" + title + "', '" + artist + "');");
       query(null, "EXECUTE new_highscore (" + score + ", '" + userId + "', '" + title + "', '" + artist + "');");
       res.send({status: 'updated', score: score});
     }

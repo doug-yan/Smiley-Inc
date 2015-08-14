@@ -11,8 +11,9 @@ function onSignIn(googleUser) {
 
   userId = profile.getId();
   karaoke.userId = userId;
+  karaoke.userPic = profile.getImageUrl();
+  karaoke.userName = profile.getName();
   username = profile.getName();
-
 }
 
 function signOut() {
