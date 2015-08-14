@@ -92,7 +92,9 @@ def grade(reference, karaoke):
         super_error_count += 1
 
   if super_error_count > 2 * len(karaoke) / 5:
+    print 1
     return 'You failed! 💩💩💩'
+  print 0
   return error_amount / (len(karaoke) - super_error_count)
 
 

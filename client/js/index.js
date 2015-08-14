@@ -97,12 +97,11 @@ function initMic(done) {
 
 function showScore(score) {
   var explainText = '';
-  if (score[0] !== 'Y') {
+  if (score[0] !== 'You failed! 💩💩💩')
     explainText = 'The average number of MIDI notes you were off by is:';
-  }
   $('#scoreHolder').empty();
   $('<span/>', {
-    text: score
+    text: score[1]
   }).appendTo('#scoreHolder');
   $('<span/>', {
     text: explainText
@@ -239,6 +238,7 @@ $(document).ready(function() {
       title: karaoke.song.title,
     }).done(function(data) {
       //TODO ENDGAME
+      errorOut('Score submitted');
     });
   });
 
@@ -283,9 +283,14 @@ $(document).ready(function() {
       processData: false,
       contentType: false
     }).done(function(data) {
-      var grade = (16 - data.grade) * 100;
-      showScore(grade);
-      karaoke.score = grade;
+      if (data.grade[0] !== '1') {
+        data.grade[1] = (16 - data.grade[1]) * 100;
+        karaoke.score = data.grade[1];
+      }
+      else {
+        karaoke.score = 0;
+      }
+      showScore(data.grade);
       appRunning = false;
     });
   });
