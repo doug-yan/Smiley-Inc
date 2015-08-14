@@ -5,8 +5,6 @@ import sys
 import os
 import numpy as np
 import subprocess
-import aubio
-from aubio import source, onset, freqtomidi
 
 def regularize_times(reference, karaoke):
   ref_first_time = reference[0][1]
