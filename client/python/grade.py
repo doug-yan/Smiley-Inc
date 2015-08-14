@@ -81,7 +81,7 @@ def grade(reference, karaoke):
 
   if super_error_count > karaoke_index / 2:
     return 'You failed! 💩💩💩'
-  return error_amount / karaoke_index
+  return error_amount / (karaoke_index - super_error_count)
 
 
 def main():
