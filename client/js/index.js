@@ -246,28 +246,7 @@ $(document).ready(function() {
 
   // Enable this code and disable the below for a stop button
   // also enable stop button in index.html
-  $('#stopRecordingButton').bind('click', function() {
-    userRecording = karaoke.finish();
-    var fd = new FormData();
-    fd.append('recording', userRecording);
-    fd.append('reference', karaoke.getSong());
-
-    $.ajax({
-      type: 'POST',
-      url: '/user-recording',
-      data: fd,
-      processData: false,
-      contentType: false
-    }).done(function(data) {
-      data.grade = 4.34;
-      var grade = (16 - data.grade) * 100;
-      showScore(grade);
-      karaoke.score = grade;
-      appRunning = false;
-    });
-  });
-
-  // $('#instrumental').bind('ended', function() {
+  // $('#stopRecordingButton').bind('click', function() {
   //   userRecording = karaoke.finish();
   //   var fd = new FormData();
   //   fd.append('recording', userRecording);
@@ -286,6 +265,26 @@ $(document).ready(function() {
   //     appRunning = false;
   //   });
   // });
+
+  $('#instrumental').bind('ended', function() {
+    userRecording = karaoke.finish();
+    var fd = new FormData();
+    fd.append('recording', userRecording);
+    fd.append('reference', karaoke.getSong());
+
+    $.ajax({
+      type: 'POST',
+      url: '/user-recording',
+      data: fd,
+      processData: false,
+      contentType: false
+    }).done(function(data) {
+      var grade = (16 - data.grade) * 100;
+      showScore(grade);
+      karaoke.score = grade;
+      appRunning = false;
+    });
+  });
 
 });
 
