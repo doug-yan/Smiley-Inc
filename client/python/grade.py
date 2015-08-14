@@ -79,7 +79,7 @@ def grade(reference, karaoke):
       cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
       cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
 
-  if super_error_count > karaoke_index / 4:
+  if super_error_count > karaoke_index / 2:
     return 'You failed! 💩💩💩'
   return error_amount / karaoke_index
 
