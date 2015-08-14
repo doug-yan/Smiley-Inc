@@ -48,13 +48,9 @@ def get_notes(filename):
   Grading scheme 1: cumulative error
     Go through both lists of notes
     To determine how notes are lined up:
-      The time difference is less than one second
-      AND
-        Time difference between current reference note and karaoke note is less than
-          time difference between next reference note and karaoke note
-        OR
-        Note error between current reference note and karaoke note is less than
-          time difference between next reference note and karaoke note
+      Reference note is advanced when the time between the beginning of the
+        current karaoke note and the current reference note is less than 1%
+        of the length of the current reference note
     Error isn't counted when difference is greater than an octave
       HOWEVER, such comparisons are counted, and if more than half of all comparisons have more
         than that error, total failure is returned
@@ -70,20 +66,16 @@ def grade(reference, karaoke):
   karaoke_index = 0
 
   for i in range(len(reference) - 1):
-    cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
+    time_diff = reference[i][2] - reference[i][1]
     cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
     while karaoke_index < len(karaoke) and \
-          karaoke[karaoke_index][1] - reference[i][2] < .3 and \
-          (cur_time_diff <= abs(karaoke[karaoke_index][1] - reference[i+1][1]) or \
-          cur_error <= abs(karaoke[karaoke_index][0] - reference[i+1][0])):
-
+          abs(karaoke[karaoke_index][1] - reference[i][2]) < .01 * time_diff:
       if cur_error < error_cutoff:
         error_amount += cur_error
       else:
         super_error_count += 1
 
       karaoke_index += 1
-      cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
       cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
 
   for karaoke_index in xrange(karaoke_index, len(karaoke)):
@@ -93,7 +85,10 @@ def grade(reference, karaoke):
     else:
       super_error_count += 1
 
-  if super_error_count > len(karaoke) / 2:
+  print super_error_count
+  print error_amount
+
+  if super_error_count > 2 * len(karaoke) / 5:
     return 'You failed! 💩💩💩'
   return error_amount / (len(karaoke) - super_error_count)
 
