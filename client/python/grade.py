@@ -69,9 +69,6 @@ def grade(reference, karaoke):
 
   reference, karaoke = notes_to_ints(reference, karaoke)
 
-  print len(reference)
-  print len(karaoke)
-
   karaoke_index = 0
 
   for i in range(len(reference) - 1):
@@ -98,8 +95,6 @@ def grade(reference, karaoke):
     else:
       super_error_count += 1
 
-  print karaoke_index
-  print super_error_count
   if super_error_count > len(karaoke) / 2:
     return 'You failed! 💩💩💩'
   return error_amount / (len(karaoke) - super_error_count)
