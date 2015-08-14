@@ -91,8 +91,8 @@ def grade(reference, karaoke):
       else:
         super_error_count += 1
 
-  # if super_error_count > 2 * len(karaoke) / 5:
-  #   return 'You failed! 💩💩💩'
+  if super_error_count > 2 * len(karaoke) / 5:
+    return 'You failed! 💩💩💩'
   return error_amount / (len(karaoke) - super_error_count)
 
 
