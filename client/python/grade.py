@@ -20,9 +20,10 @@ def regularize_times(reference, karaoke):
       continue
     if note_row[1] - ref_last_time > 1:
       continue
-    note_row[1] = note_row[1] - karaoke[karaoke_first_index][1]
-    note_row[2] = note_row[2] - karaoke[karaoke_first_index][1]
-    new_karaoke.append(note_row)
+    tmp_row = list(note_row)
+    tmp_row[2] = note_row[2] - karaoke[karaoke_first_index][1]
+    tmp_row[1] = note_row[1] - karaoke[karaoke_first_index][1]
+    new_karaoke.append(tmp_row)
   return reference, new_karaoke
 
 
@@ -59,37 +60,39 @@ def get_notes(filename):
 def grade(reference, karaoke):
   super_error_count = 0
   error_amount = 0
-  error_cutoff = 11 # 2 midi octaves
+  error_cutoff = 16 # 1.5 midi octaves
 
   reference, karaoke = notes_to_ints(reference, karaoke)
 
   karaoke_index = 0
 
   for i in range(len(reference) - 1):
+    old_karaoke = karaoke_index
     time_diff = reference[i][2] - reference[i][1]
-    cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
     while karaoke_index < len(karaoke) and \
-          abs(karaoke[karaoke_index][1] - reference[i][2]) < .01 * time_diff:
+          karaoke[karaoke_index][1] - reference[i][2] < .01 * time_diff:
+      error = abs(karaoke[karaoke_index][0] - reference[i][0])
+      if error < error_cutoff:
+        error_amount += error
+      else:
+        super_error_count += 1
+
+      karaoke_index += 1
+
+    if karaoke_index == old_karaoke:
+      karaoke_index += 1
+      i -= 1
+
+  if karaoke_index < len(karaoke):
+    for karaoke_index in xrange(karaoke_index, len(karaoke)):
+      cur_error = abs(karaoke[karaoke_index][0] - reference[-1][0])
       if cur_error < error_cutoff:
         error_amount += cur_error
       else:
         super_error_count += 1
 
-      karaoke_index += 1
-      cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
-
-  for karaoke_index in xrange(karaoke_index, len(karaoke)):
-    cur_error = abs(karaoke[karaoke_index][0] - reference[-1][0])
-    if cur_error < error_cutoff:
-      error_amount += cur_error
-    else:
-      super_error_count += 1
-
-  print super_error_count
-  print error_amount
-
-  if super_error_count > 2 * len(karaoke) / 5:
-    return 'You failed! 💩💩💩'
+  # if super_error_count > 2 * len(karaoke) / 5:
+  #   return 'You failed! 💩💩💩'
   return error_amount / (len(karaoke) - super_error_count)
 
 
