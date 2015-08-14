@@ -234,36 +234,19 @@ $(document).ready(function() {
     }
     $.post('/new-highscore', {
       userId: karaoke.userId,
+      userPic: karaoke.userPic,
+      userName: karaoke.userName,
       score: karaoke.score,
       artist: karaoke.song.artist,
       title: karaoke.song.title,
     }).done(function(data) {
-
+      //TODO ENDGAME
     });
   });
 
   // Enable this code and disable the below for a stop button
   // also enable stop button in index.html
-  // $('#stopRecordingButton').bind('click', function() {
-  //   userRecording = karaoke.finish();
-  //   var fd = new FormData();
-  //   fd.append('recording', userRecording);
-  //   fd.append('reference', karaoke.getSong());
-  //
-  //   $.ajax({
-  //     type: 'POST',
-  //     url: '/user-recording',
-  //     data: fd,
-  //     processData: false,
-  //     contentType: false
-  //   }).done(function(data) {
-  //     showScore(data.grade);
-  //     karaoke.score = data.grade;
-  //     appRunning = false;
-  //   });
-  // });
-
-  $('#instrumental').bind('ended', function() {
+  $('#stopRecordingButton').bind('click', function() {
     userRecording = karaoke.finish();
     var fd = new FormData();
     fd.append('recording', userRecording);
@@ -276,12 +259,33 @@ $(document).ready(function() {
       processData: false,
       contentType: false
     }).done(function(data) {
-      var grade = 16 - data.grade * 100;
+      data.grade = 4.34;
+      var grade = (16 - data.grade) * 100;
       showScore(grade);
       karaoke.score = grade;
       appRunning = false;
     });
   });
+
+  // $('#instrumental').bind('ended', function() {
+  //   userRecording = karaoke.finish();
+  //   var fd = new FormData();
+  //   fd.append('recording', userRecording);
+  //   fd.append('reference', karaoke.getSong());
+  //
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: '/user-recording',
+  //     data: fd,
+  //     processData: false,
+  //     contentType: false
+  //   }).done(function(data) {
+  //     var grade = (16 - data.grade) * 100;
+  //     showScore(grade);
+  //     karaoke.score = grade;
+  //     appRunning = false;
+  //   });
+  // });
 
 });
 

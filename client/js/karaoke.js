@@ -1,6 +1,8 @@
 function KaraokeApp() {
   this.userID = null;
   this.score = null;
+  this.userPic = null;
+  this.userName = null;
   this.visualizer = new Visualizer();
   this.userRecorder = new RecordingObject();
   this.acapellaPlayer = new SilentPlayer();
