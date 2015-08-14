@@ -175,3 +175,25 @@ th {
   text-transform: uppercase;
   font-size: 120%;
 }
+
+#error {
+  right: 32%;
+  top: 35%;
+
+  color: black;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 21px;
+}
+
+#error.clicky {
+  color: white;
+}
+
+#error.show {
+  color: red;
+
+  transition: color 0.4s ease-in;
+  -ms-transition: color 0.4s ease-in;
+  -moz-transition: color 0.4s ease-in;
+  -webkit-transition: color 0.4s ease-in;
+}

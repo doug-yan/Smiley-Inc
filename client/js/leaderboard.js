@@ -30,7 +30,7 @@ function populateLeaderboard(endpoint, data) {
   clearLeaderboard();
 
   $.get(endpoint, data)
-    .done(function(data) {
+    .done(function(data, err) {
       populateHelper(data);
     });
 }

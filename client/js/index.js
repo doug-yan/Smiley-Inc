@@ -1,6 +1,7 @@
 var micInit = false;
 var karaoke = null;
 var appRunning = false;
+var DISPLAY_ERROR_SPEED = 50;
 
 
 function resetApp() {
@@ -117,7 +118,6 @@ $(document).ready(function() {
   $('#signOut').hide();
   $('#leaderboard').hide();
   $('#score').hide();
-
 
   $('#viewToggle').bind('click', function() {
     displayLeaderboard();
@@ -289,4 +289,22 @@ function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
+}
+
+
+function errorOut(message) {
+  $('#error').addClass('clicky');
+
+  setTimeout(function() {
+    $('#error').html(message);
+    $('#error').show();
+    $('#error').addClass('show');
+
+    setTimeout(function() {
+      $('#error').removeClass('show');
+      $('#error').removeClass('clicky');
+      $('#error').html('');
+      $('#error').hide();
+    }, 1000);
+  }, DISPLAY_ERROR_SPEED);
 }
