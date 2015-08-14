@@ -36,7 +36,7 @@ KaraokeApp.prototype.getSong = function() {
   if (this.song === null) {
     return null
   }
-  return this.song.artist + '_-_' + this.song.title + '.mp3';
+  return this.song.artist + '_-_' + this.song.title + '.wav';
 }
 
 
