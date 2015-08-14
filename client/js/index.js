@@ -124,7 +124,7 @@ $(document).ready(function() {
   });
 
 
-  $('#searchForm').bind('submit', function() {
+  $('#searchForm').bind('submit', function(event) {
     event.preventDefault();
     clearSearchResults();
 
@@ -171,8 +171,8 @@ $(document).ready(function() {
   });
 
 
-  $('#leaderboardForm').bind('submit', function() {
-    event.preventDefault();
+  $('#leaderboardForm').bind('submit', function(event) {
+    event.defaultPrevented();
 
     //parse form
     var formData = $(this).serializeArray();
@@ -226,7 +226,7 @@ $(document).ready(function() {
           });
         }
       });
-  })
+  });
 
   $('#submitScoreButton').bind('click', function() {
     if (!karaoke.userId) {
