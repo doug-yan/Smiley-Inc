@@ -276,8 +276,9 @@ $(document).ready(function() {
       processData: false,
       contentType: false
     }).done(function(data) {
-      showScore(data.grade);
-      karaoke.score = data.grade;
+      var grade = 16 - data.grade * 100;
+      showScore(grade);
+      karaoke.score = grade;
       appRunning = false;
     });
   });
