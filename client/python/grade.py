@@ -9,15 +9,23 @@ import aubio
 from aubio import source, onset, freqtomidi
 
 def regularize_times(reference, karaoke):
-  first_time = reference[0][1]
+  ref_first_time = reference[0][1]
   for note_row in reference:
-    note_row[1] = note_row[1] - first_time
-    note_row[2] = note_row[2] - first_time
-  first_time = karaoke[0][1]
+    note_row[1] = note_row[1] - ref_first_time
+    note_row[2] = note_row[2] - ref_first_time
+  ref_last_time = reference[-1][1]
+  new_karaoke = []
+  karaoke_first_index = 0
   for note_row in karaoke:
-    note_row[1] = note_row[1] - first_time
-    note_row[2] = note_row[2] - first_time
-  return reference, karaoke
+    if ref_first_time - note_row[1] > 0.3:
+      karaoke_first_index += 1
+      continue
+    if note_row[1] - ref_last_time > 1:
+      continue
+    note_row[1] = note_row[1] - karaoke[karaoke_first_index][1]
+    note_row[2] = note_row[2] - karaoke[karaoke_first_index][1]
+    new_karaoke.append(note_row)
+  return reference, new_karaoke
 
 
 def notes_to_ints(reference, karaoke):
@@ -66,7 +74,8 @@ def grade(reference, karaoke):
   for i in range(len(reference) - 1):
     cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
     cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
-    while karaoke_index < len(karaoke) and cur_time_diff <= 1 and \
+    while karaoke_index < len(karaoke) and \
+          karaoke[karaoke_index][1] - reference[i][2] < .3 and \
           (cur_time_diff <= abs(karaoke[karaoke_index][1] - reference[i+1][1]) or \
           cur_error <= abs(karaoke[karaoke_index][0] - reference[i+1][0])):
 
@@ -79,9 +88,16 @@ def grade(reference, karaoke):
       cur_time_diff = abs(karaoke[karaoke_index][1] - reference[i][1])
       cur_error = abs(karaoke[karaoke_index][0] - reference[i][0])
 
-  if super_error_count > karaoke_index / 2:
+  for karaoke_index in xrange(karaoke_index, len(karaoke)):
+    cur_error = abs(karaoke[karaoke_index][0] - reference[-1][0])
+    if cur_error < error_cutoff:
+      error_amount += cur_error
+    else:
+      super_error_count += 1
+
+  if super_error_count > len(karaoke) / 2:
     return 'You failed! 💩💩💩'
-  return error_amount / (karaoke_index - super_error_count)
+  return error_amount / (len(karaoke) - super_error_count)
 
 
 def main():
