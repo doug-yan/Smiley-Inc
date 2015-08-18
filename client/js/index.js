@@ -97,14 +97,18 @@ function initMic(done) {
 
 function showScore(score) {
   var explainText = '';
-  if (score[0] !== 'You failed! 💩💩💩')
-    explainText = 'The average number of MIDI notes you were off by is:';
   $('#scoreHolder').empty();
+  if (score[0] !==  '1') {
+    explainText = 'Your OScore based on the average number of MIDI notes you were off by is:';
+    $('<span/>', {
+      text: score[1]
+    }).appendTo('#scoreHolder');
+  }
+  else {
+    $('<span/>').html('You failed! <img src="https://i.imgur.com/wOG4eRL.png" width=50 height=50><img src="https://i.imgur.com/wOG4eRL.png" width=50 height=50><img src="https://i.imgur.com/wOG4eRL.png" width=50 height=50/>').appendTo('#scoreHolder');
+  }
   $('<span/>', {
-    text: score[1]
-  }).appendTo('#scoreHolder');
-  $('<span/>', {
-    text: explainText
+  text: explainText
   }).appendTo('#explanation');
 }
 
@@ -238,7 +242,7 @@ $(document).ready(function() {
       title: karaoke.song.title,
     }).done(function(data) {
       //TODO ENDGAME
-      errorOut('Score submitted');
+      console.warn('Score submitted');
     });
   });
 
